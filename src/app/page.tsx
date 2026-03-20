@@ -1,10 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect, useCallback } from "react";
 import { useChecklistState } from "@/hooks/useChecklistState";
 import { InfoModal } from "@/components/InfoModal";
 import { CheckItem } from "@/components/CheckItem";
 import { Gauge } from "@/components/Gauge";
+import { Toaster, ToastMessage, ToastType } from "@/components/Toaster";
 
 const infos = {
   hasRedFolder: { title: "Red Folder Event", desc: "Eventos de gran impacto económico. Reduce el tamaño de tu posición o acorta expectativas de ganancias si operas alrededor de estas horas debido a la extrema volatilidad algorítmica." },
@@ -35,8 +36,55 @@ const rfEvents = [
 export default function Home() {
   const { state, updateField, toggleRfFlag, toggleTriggerFlag, resetState } = useChecklistState();
   const [modal, setModal] = useState<{ isOpen: boolean; title: string; desc: string }>({ isOpen: false, title: "", desc: "" });
+  const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
   const openInfo = (info: { title: string; desc: string }) => setModal({ isOpen: true, ...info });
+
+  const addToast = useCallback((title: string, message: string, type: ToastType = 'info') => {
+    const id = Math.random().toString(36).substring(2, 9);
+    setToasts(prev => [...prev, { id, title, message, type }]);
+    setTimeout(() => {
+      setToasts(prev => prev.filter(t => t.id !== id));
+    }, 12000); // Dissappear after 12s
+  }, []);
+
+  // Interval notification manager
+  useEffect(() => {
+    // Initial welcome tip
+    const initialTimer = setTimeout(() => {
+      addToast("System Ready", "Mantén tu checklist de trading actualizada en tiempo real. Recibirás avisos contexturales cada 5 min.", "success");
+    }, 4000);
+
+    const interval = setInterval(() => {
+      // Basic context aware recommendation engine
+      if (state.d1 && !state.d2) {
+        addToast("Validation Warning", "Tienes buena vela de desplazamiento, pero sería vital asegurar el 2nd Confirmation Close para evitar trampas algorítmicas.", "warning");
+      } else if (state.hasRedFolder && state.event30Min) {
+        addToast("Risk Alert", "Tienes una noticia de alto impacto a menos de 30 minutos. Evalúa muy bien si vale la pena arriesgar ahora.", "warning");
+      } else if (state.b1 && !state.b2) {
+        addToast("Confluence Search", "Has confirmado un 5M FVG. Trata de apoyarlo sobre otro FVG u Order Block (Stacked Confluence) para máxima efectividad.", "info");
+      } else if (!state.a2) {
+        addToast("Patience Required", "El setup aún no se considera maduro si el precio no retrocede hacia la zona origen (1H FVG). Espera a que el algoritmo busque liquidez interna.", "info");
+      } else if (state.e1 || state.e2 || state.e3) {
+        addToast("Penalties Active", "Tu operación actual tiene advertencias o 'Red Flags' considerables. Evalúa bajar la exposición o esperar mejor escenario.", "warning");
+      } else {
+        // Fallback psychology tip
+        const tips = [
+          "Mantén tu disciplina. No persigas movimientos si se escapan de tu Kill Zone.",
+          "Tradea lo que ves, no lo que sientes. Si la estructura falla, asume la pérdida.",
+          "El mercado paga por esperar el setup A+, no por operar frenéticamente todos los inbalances.",
+          "Presta atención al Draw on Liquidity macro. ¿A quién están manipulando hacia los extremos de la sesión?"
+        ];
+        const randomTip = tips[Math.floor(Math.random() * tips.length)];
+        addToast("Trading Mindset", randomTip, "info");
+      }
+    }, 5 * 60 * 1000); // Every 5 minutes
+
+    return () => {
+      clearTimeout(initialTimer);
+      clearInterval(interval);
+    };
+  }, [state, addToast]);
 
   const computed = useMemo(() => {
     let totalPoints = 0;
@@ -407,6 +455,7 @@ export default function Home() {
       </main>
 
       <InfoModal isOpen={modal.isOpen} title={modal.title} desc={modal.desc} onClose={() => setModal({ ...modal, isOpen: false })} />
+      <Toaster toasts={toasts} removeToast={(id) => setToasts(prev => prev.filter(t => t.id !== id))} />
     </div>
   );
 }
