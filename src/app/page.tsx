@@ -278,8 +278,13 @@ export default function Home() {
             </div>
             <div className="w-full lg:w-56 shrink-0 group">
               <label className="block text-[11px] font-bold text-textSecondary uppercase mb-1.5 px-1 group-focus-within:text-accent transition-colors">Macro Session</label>
-              <select value={state.session} onChange={(e) => updateField('session', e.target.value)} className="w-full bg-inputBg border border-borderSubtle text-textPrimary px-4 py-2.5 rounded-lg outline-none focus:border-accent text-[13px] font-medium font-['JetBrains_Mono'] cursor-pointer transition-colors appearance-none">
-                {['London', 'NY AM', 'NY Lunch', 'NY PM', 'Asian', 'London Close'].map(s => <option key={s} value={s}>{s}</option>)}
+              <select value={state.session} onChange={(e) => updateField('session', e.target.value)} className="w-full bg-inputBg border border-borderSubtle text-textPrimary px-4 py-2.5 rounded-lg outline-none focus:border-accent text-[13px] font-medium font-['JetBrains_Mono'] cursor-pointer transition-colors appearance-none text-center">
+                <option value="London">London (02:00-05:00 EST)</option>
+                <option value="NY AM">New York AM (08:30-11:00 EST)</option>
+                <option value="NY Lunch">New York Lunch (11:30-13:00 EST)</option>
+                <option value="NY PM">New York PM (13:30-16:00 EST)</option>
+                <option value="Asian">Asian (20:00-00:00 EST)</option>
+                <option value="London Close">London Close</option>
               </select>
             </div>
           </div>
@@ -324,9 +329,11 @@ export default function Home() {
               <CheckItem label="FVG clearly identified on 1H" checked={state.a1} onChange={v=>updateField('a1',v)} info={infos.a1} onInfoClick={openInfo} pts={15}>
                 <div className="mt-3 flex items-center bg-inputBg rounded-lg border border-borderSubtle/50 px-3 py-1 group-focus-within:border-accent/50 transition-colors">
                   <select value={state.a1_dir} onChange={(e)=>updateField('a1_dir', e.target.value)} onClick={(e)=>e.stopPropagation()} className="w-full bg-transparent text-textPrimary py-1.5 text-[12px] font-medium outline-none cursor-pointer appearance-none text-center">
-                    <option value="" className="text-textSecondary">-- Direction --</option>
-                    <option value="Bullish">Bullish FVG</option><option value="Bearish">Bearish FVG</option>
-                    <option value="InverseBull">Inverse FVG → Bullish</option><option value="InverseBear">Inverse FVG → Bearish</option>
+                    <option value="">-- Direction --</option>
+                    <option value="Bullish">Bullish FVG (Price expected to rally)</option>
+                    <option value="Bearish">Bearish FVG (Price expected to drop)</option>
+                    <option value="InverseBull">Inverse FVG → Now Bullish</option>
+                    <option value="InverseBear">Inverse FVG → Now Bearish</option>
                   </select>
                 </div>
               </CheckItem>
@@ -343,9 +350,9 @@ export default function Home() {
               <div className="mt-4 p-4 bg-inputBg rounded-lg border border-borderSubtle/50">
                 <label className="block text-[11px] font-bold text-textSecondary uppercase mb-2">Delivery State Engine</label>
                 <select value={state.b_delivery} onChange={(e)=>updateField('b_delivery', e.target.value)} className="w-full bg-bgCard border border-borderSubtle text-textPrimary px-3 py-2.5 rounded-md text-[13px] font-medium outline-none focus:border-accent appearance-none text-center">
-                  <option value="balanced">Balanced (50/50) — 0 pts</option>
-                  <option value="onesided">One-sided (3+) — +3 pts</option>
-                  <option value="cisd">CISD detected</option>
+                  <option value="balanced">Balanced (50/50 candles) — 0 pts</option>
+                  <option value="onesided">One-sided (3+ consecutive) — +3 bonus pts</option>
+                  <option value="cisd">CISD detected — Mandatory 1M check</option>
                 </select>
               </div>
             </div>
@@ -356,18 +363,25 @@ export default function Home() {
               <CheckItem label="Liquidity Sweep Confirmed" checked={state.c1} onChange={v=>updateField('c1',v)} info={infos.c1} onInfoClick={openInfo} pts={12}>
                 <div className="mt-3 flex items-center bg-inputBg rounded-lg border border-borderSubtle/50 px-3 py-1 group-focus-within:border-accent/50 transition-colors">
                   <select value={state.c1_dir} onChange={(e)=>updateField('c1_dir', e.target.value)} onClick={(e)=>e.stopPropagation()} className="w-full bg-transparent text-textPrimary py-1.5 text-[12px] font-medium outline-none cursor-pointer appearance-none text-center">
-                    <option value="" className="text-textSecondary">-- Sweep Level --</option>
-                    <option value="BSL">BSL Taken Above</option>
-                    <option value="SSL">SSL Taken Below</option>
+                    <option value="">-- Sweep Level --</option>
+                    <option value="BSL">BSL Taken Above (Bearish Signal)</option>
+                    <option value="SSL">SSL Taken Below (Bullish Signal)</option>
                   </select>
                 </div>
               </CheckItem>
               <CheckItem label="Draw Target Assigned" checked={state.c2} onChange={v=>updateField('c2',v)} info={infos.c2} onInfoClick={openInfo} pts={8}>
                 <div className="mt-3 flex items-center bg-inputBg rounded-lg border border-borderSubtle/50 px-3 py-1 group-focus-within:border-accent/50 transition-colors">
                   <select value={state.c2_pool} onChange={(e)=>updateField('c2_pool', e.target.value)} onClick={(e)=>e.stopPropagation()} className="w-full bg-transparent text-textPrimary py-1.5 text-[12px] font-medium outline-none cursor-pointer appearance-none text-center">
-                    <option value="" className="text-textSecondary">-- Pool --</option>
-                    <option value="BSL">BSL Above</option><option value="SSL">SSL Below</option>
-                    <option value="PDH">Previous Day High</option><option value="PDL">Previous Day Low</option>
+                    <option value="">-- Pool --</option>
+                    <option value="BSL">BSL Above (Bullish Target)</option>
+                    <option value="SSL">SSL Below (Bearish Target)</option>
+                    <option value="EQH">Equal Highs Above</option>
+                    <option value="EQL">Equal Lows Below</option>
+                    <option value="PDH">Previous Day High</option>
+                    <option value="PDL">Previous Day Low</option>
+                    <option value="PWH">Previous Week High</option>
+                    <option value="PWL">Previous Week Low</option>
+                    <option value="Midnight">Midnight Open level</option>
                   </select>
                 </div>
               </CheckItem>
