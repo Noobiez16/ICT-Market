@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,10 +15,10 @@
             --color-accent: #534AB7;
             --color-bg: #FFFFFF;
             --color-surface: #F8F7F3;
-            --color-border: rgba(0,0,0,0.12);
+            --color-border: rgba(0, 0, 0, 0.12);
             --color-text: #1a1a1a;
             --color-text-muted: #666666;
-            --color-btn-hover: rgba(0,0,0,0.05);
+            --color-btn-hover: rgba(0, 0, 0, 0.05);
             --color-card-shadow: rgba(0, 0, 0, 0.05);
         }
 
@@ -25,10 +26,10 @@
             /* Dark theme variables */
             --color-bg: #1A1A1A;
             --color-surface: #242424;
-            --color-border: rgba(255,255,255,0.10);
+            --color-border: rgba(255, 255, 255, 0.10);
             --color-text: #ffffff;
             --color-text-muted: #aaaaaa;
-            --color-btn-hover: rgba(255,255,255,0.05);
+            --color-btn-hover: rgba(255, 255, 255, 0.05);
             --color-card-shadow: rgba(0, 0, 0, 0.2);
         }
 
@@ -128,7 +129,9 @@
             color: var(--color-text-muted);
         }
 
-        input[type="text"], input[type="datetime-local"], select {
+        input[type="text"],
+        input[type="datetime-local"],
+        select {
             width: 100%;
             padding: 10px;
             border-radius: 8px;
@@ -139,7 +142,9 @@
             outline: none;
         }
 
-        input[type="text"]:focus, input[type="datetime-local"]:focus, select:focus {
+        input[type="text"]:focus,
+        input[type="datetime-local"]:focus,
+        select:focus {
             border-color: var(--color-accent);
         }
 
@@ -147,7 +152,8 @@
             display: flex;
             gap: 16px;
         }
-        .row > * {
+
+        .row>* {
             flex: 1;
         }
 
@@ -169,9 +175,10 @@
 
         .checkbox-label.active {
             border-color: var(--color-accent);
-            background-color: rgba(83, 74, 183, 0.05); /* accent light */
+            background-color: rgba(83, 74, 183, 0.05);
+            /* accent light */
         }
-        
+
         [data-theme="dark"] .checkbox-label.active {
             background-color: rgba(83, 74, 183, 0.15);
         }
@@ -220,14 +227,36 @@
             animation: pulse 2s infinite;
         }
 
-        .banner-tier1 { background-color: rgba(226, 75, 74, 0.2); color: var(--color-bearish); border: 1px solid var(--color-bearish); }
-        .banner-tier2 { background-color: rgba(239, 159, 39, 0.2); color: var(--color-warning); border: 1px solid var(--color-warning); }
-        .banner-tier3 { background-color: rgba(239, 159, 39, 0.1); color: var(--color-warning); border: 1px border var(--color-warning); }
+        .banner-tier1 {
+            background-color: rgba(226, 75, 74, 0.2);
+            color: var(--color-bearish);
+            border: 1px solid var(--color-bearish);
+        }
+
+        .banner-tier2 {
+            background-color: rgba(239, 159, 39, 0.2);
+            color: var(--color-warning);
+            border: 1px solid var(--color-warning);
+        }
+
+        .banner-tier3 {
+            background-color: rgba(239, 159, 39, 0.1);
+            color: var(--color-warning);
+            border: 1px border var(--color-warning);
+        }
 
         @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+
+            100% {
+                opacity: 1;
+            }
         }
 
         .event-grid {
@@ -241,7 +270,9 @@
             border: 1px solid var(--color-border);
         }
 
-        .hidden { display: none !important; }
+        .hidden {
+            display: none !important;
+        }
 
         /* Results Panel */
         .results-panel {
@@ -299,9 +330,17 @@
             max-width: 60%;
         }
 
-        .color-bullish { color: var(--color-bullish); }
-        .color-bearish { color: var(--color-bearish); }
-        .color-warning { color: var(--color-warning); }
+        .color-bullish {
+            color: var(--color-bullish);
+        }
+
+        .color-bearish {
+            color: var(--color-bearish);
+        }
+
+        .color-warning {
+            color: var(--color-warning);
+        }
 
         .btn-group {
             display: flex;
@@ -323,8 +362,10 @@
             background-color: var(--color-accent);
             color: white;
         }
-        
-        .btn-export:hover { background-color: #423b94; }
+
+        .btn-export:hover {
+            background-color: #423b94;
+        }
 
         .btn-secondary {
             background-color: transparent;
@@ -371,25 +412,27 @@
             font-size: 14px;
             font-weight: 500;
         }
-
     </style>
 </head>
+
 <body>
 
     <header>
         <div class="title-group">
             <h1>ICT Market Read Checklist Pro</h1>
-            <div style="color: var(--color-text-muted); font-size: 14px; margin-top: 4px;">Precision Decision-Support Tool</div>
+            <div style="color: var(--color-text-muted); font-size: 14px; margin-top: 4px;">Precision Decision-Support
+                Tool</div>
         </div>
         <div>
             <button class="theme-toggle" id="themeToggle">Toggle Dark Mode</button>
-            <button class="theme-toggle" id="resetBtn" style="margin-left: 8px; color: var(--color-bearish); border-color: var(--color-bearish);">Reset</button>
+            <button class="theme-toggle" id="resetBtn"
+                style="margin-left: 8px; color: var(--color-bearish); border-color: var(--color-bearish);">Reset</button>
         </div>
     </header>
 
     <div class="grid">
         <div class="main-content">
-            
+
             <!-- Session & Instrument -->
             <div class="card">
                 <h2>Session & Instrument Context</h2>
@@ -426,7 +469,7 @@
             <div class="card" style="border-left: 4px solid var(--color-bearish);">
                 <h2>Red Folder / High-Impact News <span class="badge">Risk Filter</span></h2>
                 <div class="red-folder-banner hidden" id="rfBanner"></div>
-                
+
                 <label class="checkbox-label" id="lbl-hasRedFolder">
                     <input type="checkbox" id="hasRedFolder" data-save="true">
                     <div>
@@ -436,26 +479,30 @@
 
                 <div id="redFolderModule" class="hidden">
                     <div class="event-grid">
-                        <label><input type="checkbox" class="rf-cb tier1" value="FOMC Rate Decision"> FOMC Rate Decision</label>
-                        <label><input type="checkbox" class="rf-cb tier1" value="FOMC Meeting Minutes"> FOMC Minutes</label>
-                        <label><input type="checkbox" class="rf-cb tier1" value="Federal Reserve Press Conf"> Fed Press Conf</label>
+                        <label><input type="checkbox" class="rf-cb tier1" value="FOMC Rate Decision"> FOMC Rate
+                            Decision</label>
+                        <label><input type="checkbox" class="rf-cb tier1" value="FOMC Meeting Minutes"> FOMC
+                            Minutes</label>
+                        <label><input type="checkbox" class="rf-cb tier1" value="Federal Reserve Press Conf"> Fed Press
+                            Conf</label>
                         <label><input type="checkbox" class="rf-cb tier1" value="CPI"> CPI</label>
                         <label><input type="checkbox" class="rf-cb tier1" value="NFP"> NFP</label>
-                        
+
                         <label><input type="checkbox" class="rf-cb tier2" value="GDP"> GDP</label>
                         <label><input type="checkbox" class="rf-cb tier2" value="PCE"> PCE</label>
                         <label><input type="checkbox" class="rf-cb tier2" value="PPI"> PPI</label>
-                        
+
                         <label><input type="checkbox" class="rf-cb tier3" value="ISM"> ISM Mfg/Services</label>
                         <label><input type="checkbox" class="rf-cb tier3" value="Retail Sales"> Retail Sales</label>
                         <label><input type="checkbox" class="rf-cb tier3" value="Jobless Claims"> Jobless Claims</label>
-                        
-                        <label><input type="checkbox" class="rf-cb tier2" value="Central Bank Speech"> Central Bank Speech</label>
+
+                        <label><input type="checkbox" class="rf-cb tier2" value="Central Bank Speech"> Central Bank
+                            Speech</label>
                     </div>
                     <div style="margin-top: 12px;">
                         <input type="text" id="rfOther" placeholder="Other event..." data-save="true">
                     </div>
-                    
+
                     <label class="checkbox-label" style="background: rgba(226, 75, 74, 0.1); margin-top: 16px;">
                         <input type="checkbox" id="event30Min" data-save="true">
                         <div>
@@ -469,11 +516,12 @@
             <!-- Block A -->
             <div class="card">
                 <h2>Block A — 1H Timeframe: Macro Bias & FVG <span class="badge">Max 30 pts</span></h2>
-                
+
                 <label class="checkbox-label">
                     <input type="checkbox" id="a1" data-save="true">
                     <div style="width: 100%;">
-                        <span class="cb-text">Bullish or Bearish FVG clearly identified on 1H</span> <span class="pts">+15 pts</span>
+                        <span class="cb-text">Bullish or Bearish FVG clearly identified on 1H</span> <span
+                            class="pts">+15 pts</span>
                         <div class="form-group" style="margin-top: 8px; margin-bottom: 0;">
                             <select id="a1_dir" data-save="true">
                                 <option value="">-- Select FVG Direction --</option>
@@ -489,14 +537,16 @@
                 <label class="checkbox-label">
                     <input type="checkbox" id="a2" data-save="true">
                     <div>
-                        <span class="cb-text">Price is currently retracing INTO the 1H FVG (not past it)</span> <span class="pts">+10 pts</span>
+                        <span class="cb-text">Price is currently retracing INTO the 1H FVG (not past it)</span> <span
+                            class="pts">+10 pts</span>
                     </div>
                 </label>
 
                 <label class="checkbox-label">
                     <input type="checkbox" id="a3" data-save="true">
                     <div>
-                        <span class="cb-text">First visible reaction candle forming inside 1H FVG</span> <span class="pts">+5 pts</span>
+                        <span class="cb-text">First visible reaction candle forming inside 1H FVG</span> <span
+                            class="pts">+5 pts</span>
                     </div>
                 </label>
             </div>
@@ -504,22 +554,25 @@
             <!-- Block B -->
             <div class="card">
                 <h2>Block B — 5M Timeframe: Refined Structure <span class="badge">Max 25 pts</span></h2>
-                
+
                 <label class="checkbox-label">
                     <input type="checkbox" id="b1" data-save="true">
                     <div>
-                        <span class="cb-text">5M FVG identified INSIDE the 1H FVG zone</span> <span class="pts">+15 pts</span>
+                        <span class="cb-text">5M FVG identified INSIDE the 1H FVG zone</span> <span class="pts">+15
+                            pts</span>
                     </div>
                 </label>
 
                 <label class="checkbox-label">
                     <input type="checkbox" id="b2" data-save="true">
                     <div>
-                        <span class="cb-text">5M FVG is directly overlapping the 1H FVG (stacked confluence)</span> <span class="pts">+10 pts</span>
+                        <span class="cb-text">5M FVG is directly overlapping the 1H FVG (stacked confluence)</span>
+                        <span class="pts">+10 pts</span>
                     </div>
                 </label>
 
-                <div class="form-group" style="margin-top: 16px; padding: 12px; background: var(--color-bg); border-radius: 8px; border: 1px solid var(--color-border);">
+                <div class="form-group"
+                    style="margin-top: 16px; padding: 12px; background: var(--color-bg); border-radius: 8px; border: 1px solid var(--color-border);">
                     <label>5M Delivery State</label>
                     <select id="b_delivery" data-save="true">
                         <option value="balanced">Balanced (50/50 candles) — 0 pts</option>
@@ -532,11 +585,12 @@
             <!-- Block C -->
             <div class="card">
                 <h2>Block C — Liquidity Analysis <span class="badge">Max 20 pts</span></h2>
-                
+
                 <label class="checkbox-label">
                     <input type="checkbox" id="c1" data-save="true">
                     <div style="width: 100%;">
-                        <span class="cb-text">Liquidity sweep confirmed (equal H/L raided, BSL/SSL taken)</span> <span class="pts">+12 pts</span>
+                        <span class="cb-text">Liquidity sweep confirmed (equal H/L raided, BSL/SSL taken)</span> <span
+                            class="pts">+12 pts</span>
                         <div class="form-group" style="margin-top: 8px; margin-bottom: 0;">
                             <select id="c1_dir" data-save="true">
                                 <option value="">-- Sweep Direction --</option>
@@ -550,7 +604,8 @@
                 <label class="checkbox-label">
                     <input type="checkbox" id="c2" data-save="true">
                     <div style="width: 100%;">
-                        <span class="cb-text">Clear liquidity pool identified as draw target</span> <span class="pts">+8 pts</span>
+                        <span class="cb-text">Clear liquidity pool identified as draw target</span> <span class="pts">+8
+                            pts</span>
                         <div class="form-group" style="margin-top: 8px; margin-bottom: 0;">
                             <select id="c2_pool" data-save="true">
                                 <option value="">-- Select Pool --</option>
@@ -572,7 +627,7 @@
             <!-- Block D -->
             <div class="card">
                 <h2>Block D — 1M Entry Triggers <span class="badge">Max 25 pts + Bonuses</span></h2>
-                
+
                 <div style="margin-bottom: 16px;">
                     <label class="result-label">Entry Type Multipliers</label>
                     <div class="event-grid" style="margin-top: 8px;">
@@ -581,27 +636,31 @@
                         <label><input type="checkbox" class="trigger-cb" value="MSS"> MSS</label>
                         <label><input type="checkbox" class="trigger-cb" value="Sweep"> Liquidity Sweep</label>
                     </div>
-                    <div id="triggerBonusDisplay" style="margin-top: 8px; font-size: 13px; color: var(--color-accent); font-weight: bold;"></div>
+                    <div id="triggerBonusDisplay"
+                        style="margin-top: 8px; font-size: 13px; color: var(--color-accent); font-weight: bold;"></div>
                 </div>
 
                 <label class="checkbox-label">
                     <input type="checkbox" id="d1" data-save="true">
                     <div>
-                        <span class="cb-text">Strong rejection candle at trigger (body > 60% of range)</span> <span class="pts">+10 pts</span>
+                        <span class="cb-text">Strong rejection candle at trigger (body > 60% of range)</span> <span
+                            class="pts">+10 pts</span>
                     </div>
                 </label>
 
                 <label class="checkbox-label">
                     <input type="checkbox" id="d2" data-save="true">
                     <div>
-                        <span class="cb-text">Second confirmation candle closes same direction</span> <span class="pts">+8 pts</span>
+                        <span class="cb-text">Second confirmation candle closes same direction</span> <span
+                            class="pts">+8 pts</span>
                     </div>
                 </label>
 
                 <label class="checkbox-label">
                     <input type="checkbox" id="d3" data-save="true">
                     <div>
-                        <span class="cb-text">SL defined structurally (above/below FVG origin wick)</span> <span class="pts">+7 pts</span>
+                        <span class="cb-text">SL defined structurally (above/below FVG origin wick)</span> <span
+                            class="pts">+7 pts</span>
                     </div>
                 </label>
             </div>
@@ -609,11 +668,12 @@
             <!-- Block E Penalties -->
             <div class="card" style="border-left: 4px solid var(--color-warning);">
                 <h2>Block E — Risk Filters & Penalties</h2>
-                
+
                 <label class="checkbox-label">
                     <input type="checkbox" id="e1" data-save="true">
                     <div>
-                        <span class="cb-text">1H FVG >70% filled without reaction</span> <span class="pts-neg">-10 pts</span>
+                        <span class="cb-text">1H FVG >70% filled without reaction</span> <span class="pts-neg">-10
+                            pts</span>
                         <span class="cb-sub">Zone likely consumed</span>
                     </div>
                 </label>
@@ -640,8 +700,10 @@
         <!-- Right Panel: Results -->
         <div class="sidebar">
             <div class="card results-panel" id="resultsPanel">
-                <div style="font-size: 12px; font-weight: bold; letter-spacing: 1px; color: var(--color-text-muted); margin-bottom: 16px; text-transform: uppercase;">ICT Setup Analysis</div>
-                
+                <div
+                    style="font-size: 12px; font-weight: bold; letter-spacing: 1px; color: var(--color-text-muted); margin-bottom: 16px; text-transform: uppercase;">
+                    ICT Setup Analysis</div>
+
                 <div class="score-display">
                     <div class="score-circle" id="scoreValue">0%</div>
                     <div class="score-grade" id="scoreGrade">Grade: D</div>
@@ -662,10 +724,11 @@
                     <span class="result-label">Direction</span>
                     <span class="result-val" id="resDir">Neutral</span>
                 </div>
-                
+
                 <div class="result-row" style="flex-direction: column; align-items: flex-start; gap: 8px;">
                     <span class="result-label">Active Penalties</span>
-                    <div id="resPenalties" style="font-size: 13px; color: var(--color-bearish); font-weight: 500;">None</div>
+                    <div id="resPenalties" style="font-size: 13px; color: var(--color-bearish); font-weight: 500;">None
+                    </div>
                 </div>
 
                 <textarea id="notes" placeholder="Trader notes & observations..." data-save="true"></textarea>
@@ -693,19 +756,19 @@
         const els = {
             themeToggle: document.getElementById('themeToggle'),
             resetBtn: document.getElementById('resetBtn'),
-            
+
             instrument: document.getElementById('instrument'),
             datetime: document.getElementById('datetime'),
             session: document.getElementById('session'),
             sessionContextText: document.getElementById('sessionContextText'),
             kzIndicator: document.getElementById('kzIndicator'),
-            
+
             hasRedFolder: document.getElementById('hasRedFolder'),
             redFolderModule: document.getElementById('redFolderModule'),
             rfBanner: document.getElementById('rfBanner'),
             event30Min: document.getElementById('event30Min'),
             rfOther: document.getElementById('rfOther'),
-            
+
             a1: document.getElementById('a1'), a1_dir: document.getElementById('a1_dir'),
             a2: document.getElementById('a2'), a3: document.getElementById('a3'),
             b1: document.getElementById('b1'), b2: document.getElementById('b2'), b_delivery: document.getElementById('b_delivery'),
@@ -713,9 +776,9 @@
             c2: document.getElementById('c2'), c2_pool: document.getElementById('c2_pool'),
             d1: document.getElementById('d1'), d2: document.getElementById('d2'), d3: document.getElementById('d3'),
             e1: document.getElementById('e1'), e2: document.getElementById('e2'), e3: document.getElementById('e3'),
-            
+
             triggerBonusDisplay: document.getElementById('triggerBonusDisplay'),
-            
+
             scoreValue: document.getElementById('scoreValue'),
             scoreGrade: document.getElementById('scoreGrade'),
             scoreBar: document.getElementById('scoreBar'),
@@ -724,7 +787,7 @@
             resDir: document.getElementById('resDir'),
             resPenalties: document.getElementById('resPenalties'),
             notes: document.getElementById('notes'),
-            
+
             btnCopy: document.getElementById('btnCopy'),
             btnJson: document.getElementById('btnJson')
         };
@@ -762,7 +825,7 @@
                 el.addEventListener('change', updateApp);
                 el.addEventListener('input', updateApp);
             });
-            
+
             rfCheckboxes.forEach(cb => {
                 cb.addEventListener('change', updateApp);
             });
@@ -823,7 +886,7 @@
                 if (el.type === 'checkbox') state[el.id] = el.checked;
                 else state[el.id] = el.value;
             });
-            
+
             const rfFlags = [];
             rfCheckboxes.forEach((cb, idx) => { if (cb.checked) rfFlags.push(idx); });
             state.rfFlags = rfFlags;
@@ -852,7 +915,7 @@
                         if (state.rfFlags.includes(idx)) cb.checked = true;
                     });
                 }
-                
+
                 if (state.triggerFlags) {
                     triggerCheckboxes.forEach((cb, idx) => {
                         if (state.triggerFlags.includes(idx)) cb.checked = true;
@@ -876,7 +939,7 @@
 
             let totalPoints = 0;
             let activePenaltiesDesc = [];
-            
+
             // Kill Zone logic
             let setupOutsideKz = false;
             if (els.datetime.value) {
@@ -888,10 +951,10 @@
                 const estMinsTotal = estHour * 60 + estMinute;
 
                 // London (02:00-05:00), NY AM (08:30-11:00), NY PM (13:30-16:00)
-                const inLondon = estMinsTotal >= (2*60) && estMinsTotal <= (5*60);
-                const inNYAM = estMinsTotal >= (8*60+30) && estMinsTotal <= (11*60);
-                const inNYPM = estMinsTotal >= (13*60+30) && estMinsTotal <= (16*60);
-                
+                const inLondon = estMinsTotal >= (2 * 60) && estMinsTotal <= (5 * 60);
+                const inNYAM = estMinsTotal >= (8 * 60 + 30) && estMinsTotal <= (11 * 60);
+                const inNYPM = estMinsTotal >= (13 * 60 + 30) && estMinsTotal <= (16 * 60);
+
                 if (inLondon || inNYAM || inNYPM) {
                     els.kzIndicator.innerHTML = `✅ Currently in Optimal Kill Zone (${estString} EST)`;
                     els.kzIndicator.style.color = "var(--color-bullish)";
@@ -914,7 +977,7 @@
                         else if (cb.classList.contains('tier3') && rfTier === 0) rfTier = 3;
                     }
                 });
-                
+
                 if (rfTier === 1) {
                     totalPoints -= 25;
                     activePenaltiesDesc.push("Tier 1 News (-25)");
@@ -967,12 +1030,12 @@
                     triggersNames.push(cb.value);
                 }
             });
-            
+
             let triggerBonus = 0;
             if (activeTriggers === 4) triggerBonus = 10;
             else if (activeTriggers === 3) triggerBonus = 6;
             else if (activeTriggers === 2) triggerBonus = 3;
-            
+
             if (triggerBonus > 0) {
                 totalPoints += triggerBonus;
                 els.triggerBonusDisplay.innerHTML = `+${triggerBonus} Bonus Points applied (${activeTriggers} triggers aligned)`;
@@ -1052,7 +1115,7 @@
             // Update UI
             els.scoreValue.innerHTML = `${totalPoints}%`;
             els.scoreGrade.innerHTML = `Grade: <span style="color: ${barColor}">${grade}</span>`;
-            
+
             let percentFill = Math.min((totalPoints / 110) * 100, 100);
             els.scoreBar.style.width = `${percentFill}%`;
             els.scoreBar.style.backgroundColor = barColor;
@@ -1148,4 +1211,5 @@ Generated by: ICT Market Read Checklist Pro
 
     </script>
 </body>
+
 </html>
