@@ -1027,7 +1027,24 @@
             els.resetBtn.addEventListener('click', () => {
                 if (confirm('Clear entire session data?')) {
                     localStorage.removeItem('ict_state');
-                    location.reload();
+                    // Force clear DOM inputs so browser cache doesn't restore them
+                    saveInputs.forEach(el => {
+                        if (el.type === 'checkbox') {
+                            el.checked = false;
+                        } else if (el.id === 'session') {
+                            el.value = 'NY AM';
+                        } else if (el.id === 'b_delivery') {
+                            el.value = 'balanced';
+                        } else if (el.id !== 'datetime') {
+                            el.value = '';
+                        }
+                    });
+                    rfCheckboxes.forEach(cb => cb.checked = false);
+                    triggerCheckboxes.forEach(cb => cb.checked = false);
+                    els.redFolderModule.classList.add('hidden');
+                    
+                    highlightActiveStyles();
+                    updateApp();
                 }
             });
 
