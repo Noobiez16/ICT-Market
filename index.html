@@ -715,8 +715,12 @@
                             <input type="text" id="instrument" placeholder="TICKER" data-save="true">
                         </div>
                         <div class="field-group">
-                            <label class="field-label">Execution Time</label>
+                            <label class="field-label">Open Time (Operación)</label>
                             <input type="datetime-local" id="datetime" data-save="true">
+                        </div>
+                        <div class="field-group">
+                            <label class="field-label">Closing Time (Operación)</label>
+                            <input type="datetime-local" id="closingTime" data-save="true">
                         </div>
                         <div class="field-group">
                             <label class="field-label">Macro Session</label>
@@ -1056,6 +1060,7 @@
 
             instrument: document.getElementById('instrument'),
             datetime: document.getElementById('datetime'),
+            closingTime: document.getElementById('closingTime'),
             session: document.getElementById('session'),
             sessionContextText: document.getElementById('sessionContextText'),
             kzIndicator: document.getElementById('kzIndicator'),
@@ -1124,12 +1129,28 @@
         });
 
         function init() {
-            loadState();
-            if (!els.datetime.value) {
-                const now = new Date();
-                now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-                els.datetime.value = now.toISOString().slice(0, 16);
-            }
+            // Act as a reset upon page reload
+            localStorage.removeItem('ict_state');
+
+            // Force clear all DOM inputs so aggressive browser cache doesn't keep old state
+            saveInputs.forEach(el => {
+                if (el.type === 'checkbox') {
+                    el.checked = false;
+                } else if (el.id === 'session') {
+                    el.value = 'NY AM';
+                } else if (el.id === 'b_delivery') {
+                    el.value = 'balanced';
+                } else if (el.id !== 'datetime') {
+                    el.value = '';
+                }
+            });
+            rfCheckboxes.forEach(cb => cb.checked = false);
+            triggerCheckboxes.forEach(cb => cb.checked = false);
+            els.redFolderModule.classList.add('hidden');
+
+            const now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            els.datetime.value = now.toISOString().slice(0, 16);
 
             saveInputs.forEach(el => {
                 el.addEventListener('change', updateApp);
@@ -1437,6 +1458,7 @@
             window._exportedData = {
                 instrument: els.instrument.value || 'N/A',
                 time: els.datetime.value,
+                closingTime: els.closingTime.value,
                 score: totalPoints,
                 grade: grade,
                 verdict: verdict,
@@ -1450,7 +1472,7 @@
 
         function exportClipboard() {
             const data = window._exportedData;
-            const text = `==== ICT TERMINAL OUTPUT ====\nSCORE: ${data.score}% [${data.grade}]\nDIR: ${data.direction}\nSIZE: ${data.size}\nVERDICT: ${data.verdict}\n=============================`;
+            const text = `==== ICT TERMINAL OUTPUT ====\nOPEN: ${data.time}\nCLOSE: ${data.closingTime}\nSCORE: ${data.score}% [${data.grade}]\nDIR: ${data.direction}\nSIZE: ${data.size}\nVERDICT: ${data.verdict}\n=============================`;
             navigator.clipboard.writeText(text).then(() => {
                 els.btnCopy.innerHTML = "COPIED";
                 setTimeout(() => els.btnCopy.innerHTML = "COPY TXT", 2000);
