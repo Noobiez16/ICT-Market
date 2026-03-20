@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ICT Market Read Checklist Pro</title>
+    <title>ICT Market Checklist</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -674,9 +674,12 @@
 
                     <div id="redFolderModule" class="hidden">
                         <div class="event-grid">
-                            <label><input type="checkbox" class="rf-cb tier1" value="FOMC Rate Decision"> FOMC Rate Decision</label>
-                            <label><input type="checkbox" class="rf-cb tier1" value="FOMC Meeting Minutes"> FOMC Minutes</label>
-                            <label><input type="checkbox" class="rf-cb tier1" value="Federal Reserve Press Conf"> Fed Press Conf</label>
+                            <label><input type="checkbox" class="rf-cb tier1" value="FOMC Rate Decision"> FOMC Rate
+                                Decision</label>
+                            <label><input type="checkbox" class="rf-cb tier1" value="FOMC Meeting Minutes"> FOMC
+                                Minutes</label>
+                            <label><input type="checkbox" class="rf-cb tier1" value="Federal Reserve Press Conf"> Fed
+                                Press Conf</label>
                             <label><input type="checkbox" class="rf-cb tier1" value="CPI"> CPI</label>
                             <label><input type="checkbox" class="rf-cb tier1" value="NFP"> NFP</label>
                             <label><input type="checkbox" class="rf-cb tier2" value="GDP"> GDP</label>
@@ -684,8 +687,16 @@
                             <label><input type="checkbox" class="rf-cb tier2" value="PPI"> PPI</label>
                             <label><input type="checkbox" class="rf-cb tier3" value="ISM"> ISM Mfg/Services</label>
                             <label><input type="checkbox" class="rf-cb tier3" value="Retail Sales"> Retail Sales</label>
-                            <label><input type="checkbox" class="rf-cb tier3" value="Jobless Claims"> Jobless Claims</label>
-                            <label><input type="checkbox" class="rf-cb tier2" value="Central Bank Speech"> Central Bank Speech</label>
+                            <label><input type="checkbox" class="rf-cb tier3" value="Jobless Claims"> Jobless
+                                Claims</label>
+                            <label><input type="checkbox" class="rf-cb tier3" value="Unemployment Claims"> Unemployment 
+                                Claims</label>
+                            <label><input type="checkbox" class="rf-cb tier3" value="Flash Mfg PMI"> Flash Mfg
+                                PMI</label>
+                            <label><input type="checkbox" class="rf-cb tier3" value="Flash Service PMI"> Flash Service
+                                PMI</label>
+                            <label><input type="checkbox" class="rf-cb tier2" value="Central Bank Speech"> Central Bank
+                                Speech</label>
                         </div>
                         <input type="text" id="rfOther" placeholder="Other event ticker..." data-save="true"
                             style="margin-bottom: 12px;">
@@ -1042,7 +1053,7 @@
                     rfCheckboxes.forEach(cb => cb.checked = false);
                     triggerCheckboxes.forEach(cb => cb.checked = false);
                     els.redFolderModule.classList.add('hidden');
-                    
+
                     highlightActiveStyles();
                     updateApp();
                 }
