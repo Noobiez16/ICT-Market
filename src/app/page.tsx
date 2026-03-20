@@ -255,7 +255,7 @@ export default function Home() {
         <div className="flex flex-col gap-6">
           
           {/* Top Info Bar: Contains Inputs */}
-          <div className="bg-bgCard border border-borderSubtle rounded-xl p-5 flex flex-wrap lg:flex-nowrap gap-5 items-center shadow-sm">
+          <div className="bg-bgCard border border-borderSubtle rounded-xl p-5 flex flex-wrap lg:flex-nowrap gap-5 items-center shadow-sm print:break-inside-avoid">
             <div className="w-full lg:w-40 shrink-0">
               <label className="block text-[11px] font-bold text-textSecondary uppercase mb-1.5 px-1">Instrument / Ticker</label>
               <input type="text" placeholder="EUR/USD" value={state.instrument} onChange={(e) => updateField('instrument', e.target.value.toUpperCase())} className="w-full bg-inputBg border border-borderSubtle text-textPrimary px-4 py-2.5 rounded-lg justify-center text-[13px] font-bold outline-none focus:border-accent font-['JetBrains_Mono'] uppercase tracking-wider text-center transition-colors" />
@@ -276,10 +276,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 print:grid-cols-1">
             
             {/* Risk / Red Folder */}
-            <div className={`bg-bgCard border rounded-xl p-6 col-span-full shadow-sm relative overflow-hidden transition-all duration-300 ${computed.rfTier === 1 ? 'animate-pulseBorder border-bearish ring-1 ring-bearish/30' : computed.rfTier > 1 ? 'border-warning' : 'border-borderSubtle hover:border-textSecondary/50'}`}>
+            <div className={`bg-bgCard border rounded-xl p-6 col-span-full shadow-sm relative overflow-hidden transition-all duration-300 ${computed.rfTier === 1 ? 'animate-pulseBorder border-bearish ring-1 ring-bearish/30' : computed.rfTier > 1 ? 'border-warning' : 'border-borderSubtle hover:border-textSecondary/50'} print:break-inside-avoid`}>
               <div className="absolute top-0 right-0 p-3 opacity-5 pointer-events-none text-red-500">
                 <svg className="w-32 h-32" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L1 21h22M12 6l7.53 13H4.47M11 10v4h2v-4m-2 6v2h2v-2"></path></svg>
               </div>
@@ -311,7 +311,7 @@ export default function Home() {
             </div>
 
             {/* BLOCK A */}
-            <div className="bg-bgCard border border-borderSubtle rounded-xl p-6 shadow-sm hover:border-textSecondary/30 transition-colors">
+            <div className="bg-bgCard border border-borderSubtle rounded-xl p-6 shadow-sm hover:border-textSecondary/30 transition-colors print:break-inside-avoid">
               <BlockHeader icon="📈" title="Block A: 1H Macro" pts="30 Pts" />
               <CheckItem label="FVG clearly identified on 1H" checked={state.a1} onChange={v=>updateField('a1',v)} info={infos.a1} onInfoClick={openInfo} pts={15}>
                 <div className="mt-3 flex items-center bg-inputBg rounded-lg border border-borderSubtle/50 px-3 py-1 group-focus-within:border-accent/50 transition-colors">
@@ -327,7 +327,7 @@ export default function Home() {
             </div>
 
             {/* BLOCK B */}
-            <div className="bg-bgCard border border-borderSubtle rounded-xl p-6 shadow-sm hover:border-textSecondary/30 transition-colors">
+            <div className="bg-bgCard border border-borderSubtle rounded-xl p-6 shadow-sm hover:border-textSecondary/30 transition-colors print:break-inside-avoid">
               <BlockHeader icon="📉" title="Block B: 5M Structure" pts="25 Pts" />
               <CheckItem label="5M FVG INSIDE 1H zone" checked={state.b1} onChange={v=>updateField('b1',v)} info={infos.b1} onInfoClick={openInfo} pts={15} />
               <CheckItem label="Stacked FVG Confluence" checked={state.b2} onChange={v=>updateField('b2',v)} info={infos.b2} onInfoClick={openInfo} pts={10} />
@@ -343,7 +343,7 @@ export default function Home() {
             </div>
 
             {/* BLOCK C */}
-            <div className="bg-bgCard border border-borderSubtle rounded-xl p-6 shadow-sm hover:border-textSecondary/30 transition-colors">
+            <div className="bg-bgCard border border-borderSubtle rounded-xl p-6 shadow-sm hover:border-textSecondary/30 transition-colors print:break-inside-avoid">
               <BlockHeader icon="💧" title="Block C: Liquidity Pools" pts="20 Pts" />
               <CheckItem label="Liquidity Sweep Confirmed" checked={state.c1} onChange={v=>updateField('c1',v)} info={infos.c1} onInfoClick={openInfo} pts={12}>
                 <div className="mt-3 flex items-center bg-inputBg rounded-lg border border-borderSubtle/50 px-3 py-1 group-focus-within:border-accent/50 transition-colors">
@@ -366,7 +366,7 @@ export default function Home() {
             </div>
 
             {/* BLOCK D */}
-            <div className="bg-bgCard border border-borderSubtle rounded-xl p-6 shadow-sm hover:border-textSecondary/30 transition-colors">
+            <div className="bg-bgCard border border-borderSubtle rounded-xl p-6 shadow-sm hover:border-textSecondary/30 transition-colors print:break-inside-avoid">
               <BlockHeader icon="⚡" title="Block D: 1M Triggers" pts="25+ Pts" />
               <div className="mb-4 bg-inputBg p-4 rounded-lg border border-borderSubtle/50 relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-1 h-full bg-accent"></div>
@@ -388,7 +388,7 @@ export default function Home() {
             </div>
 
             {/* BLOCK E */}
-            <div className="bg-bgCard border border-borderSubtle rounded-xl p-6 col-span-full shadow-sm hover:border-bearish/30 transition-colors relative overflow-hidden">
+            <div className="bg-bgCard border border-borderSubtle rounded-xl p-6 col-span-full shadow-sm hover:border-bearish/30 transition-colors relative overflow-hidden print:break-inside-avoid">
               <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-warning to-bearish opacity-80"></div>
               <BlockHeader icon="⚠️" title="Block E: Risk Penalties" />
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -403,7 +403,7 @@ export default function Home() {
 
         {/* RESULTS PANEL */}
         <aside className="sticky xl:top-[88px] w-full">
-          <div className="bg-bgCard border border-borderSubtle rounded-2xl overflow-hidden shadow-xl">
+          <div className="bg-bgCard border border-borderSubtle rounded-2xl overflow-hidden shadow-xl print:break-inside-avoid">
             <div className="bg-inputBg border-b border-borderSubtle px-6 py-4 flex items-center justify-center relative">
               <h2 className="font-bold text-[12px] tracking-[2px] text-textSecondary uppercase">Quantitative Output</h2>
             </div>
