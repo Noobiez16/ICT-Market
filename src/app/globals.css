@@ -5,35 +5,50 @@
 @layer base {
   :root {
     color-scheme: light dark;
-    --bg-main: #f8fafc;
+    --bg-main: #f4f4f5;
     --bg-card: #ffffff;
-    --border-subtle: #e2e8f0;
-    --text-primary: #0f172a;
-    --text-secondary: #64748b;
-    --bullish: #059669;
-    --bearish: #dc2626;
-    --warning: #d97706;
-    --accent: #4f46e5;
-    --input-bg: #f1f5f9;
-    --item-hover: #f1f5f9;
-  }
-
-  .dark {
-    --bg-main: #0b1120;
-    --bg-card: #1a2236;
-    --border-subtle: rgba(255, 255, 255, 0.08);
-    --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
+    --border-subtle: #e4e4e7;
+    --text-primary: #09090b;
+    --text-secondary: #71717a;
     --bullish: #10b981;
     --bearish: #ef4444;
     --warning: #f59e0b;
-    --accent: #6366f1;
-    --input-bg: rgba(0, 0, 0, 0.25);
-    --item-hover: rgba(255, 255, 255, 0.03);
+    --accent: #3b82f6;
+    --input-bg: #fafafa;
+    --item-hover: #f4f4f5;
+  }
+
+  .dark {
+    /* TradingView / Bloomberg Terminal Deep Theme */
+    --bg-main: #020617; /* Very deep blue/black slate-950 */
+    --bg-card: #0f172a; /* Slate 900 for panels */
+    --border-subtle: #1e293b; /* Subtle slate 800 borders */
+    --text-primary: #f8fafc; /* Crisp white */
+    --text-secondary: #64748b; /* Muted slate 500 */
+    --bullish: #00e676; /* Trading Neo Green */
+    --bearish: #ff1744; /* Trading Neo Red */
+    --warning: #ffea00; /* Bright Yellow/Amber */
+    --accent: #2979ff; /* Electric Blue */
+    --input-bg: #030712; /* Darker than background for deep inputs */
+    --item-hover: rgba(41, 121, 255, 0.08); /* Faint accent highlight */
   }
 
   body {
-    @apply bg-bgMain text-textPrimary font-sans antialiased;
+    @apply bg-bgMain text-textPrimary font-sans antialiased relative;
+  }
+
+  /* Grid background for Trading Terminal feel */
+  body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: 
+      linear-gradient(var(--border-subtle) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px);
+    background-size: 64px 64px;
+    opacity: 0.15;
   }
 }
 
@@ -41,4 +56,23 @@
   .mono-text {
     font-family: 'JetBrains Mono', 'Roboto Mono', monospace;
   }
+}
+
+/* Custom Scrollbar for Terminal aesthetic */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
 }

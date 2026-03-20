@@ -8,7 +8,7 @@ const robotoMono = Roboto_Mono({ subsets: ["latin"], weight: ["500", "700"], var
 
 export const metadata: Metadata = {
   title: "ICT Market Checklist",
-  description: "ICT Market Read Terminal Pro",
+  description: "Advanced ICT Trading Terminal",
 };
 
 export default function RootLayout({
@@ -17,8 +17,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${jetbrainsMono.variable} ${robotoMono.variable} font-sans`}>
+    <html lang="en" suppressHydrationWarning className="dark text-[14px]">
+      <body className={`${inter.variable} ${jetbrainsMono.variable} ${robotoMono.variable} font-sans min-h-screen selection:bg-accent/30`}>
         {children}
       </body>
     </html>
