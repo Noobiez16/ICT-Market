@@ -76,3 +76,88 @@
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-secondary);
 }
+
+/* ========================================= */
+/* PRINT MEDIA OPTIMIZATION (PDF EXPORT FIX) */
+/* ========================================= */
+@media print {
+  @page {
+    margin: 1.5cm;
+  }
+
+  body {
+    background-image: none !important;
+    background-color: var(--bg-main) !important;
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+  
+  body::before { 
+    display: none !important; 
+  }
+  
+  /* Destroy all complex Flex/Grid layouts at the root to prevent Chrome rendering blank 1st pages */
+  #root, body > div {
+    display: block !important;
+    min-height: auto !important;
+    height: auto !important;
+  }
+
+  /* Un-stick the navbar */
+  nav {
+    position: static !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    margin-bottom: 20px !important;
+  }
+
+  main {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  main > div {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  aside {
+    position: static !important;
+    display: block !important;
+    width: 100% !important;
+    margin-top: 2rem !important;
+    page-break-before: auto !important;
+    break-before: auto !important;
+  }
+
+  /* Convert all grids to blocks so they stack purely downwards */
+  .grid {
+    display: block !important;
+  }
+
+  /* Stop cards from splitting natively using page-break standard */
+  .bg-bgCard {
+    display: block !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    -webkit-column-break-inside: avoid !important;
+    margin-bottom: 24px !important;
+    width: 100% !important;
+  }
+
+  /* Remove any Tailwind gap trickery in print to let standard margins work */
+  .gap-6, .gap-8 {
+    gap: 0 !important;
+  }
+
+  /* Make sure textareas don't spawn scrollbars and fit on PDF */
+  textarea {
+    overflow: hidden !important;
+    min-height: 80px !important;
+    height: auto !important;
+  }
+}
