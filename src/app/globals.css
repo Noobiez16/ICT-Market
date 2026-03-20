@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light dark;
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --border-subtle: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --bullish: #059669;
+    --bearish: #dc2626;
+    --warning: #d97706;
+    --accent: #4f46e5;
+    --input-bg: #f1f5f9;
+    --item-hover: #f1f5f9;
+  }
+
+  .dark {
+    --bg-main: #0b1120;
+    --bg-card: #1a2236;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --bullish: #10b981;
+    --bearish: #ef4444;
+    --warning: #f59e0b;
+    --accent: #6366f1;
+    --input-bg: rgba(0, 0, 0, 0.25);
+    --item-hover: rgba(255, 255, 255, 0.03);
+  }
+
+  body {
+    @apply bg-bgMain text-textPrimary font-sans antialiased;
+  }
+}
+
+@layer utilities {
+  .mono-text {
+    font-family: 'JetBrains Mono', 'Roboto Mono', monospace;
+  }
+}
