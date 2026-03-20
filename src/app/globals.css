@@ -1,70 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    color-scheme: light dark;
-    --bg-main: #f4f4f5;
-    --bg-card: #ffffff;
+    color-scheme: light;
+    /* ── Backgrounds ── */
+    --bg-main:   #f5f5f6;
+    --bg-card:   #ffffff;
+    --input-bg:  #fafafa;
+    --item-hover:#f2f2f3;
+
+    /* ── Borders ── */
     --border-subtle: #e4e4e7;
-    --text-primary: #09090b;
+
+    /* ── Text ── */
+    --text-primary:   #18181b;
     --text-secondary: #71717a;
-    --bullish: #10b981;
-    --bearish: #ef4444;
-    --warning: #f59e0b;
-    --accent: #3b82f6;
-    --input-bg: #fafafa;
-    --item-hover: #f4f4f5;
+
+    /* ── Semantic (desaturated, elegant) ── */
+    --bullish: #059669;   /* Emerald-600 — cool, professional green  */
+    --bearish: #e11d48;   /* Rose-600    — terracotta red, non-casino */
+    --warning: #d97706;   /* Amber-600   — warm amber, subdued        */
+    --accent:  #6366f1;   /* Indigo-500  — premium brand colour       */
+
+    /* ── Glow helpers ── */
+    --bullish-glow: rgba(5,  150, 105, 0.18);
+    --bearish-glow: rgba(225, 29,  72,  0.18);
+    --accent-glow:  rgba(99, 102, 241, 0.20);
   }
 
   .dark {
-    /* Hyper-futuristic Trading / Web3 DEX Theme */
-    --bg-main: #020203; /* Deepest void black */
-    --bg-card: rgba(14, 14, 20, 0.65); /* Translucent glass */
-    --border-subtle: rgba(255, 255, 255, 0.05); /* Faint structural borders */
-    --text-primary: #ffffff; /* Pure white */
-    --text-secondary: #71717a; /* Zink 500 for high contrast tech look */
-    --bullish: #00F59B; /* Cyberpunk Neon Green */
-    --bearish: #FF2E4C; /* Cyberpunk Neon Red */
-    --warning: #FFB000; /* Warning Amber */
-    --accent: #00E1FF; /* Sci-Fi Cyan/Blue */
-    --input-bg: #050508; /* Deep void for inputs to sink inward */
-    --item-hover: rgba(0, 225, 255, 0.05); /* Faint cyan hovering */
+    color-scheme: dark;
+    /* ── Backgrounds ── */
+    --bg-main:   #09090b;          /* zinc-950 */
+    --bg-card:   rgba(24,24,27,0.80);   /* zinc-900 translucent */
+    --input-bg:  rgba(15,15,18,0.90);   /* deeper sink */
+    --item-hover:rgba(39,39,42,0.70);   /* zinc-800 */
+
+    /* ── Borders ── */
+    --border-subtle: rgba(255,255,255,0.07);
+
+    /* ── Text ── */
+    --text-primary:   #fafafa;      /* zinc-50  */
+    --text-secondary: #a1a1aa;      /* zinc-400 */
+
+    /* ── Semantic ── */
+    --bullish: #34d399;   /* Emerald-400 — no neon, just clean teal   */
+    --bearish: #fb7185;   /* Rose-400    — elegant cool-rose           */
+    --warning: #fbbf24;   /* Amber-400   — gold-amber                  */
+    --accent:  #818cf8;   /* Indigo-400  — softer, premium indigo      */
+
+    /* ── Glow helpers ── */
+    --bullish-glow: rgba(52,  211, 153, 0.15);
+    --bearish-glow: rgba(251, 113, 133, 0.15);
+    --accent-glow:  rgba(129, 140, 248, 0.15);
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-bgMain text-textPrimary font-sans antialiased relative;
+    @apply bg-bgMain text-textPrimary antialiased;
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    position: relative;
   }
 
-  /* Glassmorphism hook for Tailwind bg-card */
-  .bg-bgCard {
-    backdrop-filter: blur(24px) saturate(150%);
-    -webkit-backdrop-filter: blur(24px) saturate(150%);
-  }
-
-  /* Futuristic Radial & Grid background */
+  /* ── Subtle page-level background glow (light) ── */
   body::before {
     content: "";
-    position: absolute;
+    position: fixed;
     inset: 0;
     z-index: -2;
-    background: radial-gradient(circle at 50% 0%, rgba(0, 225, 255, 0.05) 0%, transparent 60%);
     pointer-events: none;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(99,102,241,0.06) 0%, transparent 60%);
   }
 
-  body::after {
+  /* ── Dark-mode extra depth ── */
+  .dark body::before {
+    background:
+      radial-gradient(ellipse 70% 40% at 50% -5%, rgba(129,140,248,0.08) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 30% at 80% 80%,  rgba(52,211,153,0.04) 0%, transparent 50%);
+  }
+
+  /* ── Sub-pixel grid only in dark mode ── */
+  .dark body::after {
     content: "";
-    position: absolute;
+    position: fixed;
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background-image: 
-      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
-    -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+
+  /* ── Glassmorphism for cards ── */
+  .bg-bgCard {
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
   }
 }
 
@@ -72,107 +117,104 @@
   .mono-text {
     font-family: 'JetBrains Mono', 'Roboto Mono', monospace;
   }
+
+  /* Glow utilities */
+  .glow-accent   { box-shadow: 0 0 24px var(--accent-glow); }
+  .glow-bullish  { box-shadow: 0 0 20px var(--bullish-glow); }
+  .glow-bearish  { box-shadow: 0 0 20px var(--bearish-glow); }
+  .text-glow-accent  { text-shadow: 0 0 18px var(--accent-glow); }
+  .text-glow-score   { text-shadow: 0 0 28px currentColor; }
 }
 
-/* Custom Scrollbar for Terminal aesthetic */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
+/* ── Custom Scrollbar ── */
+::-webkit-scrollbar        { width: 6px; height: 6px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: var(--border-subtle); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
 
-::-webkit-scrollbar-track {
-  background: var(--bg-main);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border-subtle);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-secondary);
-}
-
-/* ========================================= */
-/* PRINT MEDIA OPTIMIZATION (PDF EXPORT FIX) */
-/* ========================================= */
+/* ═══════════════════════════════════════════
+   PRINT / PDF MEDIA OPTIMISATION
+   ═══════════════════════════════════════════ */
 @media print {
-  @page {
-    margin: 1.5cm;
+  @page { margin: 1cm; }
+
+  /* Enforce Light Theme for PDF Export to prevent black void */
+  :root, .dark {
+    --bg-main: #ffffff !important;
+    --bg-card: #ffffff !important;
+    --text-primary: #000000 !important;
+    --text-secondary: #333333 !important;
+    --border-subtle: #dbdbdb !important;
+    --input-bg: #f5f5f5 !important;
   }
 
   body {
-    background-image: none !important;
-    background-color: var(--bg-main) !important;
-    print-color-adjust: exact !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  * {
     -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
-  
-  body::before { 
-    display: none !important; 
-  }
-  
-  /* Destroy all complex Flex/Grid layouts at the root to prevent Chrome rendering blank 1st pages */
-  html, body, #__next, body > div, .min-h-screen, .flex-col {
+
+  body::before, body::after { display: none !important; }
+
+  /* Gentle layout reset without destroying inner flex structures */
+  html, body, #__next, .min-h-screen {
     display: block !important;
     min-height: auto !important;
     height: auto !important;
   }
 
-  /* Un-stick the navbar */
   nav {
-    position: static !important;
-    page-break-after: avoid !important;
-    break-after: avoid !important;
-    margin-bottom: 20px !important;
+    display: none !important;
   }
 
+  /* Make main block fill the page */
   main {
     display: block !important;
     width: 100% !important;
-    max-width: none !important;
+    max-width: 100% !important;
     padding: 0 !important;
     margin: 0 !important;
   }
 
-  main > div {
-    display: block !important;
-    width: 100% !important;
+  /* Top-level grid columns reset to stacked blocks */
+  .grid { 
+    display: block !important; 
   }
 
-  aside {
-    position: static !important;
-    display: block !important;
-    width: 100% !important;
-    margin-top: 2rem !important;
-    page-break-before: auto !important;
-    break-before: auto !important;
+  main > div, main > aside { 
+    display: block !important; 
+    width: 100% !important; 
+    margin-bottom: 2rem !important;
+    page-break-inside: auto !important;
+    break-inside: auto !important;
   }
 
-  /* Convert all grids to blocks so they stack purely downwards */
-  .grid {
-    display: block !important;
-  }
-
-  /* Stop cards from splitting natively using page-break standard */
   .bg-bgCard {
     display: block !important;
-    break-inside: avoid !important;
-    page-break-inside: avoid !important;
-    -webkit-column-break-inside: avoid !important;
-    margin-bottom: 24px !important;
     width: 100% !important;
+    margin-bottom: 24px !important;
+    border: 1px solid #e5e5e5 !important; /* Force a clear border on paper */
+    box-shadow: none !important;
+    backdrop-filter: none !important;
   }
 
-  /* Remove any Tailwind gap trickery in print to let standard margins work */
-  .gap-6, .gap-8 {
-    gap: 0 !important;
+  /* Force override any block-breaking classes */
+  .print\:break-inside-avoid {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 
-  /* Make sure textareas don't spawn scrollbars and fit on PDF */
+  .gap-6, .gap-8 { gap: 0 !important; }
+
   textarea {
     overflow: hidden !important;
     min-height: 80px !important;
     height: auto !important;
+    border: 1px solid #ccc !important;
   }
 }
