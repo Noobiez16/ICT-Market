@@ -37,6 +37,12 @@ export default function Home() {
   const { state, updateField, toggleRfFlag, toggleTriggerFlag, resetState } = useChecklistState();
   const [modal, setModal] = useState<{ isOpen: boolean; title: string; desc: string }>({ isOpen: false, title: "", desc: "" });
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Eliminate Hydration Errors caused by localStorage reading
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const openInfo = (info: { title: string; desc: string }) => setModal({ isOpen: true, ...info });
 
@@ -228,6 +234,8 @@ export default function Home() {
     </div>
   );
 
+  if (!isMounted) return <div className="min-h-screen bg-bgMain animate-pulse flex items-center justify-center"><div className="w-8 h-8 rounded-full bg-accent animate-ping"></div></div>;
+
   return (
     <div className="min-h-screen flex flex-col pt-0 pb-10">
       {/* Top Application Bar */}
@@ -315,7 +323,7 @@ export default function Home() {
               <BlockHeader icon="📈" title="Block A: 1H Macro" pts="30 Pts" />
               <CheckItem label="FVG clearly identified on 1H" checked={state.a1} onChange={v=>updateField('a1',v)} info={infos.a1} onInfoClick={openInfo} pts={15}>
                 <div className="mt-3 flex items-center bg-inputBg rounded-lg border border-borderSubtle/50 px-3 py-1 group-focus-within:border-accent/50 transition-colors">
-                  <select value={state.a1_dir} onChange={(e)=>updateField('a1_dir', e.target.value)} onClick={(e)=>e.stopPropagation()} className="w-full bg-transparent text-textPrimary py-1.5 text-[12px] font-medium outline-none cursor-pointer">
+                  <select value={state.a1_dir} onChange={(e)=>updateField('a1_dir', e.target.value)} onClick={(e)=>e.stopPropagation()} className="w-full bg-transparent text-textPrimary py-1.5 text-[12px] font-medium outline-none cursor-pointer appearance-none text-center">
                     <option value="" className="text-textSecondary">-- Direction --</option>
                     <option value="Bullish">Bullish FVG</option><option value="Bearish">Bearish FVG</option>
                     <option value="InverseBull">Inverse FVG → Bullish</option><option value="InverseBear">Inverse FVG → Bearish</option>
@@ -334,7 +342,7 @@ export default function Home() {
               
               <div className="mt-4 p-4 bg-inputBg rounded-lg border border-borderSubtle/50">
                 <label className="block text-[11px] font-bold text-textSecondary uppercase mb-2">Delivery State Engine</label>
-                <select value={state.b_delivery} onChange={(e)=>updateField('b_delivery', e.target.value)} className="w-full bg-bgCard border border-borderSubtle text-textPrimary px-3 py-2.5 rounded-md text-[13px] font-medium outline-none focus:border-accent">
+                <select value={state.b_delivery} onChange={(e)=>updateField('b_delivery', e.target.value)} className="w-full bg-bgCard border border-borderSubtle text-textPrimary px-3 py-2.5 rounded-md text-[13px] font-medium outline-none focus:border-accent appearance-none text-center">
                   <option value="balanced">Balanced (50/50) — 0 pts</option>
                   <option value="onesided">One-sided (3+) — +3 pts</option>
                   <option value="cisd">CISD detected</option>
@@ -347,7 +355,7 @@ export default function Home() {
               <BlockHeader icon="💧" title="Block C: Liquidity Pools" pts="20 Pts" />
               <CheckItem label="Liquidity Sweep Confirmed" checked={state.c1} onChange={v=>updateField('c1',v)} info={infos.c1} onInfoClick={openInfo} pts={12}>
                 <div className="mt-3 flex items-center bg-inputBg rounded-lg border border-borderSubtle/50 px-3 py-1 group-focus-within:border-accent/50 transition-colors">
-                  <select value={state.c1_dir} onChange={(e)=>updateField('c1_dir', e.target.value)} onClick={(e)=>e.stopPropagation()} className="w-full bg-transparent text-textPrimary py-1.5 text-[12px] font-medium outline-none cursor-pointer">
+                  <select value={state.c1_dir} onChange={(e)=>updateField('c1_dir', e.target.value)} onClick={(e)=>e.stopPropagation()} className="w-full bg-transparent text-textPrimary py-1.5 text-[12px] font-medium outline-none cursor-pointer appearance-none text-center">
                     <option value="" className="text-textSecondary">-- Sweep Level --</option>
                     <option value="BSL">BSL Taken Above</option>
                     <option value="SSL">SSL Taken Below</option>
@@ -356,7 +364,7 @@ export default function Home() {
               </CheckItem>
               <CheckItem label="Draw Target Assigned" checked={state.c2} onChange={v=>updateField('c2',v)} info={infos.c2} onInfoClick={openInfo} pts={8}>
                 <div className="mt-3 flex items-center bg-inputBg rounded-lg border border-borderSubtle/50 px-3 py-1 group-focus-within:border-accent/50 transition-colors">
-                  <select value={state.c2_pool} onChange={(e)=>updateField('c2_pool', e.target.value)} onClick={(e)=>e.stopPropagation()} className="w-full bg-transparent text-textPrimary py-1.5 text-[12px] font-medium outline-none cursor-pointer">
+                  <select value={state.c2_pool} onChange={(e)=>updateField('c2_pool', e.target.value)} onClick={(e)=>e.stopPropagation()} className="w-full bg-transparent text-textPrimary py-1.5 text-[12px] font-medium outline-none cursor-pointer appearance-none text-center">
                     <option value="" className="text-textSecondary">-- Pool --</option>
                     <option value="BSL">BSL Above</option><option value="SSL">SSL Below</option>
                     <option value="PDH">Previous Day High</option><option value="PDL">Previous Day Low</option>

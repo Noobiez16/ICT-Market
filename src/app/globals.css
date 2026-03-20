@@ -97,7 +97,7 @@
   }
   
   /* Destroy all complex Flex/Grid layouts at the root to prevent Chrome rendering blank 1st pages */
-  #root, body > div {
+  html, body, #__next, body > div, .min-h-screen, .flex-col {
     display: block !important;
     min-height: auto !important;
     height: auto !important;
