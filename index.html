@@ -562,6 +562,95 @@
             background: rgba(99, 102, 241, 0.05);
         }
 
+
+        .info-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 6px;
+            color: var(--accent);
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            font-size: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .info-icon:hover {
+            background: var(--accent);
+            color: #fff;
+            transform: scale(1.1);
+            border-color: var(--accent);
+        }
+
+        /* Modal Info */
+        .info-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            backdrop-filter: blur(2px);
+        }
+
+        .info-modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .info-modal-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            padding: 24px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            transform: translateY(20px);
+            transition: transform 0.2s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .info-modal-backdrop.active .info-modal-box {
+            transform: translateY(0);
+        }
+
+        .info-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+
+        .info-modal-close {
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+
+        .info-modal-close:hover {
+            color: var(--bearish);
+        }
+
+        .info-modal-body {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
         @media print {
 
             .header-actions,
@@ -668,7 +757,7 @@
                     <label class="check-item" id="lbl-hasRedFolder">
                         <input type="checkbox" id="hasRedFolder" class="custom-cb-input" data-save="true">
                         <div class="ci-content">
-                            <span class="ci-text">Is there a Red Folder event within the next 4 hours?</span>
+                            <span class="ci-text">Is there a Red Folder event within the next 4 hours? <span class="info-icon" onclick="showInfo('Red Folder Event', 'Eventos de gran impacto económico. Reduce el tamaño de tu posición o acorta expectativas de ganancias si operas alrededor de estas horas debido a la extrema volatilidad algorítmica.', event)">i</span></span>
                         </div>
                     </label>
 
@@ -705,7 +794,7 @@
                             style="background: rgba(239, 68, 68, 0.05); border: 1px dashed rgba(239, 68, 68, 0.3);">
                             <input type="checkbox" id="event30Min" class="custom-cb-input" data-save="true">
                             <div class="ci-content">
-                                <span class="ci-text" style="color: var(--bearish);">Event is within 30 minutes!</span>
+                                <span class="ci-text" style="color: var(--bearish);">Event is within 30 minutes! <span class="info-icon" onclick="showInfo('Event within 30m', 'Se aplica una penalización alta si decides tomar el trade justo cuando falta menos de 30 minutos para la inyección de la noticia. Sumamente arriesgado.', event)">i</span></span>
                                 <span class="ci-sub">Applies additional -10 pts penalty</span>
                             </div>
                             <span class="pts-badge pts-neg">-10</span>
@@ -724,7 +813,7 @@
                     <label class="check-item">
                         <input type="checkbox" id="a1" class="custom-cb-input" data-save="true">
                         <div class="ci-content">
-                            <span class="ci-text">FVG clearly identified on 1H</span>
+                            <span class="ci-text">FVG clearly identified on 1H <span class="info-icon" onclick="showInfo('1H FVG', 'Identifica un inbalance claro en gráficos de 1 hora (Fair Value Gap), que servirá como nuestra zona de mayor probabilidad o confluencia principal (POI).', event)">i</span></span>
                             <select id="a1_dir" data-save="true" style="margin-top: 8px;">
                                 <option value="">-- Direction --</option>
                                 <option value="Bullish">Bullish FVG (Price expected to rally)</option>
@@ -738,13 +827,13 @@
 
                     <label class="check-item">
                         <input type="checkbox" id="a2" class="custom-cb-input" data-save="true">
-                        <div class="ci-content"><span class="ci-text">Price retraces INTO 1H FVG</span></div>
+                        <div class="ci-content"><span class="ci-text">Price retraces INTO 1H FVG <span class="info-icon" onclick="showInfo('Retrace to FVG', 'Esperamos a que el precio retroceda y entre verdaderamente en la zona del FVG de 1 Hora. Sin esto no hay setup premium.', event)">i</span></span></div>
                         <span class="pts-badge pts-pos">+10</span>
                     </label>
 
                     <label class="check-item">
                         <input type="checkbox" id="a3" class="custom-cb-input" data-save="true">
-                        <div class="ci-content"><span class="ci-text">First reaction candle mapped</span></div>
+                        <div class="ci-content"><span class="ci-text">First reaction candle mapped <span class="info-icon" onclick="showInfo('Reaction Candle', 'Mapeamos o marcamos la primera vela que reacciona de forma fuerte nada más entrar a la zona del FVG. Confirma que el nivel está activo.', event)">i</span></span></div>
                         <span class="pts-badge pts-pos">+5</span>
                     </label>
                 </div>
@@ -759,13 +848,13 @@
 
                     <label class="check-item">
                         <input type="checkbox" id="b1" class="custom-cb-input" data-save="true">
-                        <div class="ci-content"><span class="ci-text">5M FVG INSIDE 1H zone</span></div>
+                        <div class="ci-content"><span class="ci-text">5M FVG INSIDE 1H zone <span class="info-icon" onclick="showInfo('5M FVG', 'Una vez en el FVG de 1H, bajamos a 5M y buscamos que se forme un nuevo FVG dentro de esa zona macro.', event)">i</span></span></div>
                         <span class="pts-badge pts-pos">+15</span>
                     </label>
 
                     <label class="check-item">
                         <input type="checkbox" id="b2" class="custom-cb-input" data-save="true">
-                        <div class="ci-content"><span class="ci-text">Stacked FVG Confluence</span></div>
+                        <div class="ci-content"><span class="ci-text">Stacked FVG Confluence <span class="info-icon" onclick="showInfo('Stacked Confluence', 'Un FVG que se apoya en otro FVG de la misma temporalidad u otra mayor (o sobre un Order Block). Da muy alta confianza algorítmica a tu confirmación.', event)">i</span></span></div>
                         <span class="pts-badge pts-pos">+10</span>
                     </label>
 
@@ -790,7 +879,7 @@
                     <label class="check-item">
                         <input type="checkbox" id="c1" class="custom-cb-input" data-save="true">
                         <div class="ci-content">
-                            <span class="ci-text">Liquidity Sweep Confirmed</span>
+                            <span class="ci-text">Liquidity Sweep Confirmed <span class="info-icon" onclick="showInfo('Liquidity Sweep', 'Se confirma visualmente que el precio tomó la liquidez o &quot;stops&quot; de inversores retail por encima de un máximo (BSL) o debajo de un mínimo (SSL).', event)">i</span></span>
                             <select id="c1_dir" data-save="true" style="margin-top: 8px;">
                                 <option value="">-- Sweep Level --</option>
                                 <option value="BSL">BSL Taken Above (Bearish Signal)</option>
@@ -803,7 +892,7 @@
                     <label class="check-item">
                         <input type="checkbox" id="c2" class="custom-cb-input" data-save="true">
                         <div class="ci-content">
-                            <span class="ci-text">Draw Target Assigned</span>
+                            <span class="ci-text">Draw Target Assigned <span class="info-icon" onclick="showInfo('Draw on Liquidity', 'Debes tener claro hacia dónde irá el precio ahora. Si el objetivo no te salta a la vista de manera obvia, el setup no es de alta calidad.', event)">i</span></span>
                             <select id="c2_pool" data-save="true" style="margin-top: 8px;">
                                 <option value="">-- Pool --</option>
                                 <option value="BSL">BSL Above (Bullish Target)</option>
@@ -852,18 +941,18 @@
 
                     <label class="check-item">
                         <input type="checkbox" id="d1" class="custom-cb-input" data-save="true">
-                        <div class="ci-content"><span class="ci-text">Displacement Candle > 60%</span></div>
+                        <div class="ci-content"><span class="ci-text">Displacement Candle > 60% <span class="info-icon" onclick="showInfo('Displacement', 'La vela expansiva de 1 minuto debe tener un cuerpo muy robusto en dirección a nuestro trade, demostrando inyección real del algoritmo.', event)">i</span></span></div>
                         <span class="pts-badge pts-pos">+10</span>
                     </label>
 
                     <label class="check-item">
                         <input type="checkbox" id="d2" class="custom-cb-input" data-save="true">
-                        <div class="ci-content"><span class="ci-text">2nd Confirmation Close</span></div>
+                        <div class="ci-content"><span class="ci-text">2nd Confirmation Close <span class="info-icon" onclick="showInfo('Validation Close', 'Buscar un segundo cierre de vela de 1M en dirección del setup (además de la de desplazamiento). Reduce estafas del algoritmo.', event)">i</span></span></div>
                         <span class="pts-badge pts-pos">+8</span>
                     </label>
                     <label class="check-item">
                         <input type="checkbox" id="d3" class="custom-cb-input" data-save="true">
-                        <div class="ci-content"><span class="ci-text">Structural SL Defined</span></div>
+                        <div class="ci-content"><span class="ci-text">Structural SL Defined <span class="info-icon" onclick="showInfo('Structural SL', 'Coloca el Stop Loss por detrás del mínimo protector de la estructura reciente, donde ya hubo &quot;Sweep&quot; o mitigación. Nunca dejar el SL &quot;flotando&quot;.', event)">i</span></span></div>
                         <span class="pts-badge pts-pos">+7</span>
                     </label>
                 </div>
@@ -877,17 +966,17 @@
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
                         <label class="check-item">
                             <input type="checkbox" id="e1" class="custom-cb-input" data-save="true">
-                            <div class="ci-content"><span class="ci-text">1H FVG > 70% filled</span></div>
+                            <div class="ci-content"><span class="ci-text">1H FVG > 70% filled <span class="info-icon" onclick="showInfo('Overfilled FVG', 'Si la vela entró en el FVG de 1 Hora y llenó más del 70% u 80%, el impulso pierde mucha fiabilidad y hay riesgo de continuación al otro lado.', event)">i</span></span></div>
                             <span class="pts-badge pts-neg">-10</span>
                         </label>
                         <label class="check-item">
                             <input type="checkbox" id="e2" class="custom-cb-input" data-save="true">
-                            <div class="ci-content"><span class="ci-text">1H Lateral Range</span></div>
+                            <div class="ci-content"><span class="ci-text">1H Lateral Range <span class="info-icon" onclick="showInfo('Chop/Range', 'Operar en el medio de un rango macro que está en consolidación pura. Los FVGs no se respetan en entornos laterales, busca extremos.', event)">i</span></span></div>
                             <span class="pts-badge pts-neg">-10</span>
                         </label>
                         <label class="check-item">
                             <input type="checkbox" id="e3" class="custom-cb-input" data-save="true">
-                            <div class="ci-content"><span class="ci-text">Opposing FVG Clash</span></div>
+                            <div class="ci-content"><span class="ci-text">Opposing FVG Clash <span class="info-icon" onclick="showInfo('Opposing Clash', 'El precio ha dejado inbalances muy notorios en tu contra antes de llegar a tu entrada, que ahora podrían servir como barrera inmediata e impedir tu &quot;target&quot;.', event)">i</span></span></div>
                             <span class="pts-badge pts-neg">-8</span>
                         </label>
                     </div>
@@ -941,6 +1030,19 @@
         </div> <!-- /main-layout -->
     </div>
 
+
+    <!-- Info Modal -->
+    <div class="info-modal-backdrop" id="infoModal" onclick="closeInfoModal(event)">
+        <div class="info-modal-box" onclick="event.stopPropagation()">
+            <div class="info-modal-header">
+                <span id="infoModalTitle">Info</span>
+                <span class="info-modal-close" onclick="closeInfoModal(event)">✕</span>
+            </div>
+            <div class="info-modal-body" id="infoModalDesc">
+            </div>
+        </div>
+    </div>
+
     <!-- JavaScript strict logic maintenance -->
     <script>
         const EST_OFFSET = -5;
@@ -988,6 +1090,23 @@
             btnCopy: document.getElementById('btnCopy'),
             btnPdf: document.getElementById('btnPdf')
         };
+
+
+        function showInfo(title, desc, e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('infoModalTitle').innerText = title;
+            document.getElementById('infoModalDesc').innerText = desc;
+            document.getElementById('infoModal').classList.add('active');
+        }
+
+        function closeInfoModal(e) {
+            if(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            document.getElementById('infoModal').classList.remove('active');
+        }
 
         const rfCheckboxes = document.querySelectorAll('.rf-cb');
         const triggerCheckboxes = document.querySelectorAll('.trigger-cb');
