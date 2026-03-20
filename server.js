@@ -4,10 +4,8 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-// Serve the HTML file when visiting the root URL
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'ICT_Checklist_Pro.html'));
-});
+// Serve all static files from the project directory
+app.use(express.static(__dirname));
 
 // Start the server
 app.listen(PORT, () => {
