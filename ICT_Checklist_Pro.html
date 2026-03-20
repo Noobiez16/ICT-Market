@@ -412,6 +412,10 @@
             font-size: 14px;
             font-weight: 500;
         }
+        @page {
+            margin: 1.5cm;
+        }
+
         @media print {
             .btn-group, header .theme-toggle, .theme-toggle {
                 display: none !important;
@@ -419,11 +423,30 @@
             body {
                 background: white !important;
                 color: black !important;
+                padding: 0 !important;
+                margin: 0 auto !important;
+                max-width: 100% !important;
+            }
+            .grid {
+                display: block !important;
+            }
+            .sidebar {
+                margin-top: 24px;
             }
             .card {
-                border: 1px solid #ddd !important;
+                border: 1px solid #ccc !important;
                 box-shadow: none !important;
                 break-inside: avoid;
+                page-break-inside: avoid;
+                margin-bottom: 20px;
+            }
+            .checkbox-label, .form-group {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            input[type="text"], input[type="datetime-local"], select, textarea {
+                max-width: 100%;
+                box-sizing: border-box;
             }
         }
     </style>
