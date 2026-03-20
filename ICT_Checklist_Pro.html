@@ -7,547 +7,450 @@
     <title>ICT Market Read Checklist Pro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             color-scheme: light dark;
-            --color-bullish: #10B981;
-            --color-bearish: #F43F5E;
-            --color-warning: #F59E0B;
-            --color-accent: #F59E0B; 
-            --color-accent-light: rgba(245, 158, 11, 0.15);
-            
-            --color-bg: #EAEBF0;
-            --bg-image: none;
-            --color-surface: rgba(255, 255, 255, 0.65);
-            --color-border: rgba(255, 255, 255, 0.4);
-            --color-text: #1E293B;
-            --color-text-muted: #64748B;
-            --color-btn-hover: rgba(255, 255, 255, 0.9);
-            --color-card-shadow: rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 8px 32px rgba(31, 38, 135, 0.07);
-            --blur: blur(12px);
+            --green: #00E676;
+            --red: #FF1744;
+            --amber: #FFAB00;
+            --cyan: #00E5FF;
+            --gold: #FFD740;
+            --bg-0: #F0F2F5;
+            --bg-1: #FFFFFF;
+            --bg-2: rgba(0,0,0,0.03);
+            --border: #D1D5DB;
+            --text-0: #111827;
+            --text-1: #6B7280;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+            --glass-bg: rgba(255,255,255,0.7);
+            --glass-border: rgba(255,255,255,0.5);
+            --glow: none;
         }
 
         [data-theme="dark"] {
-            --color-bg: #0F111E;
-            --bg-image: url('bg.png'); /* Luxury sunset skyline background */
-            --color-surface: rgba(18, 20, 31, 0.65);
-            --color-border: rgba(255, 255, 255, 0.07);
-            --color-text: #F8FAFC;
-            --color-text-muted: #94A3B8;
-            --color-btn-hover: rgba(255, 255, 255, 0.08);
-            --color-card-shadow: rgba(0, 0, 0, 0.4);
-            --color-accent: #FF9900; /* Vibrant orange/gold glow */
-            --color-accent-light: rgba(255, 153, 0, 0.15);
-            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.5);
-            --blur: blur(20px);
+            --bg-0: #070B14;
+            --bg-1: rgba(12, 17, 30, 0.75);
+            --bg-2: rgba(255,255,255,0.03);
+            --border: rgba(255,255,255,0.06);
+            --text-0: #E2E8F0;
+            --text-1: #64748B;
+            --shadow: 0 8px 32px rgba(0,0,0,0.6);
+            --glass-bg: rgba(15, 20, 35, 0.6);
+            --glass-border: rgba(255,255,255,0.05);
+            --glow: 0 0 80px -20px rgba(0, 229, 255, 0.15);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            transition: background-color 0.4s ease, border-color 0.3s ease, color 0.3s ease;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background-color: var(--color-bg);
-            background-image: var(--bg-image);
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: var(--color-text);
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-0);
+            color: var(--text-0);
             line-height: 1.6;
-            padding: 40px 24px;
-            max-width: 1400px; /* Wider to match luxury dashboard style */
-            margin: 0 auto;
+            min-height: 100vh;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-            padding-bottom: 24px;
-            border-bottom: 1px solid var(--color-border);
+        /* ── Animated background ── */
+        .bg-canvas {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            overflow: hidden;
+        }
+        [data-theme="dark"] .bg-canvas { opacity: 1; }
+        [data-theme="light"] .bg-canvas { opacity: 0; }
+
+        .bg-grid {
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
         }
 
-        .title-group h1 {
-            font-size: 32px;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            color: var(--color-text);
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
-
-        .theme-toggle {
-            background: var(--color-surface);
-            backdrop-filter: var(--blur);
-            -webkit-backdrop-filter: var(--blur);
-            border: 1px solid var(--color-border);
-            color: var(--color-text);
-            padding: 10px 20px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            box-shadow: var(--shadow-md);
-        }
-
-        .theme-toggle:hover {
-            background-color: var(--color-btn-hover);
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 32px;
-        }
-
-        @media (max-width: 900px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .card {
-            background-color: var(--color-surface);
-            backdrop-filter: var(--blur);
-            -webkit-backdrop-filter: var(--blur);
-            border: 1px solid var(--color-border);
-            border-radius: 20px;
-            padding: 32px;
-            margin-bottom: 32px;
-            box-shadow: var(--shadow-md);
-            position: relative;
-        }
-
-        .card::before {
-            content: '';
+        .bg-glow-1 {
             position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            width: 600px; height: 600px;
+            top: -200px; right: -100px;
+            background: radial-gradient(circle, rgba(0,229,255,0.08) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
+        }
+        .bg-glow-2 {
+            position: absolute;
+            width: 500px; height: 500px;
+            bottom: -100px; left: -150px;
+            background: radial-gradient(circle, rgba(255,215,64,0.06) 0%, transparent 70%);
+            animation: float 25s ease-in-out infinite reverse;
         }
 
-        h2 {
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 24px;
-            color: var(--color-text);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -40px); }
         }
 
-        .badge {
-            font-size: 12px;
-            padding: 4px 10px;
+        /* ── Layout ── */
+        .app-shell {
+            position: relative; z-index: 1;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 32px 28px 60px;
+        }
+
+        /* ── Header ── */
+        .top-bar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 28px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid var(--color-border);
-            color: var(--color-text-muted);
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
         }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--color-text-muted);
-        }
-
-        input[type="text"],
-        input[type="datetime-local"],
-        select {
-            width: 100%;
-            padding: 12px 16px;
+        .logo-area { display: flex; align-items: center; gap: 16px; }
+        .logo-icon {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, var(--cyan), var(--green));
             border-radius: 12px;
-            border: 1px solid var(--color-border);
-            background-color: rgba(0,0,0,0.2);
-            color: var(--color-text);
-            font-size: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 900; font-size: 18px; color: #070B14;
+            box-shadow: 0 0 20px rgba(0,229,255,0.3);
+        }
+        .logo-text h1 {
+            font-size: 22px; font-weight: 800; letter-spacing: -0.03em;
+            background: linear-gradient(135deg, var(--text-0), var(--text-1));
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .logo-text span {
+            font-size: 12px; color: var(--text-1); font-weight: 500;
+            letter-spacing: 2px; text-transform: uppercase;
+        }
+        .top-actions { display: flex; gap: 10px; }
+        .top-actions button {
+            padding: 10px 18px; border-radius: 12px; font-weight: 700;
+            font-size: 13px; cursor: pointer; border: 1px solid var(--border);
+            background: var(--bg-2); color: var(--text-0);
             font-family: inherit;
-            outline: none;
-            backdrop-filter: var(--blur);
-            box-shadow: inset 0 2px 4px var(--color-card-shadow);
+            transition: all 0.2s;
+        }
+        .top-actions button:hover { background: rgba(0,229,255,0.1); border-color: var(--cyan); }
+        .top-actions .btn-reset { color: var(--red); border-color: rgba(255,23,68,0.3); }
+        .top-actions .btn-reset:hover { background: rgba(255,23,68,0.1); }
+
+        /* ── Grid ── */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 28px;
+        }
+        @media (max-width: 1100px) {
+            .dashboard { grid-template-columns: 1fr; }
         }
 
-        input[type="text"]:focus,
-        input[type="datetime-local"]:focus,
-        select:focus {
-            border-color: var(--color-accent);
-            box-shadow: 0 0 0 3px var(--color-accent-light);
-        }
-
-        .row {
-            display: flex;
-            gap: 20px;
-        }
-
-        .row>* {
-            flex: 1;
-        }
-
-        .checkbox-label {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            padding: 16px;
-            border-radius: 12px;
-            cursor: pointer;
-            border: 1px solid transparent;
-            margin-bottom: 12px;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid var(--color-border);
-        }
-
-        .checkbox-label:hover {
-            background-color: var(--color-btn-hover);
-        }
-
-        .checkbox-label.active {
-            border-color: var(--color-accent);
-            background-color: var(--color-accent-light);
-            box-shadow: 0 0 15px var(--color-accent-light); /* Soft glow for the selected element */
-        }
-
-        input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            margin-top: 2px;
-            accent-color: var(--color-accent);
-            cursor: pointer;
-            flex-shrink: 0;
-            filter: drop-shadow(0 0 5px var(--color-accent-light));
-        }
-
-        .cb-text {
-            font-size: 16px;
-            font-weight: 500;
-        }
-
-        .cb-sub {
-            display: block;
-            font-size: 14px;
-            color: var(--color-text-muted);
-            margin-top: 6px;
-        }
-
-        .pts {
-            color: var(--color-accent);
-            font-weight: 800;
-            font-size: 14px;
-            margin-left: auto;
-            white-space: nowrap;
-            text-shadow: 0 0 8px var(--color-accent-light);
-        }
-
-        .pts-neg {
-            color: var(--color-bearish);
-            font-weight: 800;
-            font-size: 14px;
-            margin-left: auto;
-            white-space: nowrap;
-            text-shadow: 0 0 8px rgba(244, 63, 94, 0.4);
-        }
-
-        .red-folder-banner {
-            display: none;
-            padding: 16px;
-            border-radius: 12px;
+        /* ── Cards ── */
+        .panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 28px;
             margin-bottom: 24px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            text-align: center;
-            animation: pulse 2s infinite;
-            backdrop-filter: var(--blur);
+            box-shadow: var(--shadow), var(--glow);
+            position: relative;
+            overflow: hidden;
+        }
+        .panel::after {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(0,229,255,0.15) 50%, transparent 100%);
+        }
+        .panel-danger { border-left: 3px solid var(--red); }
+        .panel-warn { border-left: 3px solid var(--amber); }
+
+        .panel-title {
+            display: flex; align-items: center; gap: 12px;
+            font-size: 16px; font-weight: 700; margin-bottom: 20px;
+            letter-spacing: -0.01em;
+        }
+        .panel-title .icon {
+            width: 32px; height: 32px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; flex-shrink: 0;
+        }
+        .icon-blue { background: rgba(0,229,255,0.12); }
+        .icon-red { background: rgba(255,23,68,0.12); }
+        .icon-green { background: rgba(0,230,118,0.12); }
+        .icon-amber { background: rgba(255,171,0,0.12); }
+        .icon-purple { background: rgba(156,39,176,0.12); }
+
+        .tag {
+            font-size: 11px; font-weight: 700; padding: 3px 10px;
+            border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase;
+            margin-left: auto;
+        }
+        .tag-pts { background: rgba(0,229,255,0.1); color: var(--cyan); border: 1px solid rgba(0,229,255,0.2); }
+        .tag-risk { background: rgba(255,23,68,0.1); color: var(--red); border: 1px solid rgba(255,23,68,0.2); }
+
+        /* ── Form inputs ── */
+        .field-row { display: flex; gap: 16px; margin-bottom: 4px; }
+        .field-row > * { flex: 1; }
+        .field { margin-bottom: 14px; }
+        .field label {
+            display: block; font-size: 12px; font-weight: 700; color: var(--text-1);
+            margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .field input, .field select {
+            width: 100%; padding: 11px 14px; border-radius: 12px;
+            border: 1px solid var(--border); background: var(--bg-2);
+            color: var(--text-0); font-size: 14px; font-family: inherit; outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .field input:focus, .field select:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px rgba(0,229,255,0.1);
         }
 
+        /* ── Check items ── */
+        .check-item {
+            display: flex; align-items: flex-start; gap: 14px;
+            padding: 14px 16px; border-radius: 14px; cursor: pointer;
+            border: 1px solid var(--border); margin-bottom: 10px;
+            transition: all 0.25s;
+        }
+        .check-item:hover { background: var(--bg-2); }
+        .check-item.active {
+            border-color: var(--cyan);
+            background: rgba(0,229,255,0.05);
+            box-shadow: 0 0 20px -5px rgba(0,229,255,0.15);
+        }
+        .check-item input[type="checkbox"] {
+            width: 20px; height: 20px; margin-top: 2px; flex-shrink: 0;
+            accent-color: var(--cyan); cursor: pointer;
+        }
+        .check-item .text { font-size: 14px; font-weight: 500; flex: 1; }
+        .check-item .sub {
+            display: block; font-size: 13px; color: var(--text-1); margin-top: 4px;
+        }
+        .pts-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px; font-weight: 700; white-space: nowrap;
+        }
+        .pts-plus { color: var(--cyan); }
+        .pts-minus { color: var(--red); }
+
+        /* ── Banners ── */
+        .rf-banner {
+            display: none; padding: 14px; border-radius: 14px;
+            margin-bottom: 18px; font-weight: 800; font-size: 13px;
+            text-align: center; letter-spacing: 1px; text-transform: uppercase;
+            animation: pulse-banner 2s infinite;
+        }
         .banner-tier1 {
-            background-color: rgba(239, 68, 68, 0.15);
-            color: #FFA4A4;
-            border: 1px solid var(--color-bearish);
-            box-shadow: 0 0 20px rgba(244, 63, 94, 0.3);
+            background: rgba(255,23,68,0.1); color: var(--red);
+            border: 1px solid rgba(255,23,68,0.3);
         }
-
         .banner-tier2 {
-            background-color: rgba(245, 158, 11, 0.15);
-            color: #FFD580;
-            border: 1px solid var(--color-warning);
-            box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+            background: rgba(255,171,0,0.1); color: var(--amber);
+            border: 1px solid rgba(255,171,0,0.3);
         }
-
         .banner-tier3 {
-            background-color: rgba(245, 158, 11, 0.08);
-            color: var(--color-warning);
-            border: 1px solid var(--color-warning);
+            background: rgba(255,171,0,0.06); color: var(--amber);
+            border: 1px solid rgba(255,171,0,0.2);
         }
-
-        @keyframes pulse {
-            0% { opacity: 1; box-shadow: 0 0 10px rgba(0,0,0,0); }
-            50% { opacity: 0.8; box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); }
-            100% { opacity: 1; box-shadow: 0 0 10px rgba(0,0,0,0); }
+        @keyframes pulse-banner {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.65; }
         }
 
         .event-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 12px;
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(0,0,0,0.15);
-            border-radius: 12px;
-            border: 1px solid var(--color-border);
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 8px; margin-top: 14px; padding: 16px;
+            background: var(--bg-2); border-radius: 14px;
+            border: 1px solid var(--border);
+        }
+        .event-grid label {
+            font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 6px; cursor: pointer;
         }
 
-        .hidden {
-            display: none !important;
+        .hidden { display: none !important; }
+
+        /* ── Context alerts ── */
+        .context-bar {
+            padding: 12px 16px; border-radius: 12px; font-size: 13px;
+            font-weight: 600; margin-top: 14px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .context-session {
+            background: rgba(0,229,255,0.08); color: var(--cyan);
+            border: 1px solid rgba(0,229,255,0.15);
+        }
+        .context-kz { margin-top: 8px; font-weight: 700; font-size: 14px; }
+
+        /* ══════════════════════════════ RESULTS SIDEBAR ══════════════════════════════ */
+        .results-card {
+            position: sticky; top: 28px;
+        }
+        .results-header {
+            font-size: 11px; font-weight: 800; color: var(--text-1);
+            letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .results-header::after {
+            content: ''; flex: 1; height: 1px; background: var(--border);
         }
 
-        .results-panel {
-            position: sticky;
-            top: 32px;
+        /* Score ring */
+        .score-ring-wrap {
+            display: flex; flex-direction: column; align-items: center;
+            padding: 28px 0; margin-bottom: 20px;
+            background: var(--bg-2); border-radius: 20px;
+            border: 1px solid var(--border);
+        }
+        .score-ring {
+            position: relative; width: 140px; height: 140px; margin-bottom: 12px;
+        }
+        .score-ring svg { width: 140px; height: 140px; transform: rotate(-90deg); }
+        .score-ring .ring-bg {
+            fill: none; stroke: var(--border); stroke-width: 8;
+        }
+        .score-ring .ring-fg {
+            fill: none; stroke-width: 8; stroke-linecap: round;
+            transition: stroke-dashoffset 0.8s cubic-bezier(0.16,1,0.3,1), stroke 0.4s;
+        }
+        .score-ring .score-num {
+            position: absolute; inset: 0; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+        }
+        .score-ring .score-num .val {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 40px; font-weight: 900; line-height: 1; letter-spacing: -2px;
+        }
+        .score-ring .score-num .lbl {
+            font-size: 12px; font-weight: 700; color: var(--text-1); margin-top: 2px;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .grade-pill {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px; font-weight: 900; padding: 4px 18px;
+            border-radius: 10px; letter-spacing: 1px;
         }
 
-        .score-display {
-            text-align: center;
-            margin-bottom: 32px;
-            padding: 32px 0;
-            background: rgba(0,0,0,0.2);
-            border-radius: 20px;
-            border: 1px solid var(--color-border);
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
-        }
-
-        .score-circle {
-            font-size: 64px;
-            font-weight: 800;
-            line-height: 1;
-            margin-bottom: 12px;
-            letter-spacing: -0.03em;
-            text-shadow: 0 0 20px rgba(255,255,255,0.2);
-        }
-
-        .score-grade {
-            font-size: 28px;
-            font-weight: 800;
-        }
-
-        .progress-bar-container {
-            height: 10px;
-            background-color: rgba(0,0,0,0.3);
-            border: 1px solid var(--color-border);
-            border-radius: 5px;
-            overflow: hidden;
-            margin: 24px 24px 0 24px;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.5s ease;
-            box-shadow: 0 0 10px currentColor; /* Inner glow tied to grade color */
-        }
-
-        .result-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--color-border);
-            font-size: 15px;
-        }
-
-        .result-label {
-            color: var(--color-text-muted);
-            font-weight: 600;
-        }
-
-        .result-val {
-            font-weight: 800;
-            text-align: right;
-            max-width: 60%;
-            text-shadow: 0 0 8px rgba(0,0,0,0.5);
-        }
-
-        .color-bullish { color: var(--color-bullish); text-shadow: 0 0 10px rgba(16, 185, 129, 0.3); }
-        .color-bearish { color: var(--color-bearish); text-shadow: 0 0 10px rgba(244, 63, 94, 0.3); }
-        .color-warning { color: var(--color-warning); text-shadow: 0 0 10px rgba(245, 158, 11, 0.3); }
-
-        .btn-group {
-            display: flex;
-            gap: 16px;
-            margin-top: 32px;
-        }
-
-        button {
-            flex: 1;
-            padding: 14px;
-            border-radius: 12px;
-            border: none;
-            font-weight: 800;
-            cursor: pointer;
-            font-size: 15px;
-            font-family: inherit;
-            transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
-        }
-
-        button:active {
-            transform: scale(0.97);
-        }
-
-        .btn-export {
-            background: linear-gradient(135deg, var(--color-accent) 0%, #E65C00 100%);
-            color: #FFFFFF;
-            box-shadow: 0 4px 15px var(--color-accent-light);
-        }
-
-        .btn-export:hover {
-            filter: brightness(1.1);
-            box-shadow: 0 6px 20px rgba(255, 153, 0, 0.4);
-        }
-
-        .btn-secondary {
-            background-color: rgba(255,255,255,0.05);
-            backdrop-filter: var(--blur);
-            border: 1px solid var(--color-border);
-            color: var(--color-text);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--color-btn-hover);
-            border-color: var(--color-text-muted);
-        }
-
-        textarea {
-            width: 100%;
-            min-height: 100px;
-            padding: 16px;
-            border-radius: 12px;
-            border: 1px solid var(--color-border);
-            background-color: rgba(0,0,0,0.2);
-            color: var(--color-text);
-            font-family: inherit;
-            margin-top: 24px;
-            resize: vertical;
+        /* Result rows */
+        .res-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 14px 0; border-bottom: 1px solid var(--border);
             font-size: 14px;
-            box-shadow: inset 0 2px 4px var(--color-card-shadow);
         }
-        
-        textarea:focus {
-            border-color: var(--color-accent);
-            box-shadow: 0 0 0 3px var(--color-accent-light);
-            outline: none;
-        }
-
-        .session-context {
-            padding: 16px;
-            border-radius: 12px;
-            background: rgba(255, 153, 0, 0.1);
-            color: var(--color-accent);
-            font-size: 14px;
-            font-weight: 700;
-            margin-top: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid rgba(255, 153, 0, 0.2);
-            text-shadow: 0 0 8px rgba(255, 153, 0, 0.3);
+        .res-row:last-of-type { border-bottom: none; }
+        .res-lbl { color: var(--text-1); font-weight: 600; }
+        .res-val { font-weight: 800; text-align: right; max-width: 60%; }
+        .res-penalties {
+            padding: 14px 0; font-size: 13px; color: var(--red); font-weight: 600;
         }
 
-        .kz-indicator {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 12px;
-            font-size: 15px;
-            font-weight: 700;
+        textarea#notes {
+            width: 100%; min-height: 90px; padding: 14px; border-radius: 14px;
+            border: 1px solid var(--border); background: var(--bg-2);
+            color: var(--text-0); font-family: inherit; font-size: 13px;
+            resize: vertical; margin-top: 16px; outline: none;
         }
-        @page {
-            margin: 1.5cm;
+        textarea#notes:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px rgba(0,229,255,0.1);
         }
 
+        .btn-row { display: flex; gap: 12px; margin-top: 20px; }
+        .btn-primary {
+            flex: 1; padding: 13px; border-radius: 14px; border: none;
+            font-weight: 800; font-size: 14px; cursor: pointer; font-family: inherit;
+            background: linear-gradient(135deg, var(--cyan), #00B0FF);
+            color: #070B14; box-shadow: 0 4px 20px rgba(0,229,255,0.25);
+            transition: filter 0.2s, transform 0.1s;
+        }
+        .btn-primary:hover { filter: brightness(1.1); }
+        .btn-primary:active { transform: scale(0.97); }
+        .btn-outline {
+            flex: 1; padding: 13px; border-radius: 14px;
+            border: 1px solid var(--border); background: var(--bg-2);
+            font-weight: 800; font-size: 14px; cursor: pointer; font-family: inherit;
+            color: var(--text-0); transition: all 0.2s;
+        }
+        .btn-outline:hover { border-color: var(--cyan); background: rgba(0,229,255,0.05); }
+
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            .app-shell { padding: 16px 10px 40px; }
+            .top-bar { flex-direction: column; gap: 12px; padding: 16px; }
+            .dashboard { gap: 16px; }
+            .panel { padding: 20px; }
+            .field-row { flex-direction: column; gap: 8px; }
+        }
+
+        /* ── Print ── */
+        @page { margin: 1.5cm; }
         @media print {
-            .btn-group, header .theme-toggle, .theme-toggle {
-                display: none !important;
+            .bg-canvas, .top-actions, .btn-row { display: none !important; }
+            body { background: white !important; color: black !important; }
+            .panel, .top-bar {
+                background: white !important; backdrop-filter: none !important;
+                border: 1px solid #ddd !important; box-shadow: none !important;
+                break-inside: avoid; page-break-inside: avoid;
             }
-            body {
-                background: white !important;
-                color: black !important;
-                padding: 0 !important;
-                margin: 0 auto !important;
-                max-width: 100% !important;
-            }
-            .grid {
-                display: block !important;
-            }
-            .sidebar {
-                margin-top: 24px;
-            }
-            .card {
-                border: 1px solid #ccc !important;
-                box-shadow: none !important;
-                break-inside: avoid;
-                page-break-inside: avoid;
-                margin-bottom: 20px;
-            }
-            .checkbox-label, .form-group {
-                break-inside: avoid;
-                page-break-inside: avoid;
-            }
-            input[type="text"], input[type="datetime-local"], select, textarea {
-                max-width: 100%;
-                box-sizing: border-box;
-            }
+            .dashboard { display: block !important; }
+            .score-ring .ring-bg { stroke: #eee !important; }
         }
     </style>
 </head>
 
 <body>
 
-    <header>
-        <div class="title-group">
-            <h1>ICT Market Read Checklist Pro</h1>
-            <div style="color: var(--color-text-muted); font-size: 14px; margin-top: 4px;">Precision Decision-Support
-                Tool</div>
-        </div>
-        <div>
-            <button class="theme-toggle" id="themeToggle">Toggle Dark Mode</button>
-            <button class="theme-toggle" id="resetBtn"
-                style="margin-left: 8px; color: var(--color-bearish); border-color: var(--color-bearish);">Reset</button>
-        </div>
-    </header>
+<!-- Animated background -->
+<div class="bg-canvas">
+    <div class="bg-grid"></div>
+    <div class="bg-glow-1"></div>
+    <div class="bg-glow-2"></div>
+</div>
 
-    <div class="grid">
-        <div class="main-content">
+<div class="app-shell">
+
+    <!-- ═══ TOP BAR ═══ -->
+    <div class="top-bar">
+        <div class="logo-area">
+            <div class="logo-icon">ICT</div>
+            <div class="logo-text">
+                <h1>Market Read Checklist Pro</h1>
+                <span>Institutional Precision · Decision Engine</span>
+            </div>
+        </div>
+        <div class="top-actions">
+            <button id="themeToggle">◐ Theme</button>
+            <button class="btn-reset" id="resetBtn">✕ Reset</button>
+        </div>
+    </div>
+
+    <!-- ═══ DASHBOARD GRID ═══ -->
+    <div class="dashboard">
+        <div class="main-col">
 
             <!-- Session & Instrument -->
-            <div class="card">
-                <h2>Session & Instrument Context</h2>
-                <div class="row">
-                    <div class="form-group">
+            <div class="panel">
+                <div class="panel-title">
+                    <div class="icon icon-blue">📊</div>
+                    Session & Instrument Context
+                </div>
+                <div class="field-row">
+                    <div class="field">
                         <label>Instrument</label>
-                        <input type="text" id="instrument" placeholder="e.g. NQ, ES, EUR/USD" data-save="true">
+                        <input type="text" id="instrument" placeholder="NQ, ES, EUR/USD…" data-save="true">
                     </div>
-                    <div class="form-group">
-                        <label>Date & Time (Local)</label>
+                    <div class="field">
+                        <label>Date & Time</label>
                         <input type="datetime-local" id="datetime" data-save="true">
                     </div>
-                    <div class="form-group">
-                        <label>Trading Session</label>
+                    <div class="field">
+                        <label>Session</label>
                         <select id="session" data-save="true">
                             <option value="London">London (02:00-05:00 EST)</option>
                             <option value="NY AM" selected>New York AM (08:30-11:00 EST)</option>
@@ -558,156 +461,150 @@
                         </select>
                     </div>
                 </div>
-                <div class="session-context" id="sessionContextText">
+                <div class="context-bar context-session" id="sessionContextText">
                     NY AM — Highest probability session for ICT setups
                 </div>
-                <div class="kz-indicator" id="kzIndicator">
-                    Determining kill zone status...
+                <div class="context-bar context-kz" id="kzIndicator">
+                    Determining kill zone status…
                 </div>
             </div>
 
-            <!-- Red Folder Module -->
-            <div class="card" style="border-left: 4px solid var(--color-bearish);">
-                <h2>Red Folder / High-Impact News <span class="badge">Risk Filter</span></h2>
-                <div class="red-folder-banner hidden" id="rfBanner"></div>
+            <!-- Red Folder -->
+            <div class="panel panel-danger">
+                <div class="panel-title">
+                    <div class="icon icon-red">🔴</div>
+                    Red Folder / High-Impact News
+                    <span class="tag tag-risk">Risk Filter</span>
+                </div>
+                <div class="rf-banner hidden" id="rfBanner"></div>
 
-                <label class="checkbox-label" id="lbl-hasRedFolder">
+                <label class="check-item" id="lbl-hasRedFolder">
                     <input type="checkbox" id="hasRedFolder" data-save="true">
-                    <div>
-                        <span class="cb-text">Is there a Red Folder event within the next 4 hours?</span>
-                    </div>
+                    <span class="text">Is there a Red Folder event within the next 4 hours?</span>
                 </label>
 
                 <div id="redFolderModule" class="hidden">
                     <div class="event-grid">
-                        <label><input type="checkbox" class="rf-cb tier1" value="FOMC Rate Decision"> FOMC Rate
-                            Decision</label>
-                        <label><input type="checkbox" class="rf-cb tier1" value="FOMC Meeting Minutes"> FOMC
-                            Minutes</label>
-                        <label><input type="checkbox" class="rf-cb tier1" value="Federal Reserve Press Conf"> Fed Press
-                            Conf</label>
+                        <label><input type="checkbox" class="rf-cb tier1" value="FOMC Rate Decision"> FOMC Rate Decision</label>
+                        <label><input type="checkbox" class="rf-cb tier1" value="FOMC Meeting Minutes"> FOMC Minutes</label>
+                        <label><input type="checkbox" class="rf-cb tier1" value="Federal Reserve Press Conf"> Fed Press Conf</label>
                         <label><input type="checkbox" class="rf-cb tier1" value="CPI"> CPI</label>
                         <label><input type="checkbox" class="rf-cb tier1" value="NFP"> NFP</label>
-
                         <label><input type="checkbox" class="rf-cb tier2" value="GDP"> GDP</label>
                         <label><input type="checkbox" class="rf-cb tier2" value="PCE"> PCE</label>
                         <label><input type="checkbox" class="rf-cb tier2" value="PPI"> PPI</label>
-
                         <label><input type="checkbox" class="rf-cb tier3" value="ISM"> ISM Mfg/Services</label>
                         <label><input type="checkbox" class="rf-cb tier3" value="Retail Sales"> Retail Sales</label>
                         <label><input type="checkbox" class="rf-cb tier3" value="Jobless Claims"> Jobless Claims</label>
-
-                        <label><input type="checkbox" class="rf-cb tier2" value="Central Bank Speech"> Central Bank
-                            Speech</label>
+                        <label><input type="checkbox" class="rf-cb tier2" value="Central Bank Speech"> Central Bank Speech</label>
                     </div>
                     <div style="margin-top: 12px;">
-                        <input type="text" id="rfOther" placeholder="Other event..." data-save="true">
-                    </div>
-
-                    <label class="checkbox-label" style="background: rgba(226, 75, 74, 0.1); margin-top: 16px;">
-                        <input type="checkbox" id="event30Min" data-save="true">
-                        <div>
-                            <span class="cb-text">Event is within 30 minutes!</span>
-                            <span class="cb-sub pts-neg">Applies additional -10 pts penalty</span>
+                        <div class="field">
+                            <input type="text" id="rfOther" placeholder="Other event…" data-save="true">
                         </div>
+                    </div>
+                    <label class="check-item" style="border-color: rgba(255,23,68,0.2); background: rgba(255,23,68,0.04); margin-top: 8px;">
+                        <input type="checkbox" id="event30Min" data-save="true">
+                        <span class="text">Event is within 30 minutes!
+                            <span class="sub pts-minus">Applies additional −10 pts penalty</span>
+                        </span>
                     </label>
                 </div>
             </div>
 
             <!-- Block A -->
-            <div class="card">
-                <h2>Block A — 1H Timeframe: Macro Bias & FVG <span class="badge">Max 30 pts</span></h2>
+            <div class="panel">
+                <div class="panel-title">
+                    <div class="icon icon-blue">⏱</div>
+                    Block A — 1H Macro Bias & FVG
+                    <span class="tag tag-pts">Max 30 pts</span>
+                </div>
 
-                <label class="checkbox-label">
+                <label class="check-item">
                     <input type="checkbox" id="a1" data-save="true">
-                    <div style="width: 100%;">
-                        <span class="cb-text">Bullish or Bearish FVG clearly identified on 1H</span> <span
-                            class="pts">+15 pts</span>
-                        <div class="form-group" style="margin-top: 8px; margin-bottom: 0;">
+                    <span class="text">Bullish or Bearish FVG clearly identified on 1H
+                        <div class="field" style="margin-top: 8px; margin-bottom: 0;">
                             <select id="a1_dir" data-save="true">
                                 <option value="">-- Select FVG Direction --</option>
                                 <option value="Bullish">Bullish FVG (Price expected to rally)</option>
                                 <option value="Bearish">Bearish FVG (Price expected to drop)</option>
-                                <option value="InverseBull">Inverse FVG -> Now Bullish</option>
-                                <option value="InverseBear">Inverse FVG -> Now Bearish</option>
+                                <option value="InverseBull">Inverse FVG → Now Bullish</option>
+                                <option value="InverseBear">Inverse FVG → Now Bearish</option>
                             </select>
                         </div>
-                    </div>
+                    </span>
+                    <span class="pts-badge pts-plus">+15</span>
                 </label>
 
-                <label class="checkbox-label">
+                <label class="check-item">
                     <input type="checkbox" id="a2" data-save="true">
-                    <div>
-                        <span class="cb-text">Price is currently retracing INTO the 1H FVG (not past it)</span> <span
-                            class="pts">+10 pts</span>
-                    </div>
+                    <span class="text">Price is currently retracing INTO the 1H FVG (not past it)</span>
+                    <span class="pts-badge pts-plus">+10</span>
                 </label>
 
-                <label class="checkbox-label">
+                <label class="check-item">
                     <input type="checkbox" id="a3" data-save="true">
-                    <div>
-                        <span class="cb-text">First visible reaction candle forming inside 1H FVG</span> <span
-                            class="pts">+5 pts</span>
-                    </div>
+                    <span class="text">First visible reaction candle forming inside 1H FVG</span>
+                    <span class="pts-badge pts-plus">+5</span>
                 </label>
             </div>
 
             <!-- Block B -->
-            <div class="card">
-                <h2>Block B — 5M Timeframe: Refined Structure <span class="badge">Max 25 pts</span></h2>
+            <div class="panel">
+                <div class="panel-title">
+                    <div class="icon icon-green">📐</div>
+                    Block B — 5M Refined Structure
+                    <span class="tag tag-pts">Max 25 pts</span>
+                </div>
 
-                <label class="checkbox-label">
+                <label class="check-item">
                     <input type="checkbox" id="b1" data-save="true">
-                    <div>
-                        <span class="cb-text">5M FVG identified INSIDE the 1H FVG zone</span> <span class="pts">+15
-                            pts</span>
-                    </div>
+                    <span class="text">5M FVG identified INSIDE the 1H FVG zone</span>
+                    <span class="pts-badge pts-plus">+15</span>
                 </label>
 
-                <label class="checkbox-label">
+                <label class="check-item">
                     <input type="checkbox" id="b2" data-save="true">
-                    <div>
-                        <span class="cb-text">5M FVG is directly overlapping the 1H FVG (stacked confluence)</span>
-                        <span class="pts">+10 pts</span>
-                    </div>
+                    <span class="text">5M FVG is directly overlapping the 1H FVG (stacked confluence)</span>
+                    <span class="pts-badge pts-plus">+10</span>
                 </label>
 
-                <div class="form-group"
-                    style="margin-top: 16px; padding: 12px; background: var(--color-bg); border-radius: 8px; border: 1px solid var(--color-border);">
+                <div class="field" style="margin-top: 14px; padding: 14px; background: var(--bg-2); border-radius: 14px; border: 1px solid var(--border);">
                     <label>5M Delivery State</label>
                     <select id="b_delivery" data-save="true">
                         <option value="balanced">Balanced (50/50 candles) — 0 pts</option>
-                        <option value="onesided">One-sided (3+ consecutive same-direction) — +3 bonus pts</option>
-                        <option value="cisd">CISD detected (character changed) — Mandatory 1M check</option>
+                        <option value="onesided">One-sided (3+ consecutive) — +3 bonus pts</option>
+                        <option value="cisd">CISD detected — Mandatory 1M check</option>
                     </select>
                 </div>
             </div>
 
             <!-- Block C -->
-            <div class="card">
-                <h2>Block C — Liquidity Analysis <span class="badge">Max 20 pts</span></h2>
+            <div class="panel">
+                <div class="panel-title">
+                    <div class="icon icon-purple">💧</div>
+                    Block C — Liquidity Analysis
+                    <span class="tag tag-pts">Max 20 pts</span>
+                </div>
 
-                <label class="checkbox-label">
+                <label class="check-item">
                     <input type="checkbox" id="c1" data-save="true">
-                    <div style="width: 100%;">
-                        <span class="cb-text">Liquidity sweep confirmed (equal H/L raided, BSL/SSL taken)</span> <span
-                            class="pts">+12 pts</span>
-                        <div class="form-group" style="margin-top: 8px; margin-bottom: 0;">
+                    <span class="text">Liquidity sweep confirmed (equal H/L raided, BSL/SSL taken)
+                        <div class="field" style="margin-top: 8px; margin-bottom: 0;">
                             <select id="c1_dir" data-save="true">
                                 <option value="">-- Sweep Direction --</option>
                                 <option value="BSL">BSL Taken Above (Bearish Signal)</option>
                                 <option value="SSL">SSL Taken Below (Bullish Signal)</option>
                             </select>
                         </div>
-                    </div>
+                    </span>
+                    <span class="pts-badge pts-plus">+12</span>
                 </label>
 
-                <label class="checkbox-label">
+                <label class="check-item">
                     <input type="checkbox" id="c2" data-save="true">
-                    <div style="width: 100%;">
-                        <span class="cb-text">Clear liquidity pool identified as draw target</span> <span class="pts">+8
-                            pts</span>
-                        <div class="form-group" style="margin-top: 8px; margin-bottom: 0;">
+                    <span class="text">Clear liquidity pool identified as draw target
+                        <div class="field" style="margin-top: 8px; margin-bottom: 0;">
                             <select id="c2_pool" data-save="true">
                                 <option value="">-- Select Pool --</option>
                                 <option value="BSL">BSL Above (Bullish Target)</option>
@@ -721,542 +618,524 @@
                                 <option value="Midnight">Midnight Open level</option>
                             </select>
                         </div>
-                    </div>
+                    </span>
+                    <span class="pts-badge pts-plus">+8</span>
                 </label>
             </div>
 
             <!-- Block D -->
-            <div class="card">
-                <h2>Block D — 1M Entry Triggers <span class="badge">Max 25 pts + Bonuses</span></h2>
+            <div class="panel">
+                <div class="panel-title">
+                    <div class="icon icon-amber">🎯</div>
+                    Block D — 1M Entry Triggers
+                    <span class="tag tag-pts">Max 25 + Bonus</span>
+                </div>
 
                 <div style="margin-bottom: 16px;">
-                    <label class="result-label">Entry Type Multipliers</label>
-                    <div class="event-grid" style="margin-top: 8px;">
+                    <div style="font-size: 12px; font-weight: 700; color: var(--text-1); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Entry Type Multipliers</div>
+                    <div class="event-grid" style="margin-top: 0;">
                         <label><input type="checkbox" class="trigger-cb" value="InvFVG"> Inverse FVG</label>
                         <label><input type="checkbox" class="trigger-cb" value="CISD"> CISD</label>
                         <label><input type="checkbox" class="trigger-cb" value="MSS"> MSS</label>
                         <label><input type="checkbox" class="trigger-cb" value="Sweep"> Liquidity Sweep</label>
                     </div>
-                    <div id="triggerBonusDisplay"
-                        style="margin-top: 8px; font-size: 13px; color: var(--color-accent); font-weight: bold;"></div>
+                    <div id="triggerBonusDisplay" style="margin-top: 8px; font-size: 13px; color: var(--cyan); font-weight: 700;"></div>
                 </div>
 
-                <label class="checkbox-label">
+                <label class="check-item">
                     <input type="checkbox" id="d1" data-save="true">
-                    <div>
-                        <span class="cb-text">Strong rejection candle at trigger (body > 60% of range)</span> <span
-                            class="pts">+10 pts</span>
-                    </div>
+                    <span class="text">Strong rejection candle at trigger (body > 60% of range)</span>
+                    <span class="pts-badge pts-plus">+10</span>
                 </label>
 
-                <label class="checkbox-label">
+                <label class="check-item">
                     <input type="checkbox" id="d2" data-save="true">
-                    <div>
-                        <span class="cb-text">Second confirmation candle closes same direction</span> <span
-                            class="pts">+8 pts</span>
-                    </div>
+                    <span class="text">Second confirmation candle closes same direction</span>
+                    <span class="pts-badge pts-plus">+8</span>
                 </label>
 
-                <label class="checkbox-label">
+                <label class="check-item">
                     <input type="checkbox" id="d3" data-save="true">
-                    <div>
-                        <span class="cb-text">SL defined structurally (above/below FVG origin wick)</span> <span
-                            class="pts">+7 pts</span>
-                    </div>
+                    <span class="text">SL defined structurally (above/below FVG origin wick)</span>
+                    <span class="pts-badge pts-plus">+7</span>
                 </label>
             </div>
 
-            <!-- Block E Penalties -->
-            <div class="card" style="border-left: 4px solid var(--color-warning);">
-                <h2>Block E — Risk Filters & Penalties</h2>
+            <!-- Block E -->
+            <div class="panel panel-warn">
+                <div class="panel-title">
+                    <div class="icon icon-amber">⚠</div>
+                    Block E — Risk Filters & Penalties
+                </div>
 
-                <label class="checkbox-label">
+                <label class="check-item">
                     <input type="checkbox" id="e1" data-save="true">
-                    <div>
-                        <span class="cb-text">1H FVG >70% filled without reaction</span> <span class="pts-neg">-10
-                            pts</span>
-                        <span class="cb-sub">Zone likely consumed</span>
-                    </div>
+                    <span class="text">1H FVG >70% filled without reaction
+                        <span class="sub">Zone likely consumed</span>
+                    </span>
+                    <span class="pts-badge pts-minus">−10</span>
                 </label>
 
-                <label class="checkbox-label">
+                <label class="check-item">
                     <input type="checkbox" id="e2" data-save="true">
-                    <div>
-                        <span class="cb-text">Lateral/range structure on 1H</span> <span class="pts-neg">-10 pts</span>
-                        <span class="cb-sub">No clear delivery</span>
-                    </div>
+                    <span class="text">Lateral/range structure on 1H
+                        <span class="sub">No clear delivery</span>
+                    </span>
+                    <span class="pts-badge pts-minus">−10</span>
                 </label>
 
-                <label class="checkbox-label">
+                <label class="check-item">
                     <input type="checkbox" id="e3" data-save="true">
-                    <div>
-                        <span class="cb-text">Opposing FVG on same timeframe</span> <span class="pts-neg">-8 pts</span>
-                        <span class="cb-sub">Conflicting imbalances</span>
-                    </div>
+                    <span class="text">Opposing FVG on same timeframe
+                        <span class="sub">Conflicting imbalances</span>
+                    </span>
+                    <span class="pts-badge pts-minus">−8</span>
                 </label>
             </div>
 
         </div>
 
-        <!-- Right Panel: Results -->
-        <div class="sidebar">
-            <div class="card results-panel" id="resultsPanel">
-                <div
-                    style="font-size: 12px; font-weight: bold; letter-spacing: 1px; color: var(--color-text-muted); margin-bottom: 16px; text-transform: uppercase;">
-                    ICT Setup Analysis</div>
+        <!-- ═══ RESULTS SIDEBAR ═══ -->
+        <div class="sidebar-col">
+            <div class="panel results-card" id="resultsPanel">
+                <div class="results-header">ICT Setup Analysis</div>
 
-                <div class="score-display">
-                    <div class="score-circle" id="scoreValue">0%</div>
-                    <div class="score-grade" id="scoreGrade">Grade: D</div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar" id="scoreBar"></div>
+                <div class="score-ring-wrap">
+                    <div class="score-ring">
+                        <svg viewBox="0 0 140 140">
+                            <circle class="ring-bg" cx="70" cy="70" r="60"/>
+                            <circle class="ring-fg" id="scoreRing" cx="70" cy="70" r="60"
+                                stroke-dasharray="377" stroke-dashoffset="377"/>
+                        </svg>
+                        <div class="score-num">
+                            <span class="val" id="scoreValue">0</span>
+                            <span class="lbl">POINTS</span>
+                        </div>
                     </div>
+                    <div class="grade-pill" id="scoreGrade" style="background: rgba(255,23,68,0.15); color: var(--red);">D</div>
                 </div>
 
-                <div class="result-row">
-                    <span class="result-label">Verdict</span>
-                    <span class="result-val" id="resVerdict">-</span>
+                <div class="res-row">
+                    <span class="res-lbl">Verdict</span>
+                    <span class="res-val" id="resVerdict">—</span>
                 </div>
-                <div class="result-row">
-                    <span class="result-label">Position Size</span>
-                    <span class="result-val" id="resSize">0%</span>
+                <div class="res-row">
+                    <span class="res-lbl">Position Size</span>
+                    <span class="res-val" id="resSize">0%</span>
                 </div>
-                <div class="result-row">
-                    <span class="result-label">Direction</span>
-                    <span class="result-val" id="resDir">Neutral</span>
+                <div class="res-row">
+                    <span class="res-lbl">Direction</span>
+                    <span class="res-val" id="resDir">Neutral</span>
                 </div>
-
-                <div class="result-row" style="flex-direction: column; align-items: flex-start; gap: 8px;">
-                    <span class="result-label">Active Penalties</span>
-                    <div id="resPenalties" style="font-size: 13px; color: var(--color-bearish); font-weight: 500;">None
-                    </div>
+                <div style="padding: 14px 0;">
+                    <span class="res-lbl">Active Penalties</span>
+                    <div class="res-penalties" id="resPenalties">None</div>
                 </div>
 
-                <textarea id="notes" placeholder="Trader notes & observations..." data-save="true"></textarea>
+                <textarea id="notes" placeholder="Trader notes & observations…" data-save="true"></textarea>
 
-                <div class="btn-group">
-                    <button class="btn-export" id="btnCopy">Copy to Clipboard</button>
-                    <button class="btn-secondary" id="btnPdf">Save PDF</button>
+                <div class="btn-row">
+                    <button class="btn-primary" id="btnCopy">📋 Copy</button>
+                    <button class="btn-outline" id="btnPdf">📄 Save PDF</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        // --- CONSTANTS & CONFIG ---
-        const EST_OFFSET = -5; // Roughly EST. We'll do a robust conversion.
-        let isDarkMode = localStorage.getItem('theme') !== 'light';
-        const APP_VERSION = '1.0';
+<script>
+    // --- CONSTANTS & CONFIG ---
+    const EST_OFFSET = -5;
+    let isDarkMode = localStorage.getItem('theme') !== 'light';
+    const APP_VERSION = '1.0';
 
-        // Set initial theme
-        if (!isDarkMode) {
+    if (!isDarkMode) {
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+
+    // --- DOM ELEMENTS ---
+    const els = {
+        themeToggle: document.getElementById('themeToggle'),
+        resetBtn: document.getElementById('resetBtn'),
+
+        instrument: document.getElementById('instrument'),
+        datetime: document.getElementById('datetime'),
+        session: document.getElementById('session'),
+        sessionContextText: document.getElementById('sessionContextText'),
+        kzIndicator: document.getElementById('kzIndicator'),
+
+        hasRedFolder: document.getElementById('hasRedFolder'),
+        redFolderModule: document.getElementById('redFolderModule'),
+        rfBanner: document.getElementById('rfBanner'),
+        event30Min: document.getElementById('event30Min'),
+        rfOther: document.getElementById('rfOther'),
+
+        a1: document.getElementById('a1'), a1_dir: document.getElementById('a1_dir'),
+        a2: document.getElementById('a2'), a3: document.getElementById('a3'),
+        b1: document.getElementById('b1'), b2: document.getElementById('b2'), b_delivery: document.getElementById('b_delivery'),
+        c1: document.getElementById('c1'), c1_dir: document.getElementById('c1_dir'),
+        c2: document.getElementById('c2'), c2_pool: document.getElementById('c2_pool'),
+        d1: document.getElementById('d1'), d2: document.getElementById('d2'), d3: document.getElementById('d3'),
+        e1: document.getElementById('e1'), e2: document.getElementById('e2'), e3: document.getElementById('e3'),
+
+        triggerBonusDisplay: document.getElementById('triggerBonusDisplay'),
+
+        scoreValue: document.getElementById('scoreValue'),
+        scoreGrade: document.getElementById('scoreGrade'),
+        scoreRing: document.getElementById('scoreRing'),
+        resVerdict: document.getElementById('resVerdict'),
+        resSize: document.getElementById('resSize'),
+        resDir: document.getElementById('resDir'),
+        resPenalties: document.getElementById('resPenalties'),
+        notes: document.getElementById('notes'),
+
+        btnCopy: document.getElementById('btnCopy'),
+        btnPdf: document.getElementById('btnPdf')
+    };
+
+    const rfCheckboxes = document.querySelectorAll('.rf-cb');
+    const triggerCheckboxes = document.querySelectorAll('.trigger-cb');
+    const saveInputs = document.querySelectorAll('[data-save="true"]');
+
+    // --- THEME TOGGLE ---
+    els.themeToggle.addEventListener('click', () => {
+        isDarkMode = !isDarkMode;
+        if (isDarkMode) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
             document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+        }
+    });
+
+    // --- INIT & EVENT LISTENERS ---
+    function init() {
+        loadState();
+
+        if (!els.datetime.value) {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            els.datetime.value = now.toISOString().slice(0, 16);
         }
 
-        // --- DOM ELEMENTS ---
-        const els = {
-            themeToggle: document.getElementById('themeToggle'),
-            resetBtn: document.getElementById('resetBtn'),
+        saveInputs.forEach(el => {
+            el.addEventListener('change', updateApp);
+            el.addEventListener('input', updateApp);
+        });
 
-            instrument: document.getElementById('instrument'),
-            datetime: document.getElementById('datetime'),
-            session: document.getElementById('session'),
-            sessionContextText: document.getElementById('sessionContextText'),
-            kzIndicator: document.getElementById('kzIndicator'),
+        rfCheckboxes.forEach(cb => { cb.addEventListener('change', updateApp); });
+        triggerCheckboxes.forEach(cb => { cb.addEventListener('change', updateApp); });
 
-            hasRedFolder: document.getElementById('hasRedFolder'),
-            redFolderModule: document.getElementById('redFolderModule'),
-            rfBanner: document.getElementById('rfBanner'),
-            event30Min: document.getElementById('event30Min'),
-            rfOther: document.getElementById('rfOther'),
-
-            a1: document.getElementById('a1'), a1_dir: document.getElementById('a1_dir'),
-            a2: document.getElementById('a2'), a3: document.getElementById('a3'),
-            b1: document.getElementById('b1'), b2: document.getElementById('b2'), b_delivery: document.getElementById('b_delivery'),
-            c1: document.getElementById('c1'), c1_dir: document.getElementById('c1_dir'),
-            c2: document.getElementById('c2'), c2_pool: document.getElementById('c2_pool'),
-            d1: document.getElementById('d1'), d2: document.getElementById('d2'), d3: document.getElementById('d3'),
-            e1: document.getElementById('e1'), e2: document.getElementById('e2'), e3: document.getElementById('e3'),
-
-            triggerBonusDisplay: document.getElementById('triggerBonusDisplay'),
-
-            scoreValue: document.getElementById('scoreValue'),
-            scoreGrade: document.getElementById('scoreGrade'),
-            scoreBar: document.getElementById('scoreBar'),
-            resVerdict: document.getElementById('resVerdict'),
-            resSize: document.getElementById('resSize'),
-            resDir: document.getElementById('resDir'),
-            resPenalties: document.getElementById('resPenalties'),
-            notes: document.getElementById('notes'),
-
-            btnCopy: document.getElementById('btnCopy'),
-            btnPdf: document.getElementById('btnPdf')
-        };
-
-        const rfCheckboxes = document.querySelectorAll('.rf-cb');
-        const triggerCheckboxes = document.querySelectorAll('.trigger-cb');
-        const saveInputs = document.querySelectorAll('[data-save="true"]');
-
-        // --- THEME TOGGLE ---
-        els.themeToggle.addEventListener('click', () => {
-            isDarkMode = !isDarkMode;
-            if (isDarkMode) {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
+        els.hasRedFolder.addEventListener('change', (e) => {
+            if (e.target.checked) {
+                els.redFolderModule.classList.remove('hidden');
             } else {
-                document.documentElement.setAttribute('data-theme', 'light');
-                localStorage.setItem('theme', 'light');
+                els.redFolderModule.classList.add('hidden');
+                rfCheckboxes.forEach(cb => cb.checked = false);
+                els.event30Min.checked = false;
+                els.rfOther.value = "";
             }
         });
 
-        // --- INIT & EVENT LISTENERS ---
-        function init() {
-            // Restore from localStorage
-            loadState();
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', highlightActiveStyles);
+        });
 
-            // Auto-fill time if empty
-            if (!els.datetime.value) {
-                const now = new Date();
-                now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-                els.datetime.value = now.toISOString().slice(0, 16);
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            if (confirm('Are you sure you want to clear the entire checklist?')) {
+                localStorage.removeItem('ict_state');
+                location.reload();
             }
+        });
 
-            // Bind events
+        els.btnCopy.addEventListener('click', exportClipboard);
+        els.btnPdf.addEventListener('click', exportPDF);
+
+        highlightActiveStyles();
+        if (els.hasRedFolder.checked) els.redFolderModule.classList.remove('hidden');
+        updateApp();
+    }
+
+    function highlightActiveStyles() {
+        document.querySelectorAll('.check-item').forEach(lbl => {
+            const cb = lbl.querySelector('input[type="checkbox"]');
+            if (cb && cb.checked) {
+                lbl.classList.add('active');
+            } else {
+                lbl.classList.remove('active');
+            }
+        });
+    }
+
+    // --- STATE MANAGEMENT ---
+    function saveState() {
+        const state = {};
+        saveInputs.forEach(el => {
+            if (el.type === 'checkbox') state[el.id] = el.checked;
+            else state[el.id] = el.value;
+        });
+        const rfFlags = [];
+        rfCheckboxes.forEach((cb, idx) => { if (cb.checked) rfFlags.push(idx); });
+        state.rfFlags = rfFlags;
+        const triggerFlags = [];
+        triggerCheckboxes.forEach((cb, idx) => { if (cb.checked) triggerFlags.push(idx); });
+        state.triggerFlags = triggerFlags;
+        localStorage.setItem('ict_state', JSON.stringify(state));
+    }
+
+    function loadState() {
+        const stored = localStorage.getItem('ict_state');
+        if (!stored) return;
+        try {
+            const state = JSON.parse(stored);
             saveInputs.forEach(el => {
-                el.addEventListener('change', updateApp);
-                el.addEventListener('input', updateApp);
+                if (state[el.id] !== undefined) {
+                    if (el.type === 'checkbox') el.checked = state[el.id];
+                    else el.value = state[el.id];
+                }
             });
+            if (state.rfFlags) {
+                rfCheckboxes.forEach((cb, idx) => {
+                    if (state.rfFlags.includes(idx)) cb.checked = true;
+                });
+            }
+            if (state.triggerFlags) {
+                triggerCheckboxes.forEach((cb, idx) => {
+                    if (state.triggerFlags.includes(idx)) cb.checked = true;
+                });
+            }
+        } catch (e) { console.error('Error parsing state', e); }
+    }
 
+    // --- CORE LOGIC ENGINE ---
+    function updateApp() {
+        const sessContexts = {
+            'London': 'London Open — Great for initial daily expansion',
+            'NY AM': 'NY AM — Highest probability session for ICT setups',
+            'NY Lunch': 'NY Lunch — ⚠️ Beware of chop / lower probability',
+            'NY PM': 'NY PM — PM trend continuation or macro reversal',
+            'Asian': 'Asian — ⚠️ Range bound, lower probability (unless Nikkei news)',
+            'London Close': 'London Close — Minor retracement / reversal window'
+        };
+        els.sessionContextText.innerHTML = sessContexts[els.session.value] || '';
+
+        let totalPoints = 0;
+        let activePenaltiesDesc = [];
+
+        // Kill Zone logic
+        let setupOutsideKz = false;
+        if (els.datetime.value) {
+            const dt = new Date(els.datetime.value);
+            const estString = dt.toLocaleString("en-US", { timeZone: "America/New_York", hour: '2-digit', minute: '2-digit', hour12: false });
+            const estHour = parseInt(estString.split(':')[0]);
+            const estMinute = parseInt(estString.split(':')[1]);
+            const estMinsTotal = estHour * 60 + estMinute;
+
+            const inLondon = estMinsTotal >= (2 * 60) && estMinsTotal <= (5 * 60);
+            const inNYAM = estMinsTotal >= (8 * 60 + 30) && estMinsTotal <= (11 * 60);
+            const inNYPM = estMinsTotal >= (13 * 60 + 30) && estMinsTotal <= (16 * 60);
+
+            if (inLondon || inNYAM || inNYPM) {
+                els.kzIndicator.innerHTML = `✅ Currently in Optimal Kill Zone (${estString} EST)`;
+                els.kzIndicator.style.color = "var(--green)";
+            } else {
+                els.kzIndicator.innerHTML = `⚠️ Outside Optimal Kill Zone (${estString} EST)`;
+                els.kzIndicator.style.color = "var(--amber)";
+                setupOutsideKz = true;
+            }
+        }
+
+        // Red Folder Calculations
+        let rfTier = 0;
+        let rfEventsNames = [];
+        if (els.hasRedFolder.checked) {
             rfCheckboxes.forEach(cb => {
-                cb.addEventListener('change', updateApp);
-            });
-
-            triggerCheckboxes.forEach(cb => {
-                cb.addEventListener('change', updateApp);
-            });
-
-            // Handle UI toggles
-            els.hasRedFolder.addEventListener('change', (e) => {
-                if (e.target.checked) {
-                    els.redFolderModule.classList.remove('hidden');
-                } else {
-                    els.redFolderModule.classList.add('hidden');
-                    // Reset internal checkboxes when hidden
-                    rfCheckboxes.forEach(cb => cb.checked = false);
-                    els.event30Min.checked = false;
-                    els.rfOther.value = "";
-                }
-            });
-
-            // Card highlight active state
-            document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                cb.addEventListener('change', highlightActiveStyles);
-            });
-
-            document.getElementById('resetBtn').addEventListener('click', () => {
-                if (confirm('Are you sure you want to clear the entire checklist?')) {
-                    localStorage.removeItem('ict_state');
-                    location.reload();
-                }
-            });
-
-            els.btnCopy.addEventListener('click', exportClipboard);
-            els.btnPdf.addEventListener('click', exportPDF);
-
-            highlightActiveStyles();
-            // Initial render
-            if (els.hasRedFolder.checked) els.redFolderModule.classList.remove('hidden');
-            updateApp();
-        }
-
-        function highlightActiveStyles() {
-            document.querySelectorAll('.checkbox-label').forEach(lbl => {
-                const cb = lbl.querySelector('input[type="checkbox"]');
-                if (cb && cb.checked) {
-                    lbl.classList.add('active');
-                } else {
-                    lbl.classList.remove('active');
-                }
-            });
-        }
-
-        // --- STATE MANAGEMENT ---
-        function saveState() {
-            const state = {};
-            saveInputs.forEach(el => {
-                if (el.type === 'checkbox') state[el.id] = el.checked;
-                else state[el.id] = el.value;
-            });
-
-            const rfFlags = [];
-            rfCheckboxes.forEach((cb, idx) => { if (cb.checked) rfFlags.push(idx); });
-            state.rfFlags = rfFlags;
-
-            const triggerFlags = [];
-            triggerCheckboxes.forEach((cb, idx) => { if (cb.checked) triggerFlags.push(idx); });
-            state.triggerFlags = triggerFlags;
-
-            localStorage.setItem('ict_state', JSON.stringify(state));
-        }
-
-        function loadState() {
-            const stored = localStorage.getItem('ict_state');
-            if (!stored) return;
-            try {
-                const state = JSON.parse(stored);
-                saveInputs.forEach(el => {
-                    if (state[el.id] !== undefined) {
-                        if (el.type === 'checkbox') el.checked = state[el.id];
-                        else el.value = state[el.id];
-                    }
-                });
-
-                if (state.rfFlags) {
-                    rfCheckboxes.forEach((cb, idx) => {
-                        if (state.rfFlags.includes(idx)) cb.checked = true;
-                    });
-                }
-
-                if (state.triggerFlags) {
-                    triggerCheckboxes.forEach((cb, idx) => {
-                        if (state.triggerFlags.includes(idx)) cb.checked = true;
-                    });
-                }
-            } catch (e) { console.error('Error parsing state', e); }
-        }
-
-        // --- CORE LOGIC ENGINE ---
-        function updateApp() {
-            // Update Context Texts
-            const sessContexts = {
-                'London': 'London Open — Great for initial daily expansion',
-                'NY AM': 'NY AM — Highest probability session for ICT setups',
-                'NY Lunch': 'NY Lunch — ⚠️ Beware of chop / lower probability',
-                'NY PM': 'NY PM — PM trend continuation or macro reversal',
-                'Asian': 'Asian — ⚠️ Range bound, lower probability (unless Nikkei news)',
-                'London Close': 'London Close — Minor retracement / reversal window'
-            };
-            els.sessionContextText.innerHTML = sessContexts[els.session.value] || '';
-
-            let totalPoints = 0;
-            let activePenaltiesDesc = [];
-
-            // Kill Zone logic
-            let setupOutsideKz = false;
-            if (els.datetime.value) {
-                const dt = new Date(els.datetime.value);
-                // Simple EST conversion trick using local time offset differences
-                const estString = dt.toLocaleString("en-US", { timeZone: "America/New_York", hour: '2-digit', minute: '2-digit', hour12: false });
-                const estHour = parseInt(estString.split(':')[0]);
-                const estMinute = parseInt(estString.split(':')[1]);
-                const estMinsTotal = estHour * 60 + estMinute;
-
-                // London (02:00-05:00), NY AM (08:30-11:00), NY PM (13:30-16:00)
-                const inLondon = estMinsTotal >= (2 * 60) && estMinsTotal <= (5 * 60);
-                const inNYAM = estMinsTotal >= (8 * 60 + 30) && estMinsTotal <= (11 * 60);
-                const inNYPM = estMinsTotal >= (13 * 60 + 30) && estMinsTotal <= (16 * 60);
-
-                if (inLondon || inNYAM || inNYPM) {
-                    els.kzIndicator.innerHTML = `✅ Currently in Optimal Kill Zone (${estString} EST)`;
-                    els.kzIndicator.style.color = "var(--color-bullish)";
-                } else {
-                    els.kzIndicator.innerHTML = `⚠️ Outside Optimal Kill Zone (${estString} EST)`;
-                    els.kzIndicator.style.color = "var(--color-warning)";
-                    setupOutsideKz = true;
-                }
-            }
-
-            // 1. Red Folder Calculations
-            let rfTier = 0;
-            let rfEventsNames = [];
-            if (els.hasRedFolder.checked) {
-                rfCheckboxes.forEach(cb => {
-                    if (cb.checked) {
-                        rfEventsNames.push(cb.value);
-                        if (cb.classList.contains('tier1')) rfTier = Math.max(rfTier, 1);
-                        else if (cb.classList.contains('tier2') && rfTier !== 1) rfTier = 2;
-                        else if (cb.classList.contains('tier3') && rfTier === 0) rfTier = 3;
-                    }
-                });
-
-                if (rfTier === 1) {
-                    totalPoints -= 25;
-                    activePenaltiesDesc.push("Tier 1 News (-25)");
-                    els.rfBanner.className = "red-folder-banner banner-tier1";
-                    els.rfBanner.innerHTML = "AVOID TRADING — TIER 1 NEWS IMMINENT";
-                } else if (rfTier === 2) {
-                    totalPoints -= 15;
-                    activePenaltiesDesc.push("Tier 2 News (-15)");
-                    els.rfBanner.className = "red-folder-banner banner-tier2";
-                    els.rfBanner.innerHTML = "HIGH CAUTION — TIER 2 NEWS";
-                } else if (rfTier === 3) {
-                    totalPoints -= 10;
-                    activePenaltiesDesc.push("Tier 3 News (-10)");
-                    els.rfBanner.className = "red-folder-banner banner-tier3";
-                    els.rfBanner.innerHTML = "REDUCE SIZE — TIER 3 NEWS";
-                } else {
-                    els.rfBanner.className = "red-folder-banner hidden";
-                }
-
-                if (els.event30Min.checked) {
-                    totalPoints -= 10;
-                    activePenaltiesDesc.push("Event < 30m (-10)");
-                }
-            } else {
-                els.rfBanner.className = "red-folder-banner hidden";
-            }
-
-            // Block A
-            if (els.a1.checked) totalPoints += 15;
-            if (els.a2.checked) totalPoints += 10;
-            if (els.a3.checked) totalPoints += 5;
-
-            // Block B
-            if (els.b1.checked) totalPoints += 15;
-            if (els.b2.checked) totalPoints += 10;
-            if (els.b_delivery.value === 'onesided') {
-                totalPoints += 3; // Bonus
-            }
-
-            // Block C
-            if (els.c1.checked) totalPoints += 12;
-            if (els.c2.checked) totalPoints += 8;
-
-            // Block D
-            let activeTriggers = 0;
-            let triggersNames = [];
-            triggerCheckboxes.forEach(cb => {
                 if (cb.checked) {
-                    activeTriggers++;
-                    triggersNames.push(cb.value);
+                    rfEventsNames.push(cb.value);
+                    if (cb.classList.contains('tier1')) rfTier = Math.max(rfTier, 1);
+                    else if (cb.classList.contains('tier2') && rfTier !== 1) rfTier = 2;
+                    else if (cb.classList.contains('tier3') && rfTier === 0) rfTier = 3;
                 }
             });
 
-            let triggerBonus = 0;
-            if (activeTriggers === 4) triggerBonus = 10;
-            else if (activeTriggers === 3) triggerBonus = 6;
-            else if (activeTriggers === 2) triggerBonus = 3;
-
-            if (triggerBonus > 0) {
-                totalPoints += triggerBonus;
-                els.triggerBonusDisplay.innerHTML = `+${triggerBonus} Bonus Points applied (${activeTriggers} triggers aligned)`;
+            if (rfTier === 1) {
+                totalPoints -= 25; activePenaltiesDesc.push("Tier 1 News (-25)");
+                els.rfBanner.className = "rf-banner banner-tier1";
+                els.rfBanner.innerHTML = "AVOID TRADING — TIER 1 NEWS IMMINENT";
+            } else if (rfTier === 2) {
+                totalPoints -= 15; activePenaltiesDesc.push("Tier 2 News (-15)");
+                els.rfBanner.className = "rf-banner banner-tier2";
+                els.rfBanner.innerHTML = "HIGH CAUTION — TIER 2 NEWS";
+            } else if (rfTier === 3) {
+                totalPoints -= 10; activePenaltiesDesc.push("Tier 3 News (-10)");
+                els.rfBanner.className = "rf-banner banner-tier3";
+                els.rfBanner.innerHTML = "REDUCE SIZE — TIER 3 NEWS";
             } else {
-                els.triggerBonusDisplay.innerHTML = "";
+                els.rfBanner.className = "rf-banner hidden";
             }
 
-            if (els.d1.checked) totalPoints += 10;
-            if (els.d2.checked) totalPoints += 8;
-            if (els.d3.checked) totalPoints += 7;
-
-            // Block E (Penalties)
-            if (els.e1.checked) { totalPoints -= 10; activePenaltiesDesc.push("1H FVG >70% (-10)"); }
-            if (els.e2.checked) { totalPoints -= 10; activePenaltiesDesc.push("1H Range (-10)"); }
-            if (els.e3.checked) { totalPoints -= 8; activePenaltiesDesc.push("Opposing FVG (-8)"); }
-            if (setupOutsideKz) { totalPoints -= 5; activePenaltiesDesc.push("Outside Kill Zone (-5)"); }
-
-            // Direction Logic
-            let bullSignals = 0;
-            let bearSignals = 0;
-
-            if (els.a1.checked) {
-                if (els.a1_dir.value === 'Bullish' || els.a1_dir.value === 'InverseBull') bullSignals += 2;
-                if (els.a1_dir.value === 'Bearish' || els.a1_dir.value === 'InverseBear') bearSignals += 2;
+            if (els.event30Min.checked) {
+                totalPoints -= 10; activePenaltiesDesc.push("Event < 30m (-10)");
             }
-
-            if (els.c1.checked) {
-                if (els.c1_dir.value === 'SSL') bullSignals += 1; // Raid sell side -> bullish reaction
-                if (els.c1_dir.value === 'BSL') bearSignals += 1; // Raid buy side -> bearish reaction
-            }
-
-            if (els.c2.checked) {
-                let pool = els.c2_pool.value;
-                if (pool === 'BSL' || pool === 'EQH' || pool === 'PDH' || pool === 'PWH') bullSignals += 1;
-                if (pool === 'SSL' || pool === 'EQL' || pool === 'PDL' || pool === 'PWL') bearSignals += 1;
-            }
-
-            let directionText = "Neutral / Wait";
-            let dirColor = "var(--color-text-muted)";
-            if (bullSignals > bearSignals) {
-                directionText = (bullSignals >= 3) ? "↑ Strong Bullish Bias" : "↑ Weak Bullish Bias";
-                dirColor = "var(--color-bullish)";
-            } else if (bearSignals > bullSignals) {
-                directionText = (bearSignals >= 3) ? "↓ Strong Bearish Bias" : "↓ Weak Bearish Bias";
-                dirColor = "var(--color-bearish)";
-            } else if (bullSignals > 0 && bearSignals > 0) {
-                directionText = "Conflicted Bias";
-                dirColor = "var(--color-warning)";
-            }
-
-            els.resDir.innerHTML = directionText;
-            els.resDir.style.color = dirColor;
-
-            // Floor points to 0, cap visually around max (but real max is 113)
-            let rawPoints = totalPoints;
-            if (totalPoints < 0) totalPoints = 0;
-
-            // Compute Grade
-            let grade, verdict, size, barColor;
-            if (totalPoints >= 85) {
-                grade = "A+"; verdict = "Execute — Full Size"; size = "100%"; barColor = "var(--color-bullish)";
-            } else if (totalPoints >= 70) {
-                grade = "A"; verdict = "Execute — Standard Size"; size = "75%"; barColor = "var(--color-bullish)";
-            } else if (totalPoints >= 55) {
-                grade = "B"; verdict = "Caution — Reduced Size"; size = "50%"; barColor = "var(--color-warning)";
-            } else if (totalPoints >= 40) {
-                grade = "C"; verdict = "Wait for more confluence"; size = "25% (or skip)"; barColor = "var(--color-warning)";
-            } else {
-                grade = "D"; verdict = "DO NOT TRADE"; size = "0%"; barColor = "var(--color-bearish)";
-            }
-
-            // Hard stop if Tier 1 Event + <30m
-            if (rfTier === 1 && els.event30Min.checked) {
-                grade = "F"; verdict = "HARD STOP - TIER 1 EVENT"; size = "0%"; barColor = "var(--color-bearish)";
-            }
-
-            // Update UI
-            els.scoreValue.innerHTML = `${totalPoints}%`;
-            els.scoreGrade.innerHTML = `Grade: <span style="color: ${barColor}">${grade}</span>`;
-
-            let percentFill = Math.min((totalPoints / 110) * 100, 100);
-            els.scoreBar.style.width = `${percentFill}%`;
-            els.scoreBar.style.backgroundColor = barColor;
-
-            els.resVerdict.innerHTML = verdict;
-            els.resVerdict.style.color = barColor;
-            els.resSize.innerHTML = size;
-
-            if (activePenaltiesDesc.length > 0) {
-                els.resPenalties.innerHTML = activePenaltiesDesc.join(', ');
-            } else {
-                els.resPenalties.innerHTML = "None ✓";
-                els.resPenalties.style.color = "var(--color-bullish)";
-            }
-
-            // Save state silently
-            saveState();
-
-            // Cache data for export
-            window._exportedData = {
-                instrument: els.instrument.value || 'N/A',
-                session: els.session.value,
-                time: els.datetime.value,
-                score: totalPoints,
-                grade: grade,
-                verdict: verdict,
-                direction: directionText,
-                size: size,
-                penalties: activePenaltiesDesc,
-                triggers: triggersNames,
-                liquidityDraw: els.c2_pool.options[els.c2_pool.selectedIndex]?.text || 'None',
-                newsStatus: rfTier > 0 ? `EVENT (${rfTier}): ${rfEventsNames.join(', ')}` : 'CLEAR',
-                notes: els.notes.value
-            };
+        } else {
+            els.rfBanner.className = "rf-banner hidden";
         }
 
-        // --- EXPORT FUNCTIONS ---
-        function generateTextSummary() {
-            const data = window._exportedData;
-            return `
+        // Block A
+        if (els.a1.checked) totalPoints += 15;
+        if (els.a2.checked) totalPoints += 10;
+        if (els.a3.checked) totalPoints += 5;
+
+        // Block B
+        if (els.b1.checked) totalPoints += 15;
+        if (els.b2.checked) totalPoints += 10;
+        if (els.b_delivery.value === 'onesided') totalPoints += 3;
+
+        // Block C
+        if (els.c1.checked) totalPoints += 12;
+        if (els.c2.checked) totalPoints += 8;
+
+        // Block D
+        let activeTriggers = 0;
+        let triggersNames = [];
+        triggerCheckboxes.forEach(cb => {
+            if (cb.checked) { activeTriggers++; triggersNames.push(cb.value); }
+        });
+
+        let triggerBonus = 0;
+        if (activeTriggers === 4) triggerBonus = 10;
+        else if (activeTriggers === 3) triggerBonus = 6;
+        else if (activeTriggers === 2) triggerBonus = 3;
+
+        if (triggerBonus > 0) {
+            totalPoints += triggerBonus;
+            els.triggerBonusDisplay.innerHTML = `+${triggerBonus} Bonus Points applied (${activeTriggers} triggers aligned)`;
+        } else {
+            els.triggerBonusDisplay.innerHTML = "";
+        }
+
+        if (els.d1.checked) totalPoints += 10;
+        if (els.d2.checked) totalPoints += 8;
+        if (els.d3.checked) totalPoints += 7;
+
+        // Block E (Penalties)
+        if (els.e1.checked) { totalPoints -= 10; activePenaltiesDesc.push("1H FVG >70% (-10)"); }
+        if (els.e2.checked) { totalPoints -= 10; activePenaltiesDesc.push("1H Range (-10)"); }
+        if (els.e3.checked) { totalPoints -= 8; activePenaltiesDesc.push("Opposing FVG (-8)"); }
+        if (setupOutsideKz) { totalPoints -= 5; activePenaltiesDesc.push("Outside Kill Zone (-5)"); }
+
+        // Direction Logic
+        let bullSignals = 0;
+        let bearSignals = 0;
+
+        if (els.a1.checked) {
+            if (els.a1_dir.value === 'Bullish' || els.a1_dir.value === 'InverseBull') bullSignals += 2;
+            if (els.a1_dir.value === 'Bearish' || els.a1_dir.value === 'InverseBear') bearSignals += 2;
+        }
+
+        if (els.c1.checked) {
+            if (els.c1_dir.value === 'SSL') bullSignals += 1;
+            if (els.c1_dir.value === 'BSL') bearSignals += 1;
+        }
+
+        if (els.c2.checked) {
+            let pool = els.c2_pool.value;
+            if (pool === 'BSL' || pool === 'EQH' || pool === 'PDH' || pool === 'PWH') bullSignals += 1;
+            if (pool === 'SSL' || pool === 'EQL' || pool === 'PDL' || pool === 'PWL') bearSignals += 1;
+        }
+
+        let directionText = "Neutral / Wait";
+        let dirColor = "var(--text-1)";
+        if (bullSignals > bearSignals) {
+            directionText = (bullSignals >= 3) ? "↑ Strong Bullish Bias" : "↑ Weak Bullish Bias";
+            dirColor = "var(--green)";
+        } else if (bearSignals > bullSignals) {
+            directionText = (bearSignals >= 3) ? "↓ Strong Bearish Bias" : "↓ Weak Bearish Bias";
+            dirColor = "var(--red)";
+        } else if (bullSignals > 0 && bearSignals > 0) {
+            directionText = "Conflicted Bias";
+            dirColor = "var(--amber)";
+        }
+
+        els.resDir.innerHTML = directionText;
+        els.resDir.style.color = dirColor;
+
+        let rawPoints = totalPoints;
+        if (totalPoints < 0) totalPoints = 0;
+
+        // Compute Grade
+        let grade, verdict, size, gradeColor, gradeBg;
+        if (totalPoints >= 85) {
+            grade = "A+"; verdict = "Execute — Full Size"; size = "100%";
+            gradeColor = "var(--green)"; gradeBg = "rgba(0,230,118,0.15)";
+        } else if (totalPoints >= 70) {
+            grade = "A"; verdict = "Execute — Standard Size"; size = "75%";
+            gradeColor = "var(--green)"; gradeBg = "rgba(0,230,118,0.15)";
+        } else if (totalPoints >= 55) {
+            grade = "B"; verdict = "Caution — Reduced Size"; size = "50%";
+            gradeColor = "var(--amber)"; gradeBg = "rgba(255,171,0,0.15)";
+        } else if (totalPoints >= 40) {
+            grade = "C"; verdict = "Wait for more confluence"; size = "25% (or skip)";
+            gradeColor = "var(--amber)"; gradeBg = "rgba(255,171,0,0.15)";
+        } else {
+            grade = "D"; verdict = "DO NOT TRADE"; size = "0%";
+            gradeColor = "var(--red)"; gradeBg = "rgba(255,23,68,0.15)";
+        }
+
+        if (rfTier === 1 && els.event30Min.checked) {
+            grade = "F"; verdict = "HARD STOP - TIER 1 EVENT"; size = "0%";
+            gradeColor = "var(--red)"; gradeBg = "rgba(255,23,68,0.15)";
+        }
+
+        // Update score ring
+        const circumference = 2 * Math.PI * 60; // 377
+        const percentFill = Math.min((totalPoints / 110) * 100, 100);
+        const offset = circumference - (percentFill / 100) * circumference;
+        els.scoreRing.style.strokeDashoffset = offset;
+        els.scoreRing.style.stroke = gradeColor;
+
+        els.scoreValue.innerHTML = totalPoints;
+        els.scoreValue.style.color = gradeColor;
+        els.scoreGrade.innerHTML = grade;
+        els.scoreGrade.style.color = gradeColor;
+        els.scoreGrade.style.background = gradeBg;
+
+        els.resVerdict.innerHTML = verdict;
+        els.resVerdict.style.color = gradeColor;
+        els.resSize.innerHTML = size;
+
+        if (activePenaltiesDesc.length > 0) {
+            els.resPenalties.innerHTML = activePenaltiesDesc.join(', ');
+            els.resPenalties.style.color = "var(--red)";
+        } else {
+            els.resPenalties.innerHTML = "None ✓";
+            els.resPenalties.style.color = "var(--green)";
+        }
+
+        saveState();
+
+        window._exportedData = {
+            instrument: els.instrument.value || 'N/A',
+            session: els.session.value,
+            time: els.datetime.value,
+            score: totalPoints,
+            grade: grade,
+            verdict: verdict,
+            direction: directionText,
+            size: size,
+            penalties: activePenaltiesDesc,
+            triggers: triggersNames,
+            liquidityDraw: els.c2_pool.options[els.c2_pool.selectedIndex]?.text || 'None',
+            newsStatus: rfTier > 0 ? `EVENT (${rfTier}): ${rfEventsNames.join(', ')}` : 'CLEAR',
+            notes: els.notes.value
+        };
+    }
+
+    // --- EXPORT FUNCTIONS ---
+    function generateTextSummary() {
+        const data = window._exportedData;
+        return `
 =============================================
              ICT SETUP ANALYSIS
 =============================================
@@ -1281,30 +1160,27 @@ NOTES:
 ${data.notes || 'No notes left.'}
 =============================================
 Generated by: ICT Market Read Checklist Pro
-            `;
-        }
+        `;
+    }
 
-        function exportClipboard() {
-            const text = generateTextSummary().trim();
-            navigator.clipboard.writeText(text).then(() => {
-                const prev = els.btnCopy.innerHTML;
-                els.btnCopy.innerHTML = "Copied! ✓";
-                setTimeout(() => els.btnCopy.innerHTML = prev, 2000);
-            }).catch(err => {
-                alert('Failed to copy to clipboard.');
-                console.error(err);
-            });
-        }
+    function exportClipboard() {
+        const text = generateTextSummary().trim();
+        navigator.clipboard.writeText(text).then(() => {
+            const prev = els.btnCopy.innerHTML;
+            els.btnCopy.innerHTML = "Copied! ✓";
+            setTimeout(() => els.btnCopy.innerHTML = prev, 2000);
+        }).catch(err => {
+            alert('Failed to copy to clipboard.');
+            console.error(err);
+        });
+    }
 
-        function exportPDF() {
-            // Opens the browser print dialog where the user can choose "Save as PDF"
-            window.print();
-        }
+    function exportPDF() {
+        window.print();
+    }
 
-        // Run
-        document.addEventListener('DOMContentLoaded', init);
-
-    </script>
+    document.addEventListener('DOMContentLoaded', init);
+</script>
 </body>
 
 </html>
