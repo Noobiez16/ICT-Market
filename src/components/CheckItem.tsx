@@ -17,30 +17,29 @@ interface CheckItemProps {
 }
 
 export function CheckItem({ label, checked, onChange, pts, negative, info, onInfoClick, children }: CheckItemProps) {
+  const glowStyle = checked 
+    ? (negative ? 'bg-bearish/10 border-bearish/40 shadow-[0_0_20px_rgba(255,46,76,0.15)] ring-1 ring-bearish/50' : 'bg-accent/10 border-accent/40 shadow-[0_0_20px_rgba(0,225,255,0.15)] ring-1 ring-accent/50')
+    : 'border-borderSubtle/40 hover:bg-itemHover hover:border-textSecondary/30 bg-bgMain/20 backdrop-blur-sm';
+
   return (
-    <label className={`group flex items-start gap-4 p-3 rounded-md border cursor-pointer mb-[6px] transition-all duration-200 ease-out select-none
-      ${checked ? 'bg-accent/10 border-accent/40 shadow-[inset_4px_0_0_0_var(--accent)] dark:shadow-[inset_4px_0_0_0_#2979ff]' : 'border-transparent hover:bg-itemHover hover:border-borderSubtle'}
-      active:scale-[0.99]
-    `}>
-      <div className="relative flex items-center justify-center mt-0.5 shrink-0 w-4 h-4 rounded-sm border border-textSecondary/50 bg-inputBg shadow-sm transition-all group-hover:border-accent">
-        <input 
-          type="checkbox" 
-          className="absolute opacity-0 w-full h-full cursor-pointer"
-          checked={checked}
-          onChange={(e) => onChange(e.target.checked)}
-        />
-        {checked && (
-          <svg className={`w-3 h-3 ${negative ? 'text-bearish' : 'text-accent'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-          </svg>
-        )}
+    <label className={`group flex items-start gap-4 p-3.5 rounded-xl border cursor-pointer mb-2 transition-all duration-300 ease-out select-none ${glowStyle} active:scale-[0.98]`}>
+      
+      {/* Neo-checkbox Design */}
+      <div className={`relative flex items-center justify-center mt-0.5 shrink-0 w-5 h-5 rounded-[4px] border bg-inputBg shadow-inner transition-all duration-300
+        ${checked ? (negative ? 'border-bearish/50' : 'border-accent/50') : 'border-borderSubtle group-hover:border-textSecondary/60'}
+      `}>
+        <input type="checkbox" className="absolute opacity-0 w-full h-full cursor-pointer z-10" checked={checked} onChange={(e) => onChange(e.target.checked)} />
+        {/* Glowing Matrix Core */}
+        <div className={`w-3 h-3 rounded-[2px] transition-all duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] ${checked ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}
+          ${negative ? 'bg-bearish shadow-[0_0_10px_rgba(255,46,76,1)]' : 'bg-accent shadow-[0_0_10px_rgba(0,225,255,1)]'}
+        `} />
       </div>
 
       <div className="flex-1 min-w-0">
         <span className="text-[13px] font-medium text-textPrimary flex items-center gap-2 flex-wrap leading-tight">
           {label}
           {info && onInfoClick && (
-            <span 
+            <span
               className="info-icon hover:bg-accent hover:text-bgCard transition-colors rounded-sm px-1 text-[10px] bg-borderSubtle/50 text-textSecondary cursor-help font-mono border border-borderSubtle/50"
               onClick={(e) => {
                 e.preventDefault();

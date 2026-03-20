@@ -19,36 +19,52 @@
   }
 
   .dark {
-    /* TradingView / Bloomberg Terminal Deep Theme */
-    --bg-main: #020617; /* Very deep blue/black slate-950 */
-    --bg-card: #0f172a; /* Slate 900 for panels */
-    --border-subtle: #1e293b; /* Subtle slate 800 borders */
-    --text-primary: #f8fafc; /* Crisp white */
-    --text-secondary: #64748b; /* Muted slate 500 */
-    --bullish: #00e676; /* Trading Neo Green */
-    --bearish: #ff1744; /* Trading Neo Red */
-    --warning: #ffea00; /* Bright Yellow/Amber */
-    --accent: #2979ff; /* Electric Blue */
-    --input-bg: #030712; /* Darker than background for deep inputs */
-    --item-hover: rgba(41, 121, 255, 0.08); /* Faint accent highlight */
+    /* Hyper-futuristic Trading / Web3 DEX Theme */
+    --bg-main: #020203; /* Deepest void black */
+    --bg-card: rgba(14, 14, 20, 0.65); /* Translucent glass */
+    --border-subtle: rgba(255, 255, 255, 0.05); /* Faint structural borders */
+    --text-primary: #ffffff; /* Pure white */
+    --text-secondary: #71717a; /* Zink 500 for high contrast tech look */
+    --bullish: #00F59B; /* Cyberpunk Neon Green */
+    --bearish: #FF2E4C; /* Cyberpunk Neon Red */
+    --warning: #FFB000; /* Warning Amber */
+    --accent: #00E1FF; /* Sci-Fi Cyan/Blue */
+    --input-bg: #050508; /* Deep void for inputs to sink inward */
+    --item-hover: rgba(0, 225, 255, 0.05); /* Faint cyan hovering */
   }
 
   body {
     @apply bg-bgMain text-textPrimary font-sans antialiased relative;
   }
 
-  /* Grid background for Trading Terminal feel */
+  /* Glassmorphism hook for Tailwind bg-card */
+  .bg-bgCard {
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+  }
+
+  /* Futuristic Radial & Grid background */
   body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background: radial-gradient(circle at 50% 0%, rgba(0, 225, 255, 0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  body::after {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
     pointer-events: none;
     background-image: 
-      linear-gradient(var(--border-subtle) 1px, transparent 1px),
-      linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px);
-    background-size: 64px 64px;
-    opacity: 0.15;
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
   }
 }
 
