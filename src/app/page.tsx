@@ -6,7 +6,6 @@ import { InfoModal } from "@/components/InfoModal";
 import { CheckItem } from "@/components/CheckItem";
 import { Gauge } from "@/components/Gauge";
 
-// [infos and rfEvents definitions kept the same for logic]
 const infos = {
   hasRedFolder: { title: "Red Folder Event", desc: "Eventos de gran impacto económico. Reduce el tamaño de tu posición o acorta expectativas de ganancias si operas alrededor de estas horas debido a la extrema volatilidad algorítmica." },
   event30Min: { title: "Event within 30m", desc: "Se aplica una penalización alta si decides tomar el trade justo cuando falta menos de 30 minutos para la inyección de la noticia. Sumamente arriesgado." },
@@ -26,11 +25,11 @@ const infos = {
 };
 
 const rfEvents = [
-  { val: "FOMC Rate", tier: 1 }, { val: "FOMC Minutes", tier: 1 }, { val: "Fed Spch", tier: 1 },
+  { val: "FOMC Rate Decision", tier: 1 }, { val: "FOMC Meeting Minutes", tier: 1 }, { val: "Federal Reserve Press Conf", tier: 1 },
   { val: "CPI", tier: 1 }, { val: "NFP", tier: 1 },
-  { val: "GDP", tier: 2 }, { val: "PCE", tier: 2 }, { val: "PPI", tier: 2 }, { val: "CB Spch", tier: 2 },
-  { val: "ISM Mfg", tier: 3 }, { val: "Retail", tier: 3 }, { val: "Jobless", tier: 3 },
-  { val: "Flash PMI", tier: 3 },
+  { val: "GDP", tier: 2 }, { val: "PCE", tier: 2 }, { val: "PPI", tier: 2 }, { val: "Central Bank Speech", tier: 2 },
+  { val: "ISM Mfg/Services", tier: 3 }, { val: "Retail Sales", tier: 3 }, { val: "Jobless Claims", tier: 3 },
+  { val: "Unemployment Claims", tier: 3 }, { val: "Flash Mfg PMI", tier: 3 }, { val: "Flash Service PMI", tier: 3 }
 ];
 
 export default function Home() {
@@ -44,7 +43,7 @@ export default function Home() {
     const penaltiesDesc: string[] = [];
     let rfTier = 0;
     let setupOutsideKz = false;
-    let kzText = 'SYS_WAIT';
+    let kzText = 'Determining...';
     let kzColor = 'text-warning';
 
     if (state.datetime) {
@@ -59,10 +58,10 @@ export default function Home() {
       const inNYPM = estMinsTotal >= (13 * 60 + 30) && estMinsTotal <= (16 * 60);
 
       if (inLondon || inNYAM || inNYPM) {
-        kzText = `ACTIVE_${estString}_EST`;
+        kzText = `In Kill Zone (${estString} EST)`;
         kzColor = "text-bullish";
       } else {
-        kzText = `DEADZONE_${estString}_EST`;
+        kzText = `Out of Kill Zone (${estString} EST)`;
         kzColor = "text-warning";
         setupOutsideKz = true;
       }
@@ -78,10 +77,10 @@ export default function Home() {
         }
       });
 
-      if (rfTier === 1) { totalPoints -= 25; penaltiesDesc.push("T1 News (-25)"); }
-      else if (rfTier === 2) { totalPoints -= 15; penaltiesDesc.push("T2 News (-15)"); }
-      else if (rfTier === 3) { totalPoints -= 10; penaltiesDesc.push("T3 News (-10)"); }
-      if (state.event30Min) { totalPoints -= 10; penaltiesDesc.push("News <30m (-10)"); }
+      if (rfTier === 1) { totalPoints -= 25; penaltiesDesc.push("Tier 1 News (-25)"); }
+      else if (rfTier === 2) { totalPoints -= 15; penaltiesDesc.push("Tier 2 News (-15)"); }
+      else if (rfTier === 3) { totalPoints -= 10; penaltiesDesc.push("Tier 3 News (-10)"); }
+      if (state.event30Min) { totalPoints -= 10; penaltiesDesc.push("Event < 30m (-10)"); }
     }
 
     if (state.a1) totalPoints += 15;
@@ -106,10 +105,10 @@ export default function Home() {
     if (state.d2) totalPoints += 8;
     if (state.d3) totalPoints += 7;
 
-    if (state.e1) { totalPoints -= 10; penaltiesDesc.push("1H FVG >70% (-10)"); }
-    if (state.e2) { totalPoints -= 10; penaltiesDesc.push("1H Range (-10)"); }
-    if (state.e3) { totalPoints -= 8; penaltiesDesc.push("Opp FVG (-8)"); }
-    if (setupOutsideKz) { totalPoints -= 5; penaltiesDesc.push("Out KZ (-5)"); }
+    if (state.e1) { totalPoints -= 10; penaltiesDesc.push("1H FVG > 70% filled (-10)"); }
+    if (state.e2) { totalPoints -= 10; penaltiesDesc.push("1H Lateral Range (-10)"); }
+    if (state.e3) { totalPoints -= 8; penaltiesDesc.push("Opposing FVG Clash (-8)"); }
+    if (setupOutsideKz) { totalPoints -= 5; penaltiesDesc.push("Outside Kill Zone (-5)"); }
 
     let bullSignals = 0, bearSignals = 0;
     if (state.a1) {
@@ -125,30 +124,30 @@ export default function Home() {
       if (['SSL', 'EQL', 'PDL', 'PWL'].includes(state.c2_pool)) bearSignals += 1;
     }
 
-    let directionText = "NEUTRAL";
+    let directionText = "Neutral";
     let dirColor = "text-textSecondary";
     if (bullSignals > bearSignals) {
-      directionText = (bullSignals >= 3) ? "STRONG_BULL" : "WEAK_BULL";
+      directionText = (bullSignals >= 3) ? "Strong Bull" : "Weak Bull";
       dirColor = "text-bullish";
     } else if (bearSignals > bullSignals) {
-      directionText = (bearSignals >= 3) ? "STRONG_BEAR" : "WEAK_BEAR";
+      directionText = (bearSignals >= 3) ? "Strong Bear" : "Weak Bear";
       dirColor = "text-bearish";
     } else if (bullSignals > 0 && bearSignals > 0) {
-      directionText = "CONFLICTED";
+      directionText = "Conflicted";
       dirColor = "text-warning";
     }
 
     if (totalPoints < 0) totalPoints = 0;
 
-    let grade = "D", verdict = "NO_TRADE", size = "0.00x", gradeColorStr = "var(--bearish)";
+    let grade = "D", verdict = "NO TRADE", size = "0%", gradeColorStr = "var(--bearish)";
     
-    if (totalPoints >= 85) { grade = "A+"; verdict = "EXEC_FULL_SIZE"; size = "1.00x"; gradeColorStr = "var(--bullish)"; }
-    else if (totalPoints >= 70) { grade = "A"; verdict = "EXEC_STD_SIZE"; size = "0.75x"; gradeColorStr = "var(--bullish)"; }
-    else if (totalPoints >= 55) { grade = "B"; verdict = "EXEC_REDUCED"; size = "0.50x"; gradeColorStr = "var(--warning)"; }
-    else if (totalPoints >= 40) { grade = "C"; verdict = "WAIT_CONFIRM"; size = "0.25x"; gradeColorStr = "var(--warning)"; }
+    if (totalPoints >= 85) { grade = "A+"; verdict = "EXECUTE FULL"; size = "100%"; gradeColorStr = "var(--bullish)"; }
+    else if (totalPoints >= 70) { grade = "A"; verdict = "EXECUTE STD"; size = "75%"; gradeColorStr = "var(--bullish)"; }
+    else if (totalPoints >= 55) { grade = "B"; verdict = "CAUTION REDUCED"; size = "50%"; gradeColorStr = "var(--warning)"; }
+    else if (totalPoints >= 40) { grade = "C"; verdict = "WAIT CONFLUENCE"; size = "25%"; gradeColorStr = "var(--warning)"; }
 
     if (rfTier === 1 && state.event30Min) {
-      grade = "F"; verdict = "SYS_HALT (T1)"; size = "0.00x"; gradeColorStr = "var(--bearish)";
+      grade = "F"; verdict = "HARD STOP (T1)"; size = "0%"; gradeColorStr = "var(--bearish)";
     }
 
     return { totalPoints, grade, verdict, size, dirColor, directionText, penaltiesDesc, rfTier, triggerBonus, activeTriggers, kzText, kzColor, gradeColorStr };
@@ -157,69 +156,74 @@ export default function Home() {
   const toggleTheme = () => document.documentElement.classList.toggle('dark');
 
   const exportClipboard = () => {
-    const text = `==== SYS.EXPORT.MKT ====\nOPEN: ${state.datetime || 'N/A'}\nCLOSE: ${state.closingTime || 'N/A'}\nSCORE: ${computed.totalPoints} [${computed.grade}]\nDIR: ${computed.directionText}\nSIZE: ${computed.size}\nVERDICT: ${computed.verdict}\n========================`;
+    const text = `==== ICT TERMINAL OUTPUT ====\nOPEN: ${state.datetime || 'N/A'}\nCLOSE: ${state.closingTime || 'N/A'}\nSCORE: ${computed.totalPoints}% [${computed.grade}]\nDIR: ${computed.directionText}\nSIZE: ${computed.size}\nVERDICT: ${computed.verdict}\n=============================`;
     navigator.clipboard.writeText(text);
   };
 
   const getSessContext = (s: string) => {
-    return {
-      'London': 'LND_EXP', 'NY AM': 'NY_AM_PRIME', 'NY Lunch': 'NY_LUNCH_WARN',
-      'NY PM': 'NY_PM_CONT', 'Asian': 'ASIAN_RNG_WARN', 'London Close': 'LND_CLS_REV'
-    }[s] || 'SYS_IDLE';
+    const ctx: Record<string, string> = {
+      'London': 'London Open — Great for initial daily expansion',
+      'NY AM': 'NY AM — Highest probability session for ICT setups',
+      'NY Lunch': 'NY Lunch — ⚠️ Beware of chop / lower probability',
+      'NY PM': 'NY PM — PM trend continuation or macro reversal',
+      'Asian': 'Asian — ⚠️ Range bound, lower probability (unless Nikkei news)',
+      'London Close': 'London Close — Minor retracement / reversal window'
+    };
+    return ctx[s] || '';
   };
 
   const BlockHeader = ({ icon, title, pts, borderStyle }: { icon: string, title: string, pts?: string, borderStyle?: string }) => (
     <div className={`flex items-center gap-3 mb-4 pb-2 border-b border-borderSubtle ${borderStyle || ''}`}>
-      <span className="bg-bgMain p-1.5 rounded-md border border-borderSubtle text-sm flex items-center justify-center aspect-square">{icon}</span>
-      <h2 className="font-semibold text-[13px] tracking-wide uppercase text-textSecondary">{title}</h2>
-      {pts && <span className="ml-auto font-['JetBrains_Mono'] text-[10px] font-bold bg-bgMain text-textSecondary px-2 py-1 rounded border border-borderSubtle">{pts}</span>}
+      <span className="bg-bgMain p-1.5 rounded-md border border-borderSubtle text-sm flex items-center justify-center aspect-square shadow-sm">{icon}</span>
+      <h2 className="font-semibold text-[14px] tracking-wide text-textPrimary">{title}</h2>
+      {pts && <span className="ml-auto font-['JetBrains_Mono'] text-[11px] font-bold bg-bgMain text-textSecondary px-2 py-1 rounded border border-borderSubtle shadow-sm">{pts}</span>}
     </div>
   );
 
   return (
-    <div className="min-h-screen flex flex-col pt-0">
+    <div className="min-h-screen flex flex-col pt-0 pb-10">
       {/* Top Application Bar */}
-      <nav className="sticky top-0 z-40 w-full min-h-[48px] bg-bgCard/80 backdrop-blur-md border-b border-borderSubtle flex items-center justify-between px-6 py-2 shadow-sm font-['JetBrains_Mono']">
+      <nav className="sticky top-0 z-40 w-full min-h-[56px] bg-bgCard/90 backdrop-blur-md border-b border-borderSubtle flex items-center justify-between px-6 py-3 shadow-sm font-['Inter']">
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <span className="w-2.5 h-2.5 bg-accent rounded-full animate-pulse shadow-[0_0_8px_var(--accent)]" />
-            <span className="text-[13px] font-bold text-textPrimary tracking-widest uppercase">SYD_TRM_PROTO</span>
+            <span className="text-[15px] font-extrabold text-textPrimary tracking-wide uppercase">ICT Market Checklist</span>
           </div>
-          <div className="hidden sm:block w-px h-5 bg-borderSubtle mx-2" />
-          <div className="hidden sm:flex text-[11px] gap-4 text-textSecondary font-semibold">
-            <span className={`tracking-wide ${computed.kzColor}`}>{computed.kzText}</span>
-            <span className="tracking-wide text-accent">SESS_MOD: {getSessContext(state.session)}</span>
+          <div className="hidden sm:block w-px h-6 bg-borderSubtle mx-2" />
+          <div className="hidden sm:flex text-[12px] gap-4 text-textSecondary font-medium">
+            <span className={`tracking-wide font-semibold ${computed.kzColor}`}>{computed.kzText}</span>
+            <span className="tracking-wide text-accent font-semibold">{getSessContext(state.session)}</span>
           </div>
         </div>
         
-        <div className="flex gap-2 print:hidden">
-          <button onClick={toggleTheme} className="bg-inputBg border border-borderSubtle hover:border-textSecondary hover:text-textPrimary text-textSecondary px-3 py-1.5 rounded text-[11px] font-bold uppercase transition-colors">THEME</button>
-          <button onClick={resetState} className="bg-bearish/10 border border-bearish/30 text-bearish hover:bg-bearish hover:text-white px-3 py-1.5 rounded text-[11px] font-bold uppercase transition-all ring-1 ring-inset ring-transparent shadow-[0_0_10px_rgba(239,68,68,0.1)]">FLUSH_SYS</button>
+        <div className="flex gap-3 print:hidden">
+          <button onClick={toggleTheme} className="bg-bgCard border border-borderSubtle hover:border-textSecondary hover:text-textPrimary text-textSecondary px-4 py-2 rounded-lg text-[12px] font-semibold transition-colors shadow-sm">Toggle Theme</button>
+          <button onClick={resetState} className="bg-bgCard border border-bearish/30 text-bearish hover:bg-bearish hover:text-white px-4 py-2 rounded-lg text-[12px] font-semibold transition-all shadow-[0_0_10px_rgba(239,68,68,0.1)]">Reset Calculator</button>
         </div>
       </nav>
 
-      <main className="flex-1 max-w-[1600px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 xl:grid-cols-[1fr_360px] gap-6 items-start">
+      <main className="flex-1 max-w-[1600px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 xl:grid-cols-[1fr_360px] gap-8 items-start">
         {/* Core Blocks Grid */}
         <div className="flex flex-col gap-6">
           
-          {/* Top Info Bar: Contains Inputs horizontally laid out to save space */}
-          <div className="bg-bgCard border border-borderSubtle rounded-lg p-5 flex flex-wrap lg:flex-nowrap gap-4 items-center shadow-sm">
-            <div className="w-full lg:w-32 shrink-0">
-              <label className="block text-[10px] font-bold text-textSecondary uppercase tracking-wider mb-1 px-1">TICKER</label>
-              <input type="text" placeholder="EUR/USD" value={state.instrument} onChange={(e) => updateField('instrument', e.target.value.toUpperCase())} className="w-full bg-inputBg border border-borderSubtle text-textPrimary px-3 py-2 rounded-md justify-center text-[13px] font-bold outline-none focus:border-accent font-['JetBrains_Mono'] uppercase tracking-wider text-center" />
+          {/* Top Info Bar: Contains Inputs */}
+          <div className="bg-bgCard border border-borderSubtle rounded-xl p-5 flex flex-wrap lg:flex-nowrap gap-5 items-center shadow-sm">
+            <div className="w-full lg:w-40 shrink-0">
+              <label className="block text-[11px] font-bold text-textSecondary uppercase mb-1.5 px-1">Instrument / Ticker</label>
+              <input type="text" placeholder="EUR/USD" value={state.instrument} onChange={(e) => updateField('instrument', e.target.value.toUpperCase())} className="w-full bg-inputBg border border-borderSubtle text-textPrimary px-4 py-2.5 rounded-lg justify-center text-[13px] font-bold outline-none focus:border-accent font-['JetBrains_Mono'] uppercase tracking-wider text-center transition-colors" />
             </div>
             <div className="w-full sm:w-auto flex-1 group">
-              <label className="block text-[10px] font-bold text-textSecondary uppercase tracking-wider mb-1 px-1 group-focus-within:text-accent transition-colors">TIME(OPEN)</label>
-              <input type="datetime-local" value={state.datetime} onChange={(e) => updateField('datetime', e.target.value)} className="w-full bg-inputBg border border-borderSubtle text-textPrimary px-3 py-2 rounded-md outline-none focus:border-accent text-[12px] font-['JetBrains_Mono'] transition-colors" />
+              <label className="block text-[11px] font-bold text-textSecondary uppercase mb-1.5 px-1 group-focus-within:text-accent transition-colors">Open Time (Operación)</label>
+              <input type="datetime-local" value={state.datetime} onChange={(e) => updateField('datetime', e.target.value)} className="w-full bg-inputBg border border-borderSubtle text-textPrimary px-4 py-2.5 rounded-lg outline-none focus:border-accent text-[13px] font-['JetBrains_Mono'] transition-colors" />
             </div>
             <div className="w-full sm:w-auto flex-1 group">
-              <label className="block text-[10px] font-bold text-textSecondary uppercase tracking-wider mb-1 px-1 group-focus-within:text-accent transition-colors">TIME(CLOSE)</label>
-              <input type="datetime-local" value={state.closingTime} onChange={(e) => updateField('closingTime', e.target.value)} className="w-full bg-inputBg border border-borderSubtle text-textSecondary focus:text-textPrimary px-3 py-2 rounded-md outline-none focus:border-accent text-[12px] font-['JetBrains_Mono'] transition-colors" />
+              <label className="block text-[11px] font-bold text-textSecondary uppercase mb-1.5 px-1 group-focus-within:text-accent transition-colors">Closing Time (Operación)</label>
+              <input type="datetime-local" value={state.closingTime} onChange={(e) => updateField('closingTime', e.target.value)} className="w-full bg-inputBg border border-borderSubtle text-textSecondary focus:text-textPrimary px-4 py-2.5 rounded-lg outline-none focus:border-accent text-[13px] font-['JetBrains_Mono'] transition-colors" />
             </div>
-            <div className="w-full lg:w-48 shrink-0 group">
-              <label className="block text-[10px] font-bold text-textSecondary uppercase tracking-wider mb-1 px-1 group-focus-within:text-accent transition-colors">MACRO SESS</label>
-              <select value={state.session} onChange={(e) => updateField('session', e.target.value)} className="w-full bg-inputBg border border-borderSubtle text-textPrimary px-3 py-2 rounded-md outline-none focus:border-accent text-[12px] font-bold font-['JetBrains_Mono'] cursor-pointer appearance-none text-center">
-                {['London', 'NY AM', 'NY Lunch', 'NY PM', 'Asian', 'London Close'].map(s => <option key={s} value={s}>{s.toUpperCase()}</option>)}
+            <div className="w-full lg:w-56 shrink-0 group">
+              <label className="block text-[11px] font-bold text-textSecondary uppercase mb-1.5 px-1 group-focus-within:text-accent transition-colors">Macro Session</label>
+              <select value={state.session} onChange={(e) => updateField('session', e.target.value)} className="w-full bg-inputBg border border-borderSubtle text-textPrimary px-4 py-2.5 rounded-lg outline-none focus:border-accent text-[13px] font-medium font-['JetBrains_Mono'] cursor-pointer transition-colors appearance-none">
+                {['London', 'NY AM', 'NY Lunch', 'NY PM', 'Asian', 'London Close'].map(s => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
           </div>
@@ -227,180 +231,175 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             
             {/* Risk / Red Folder */}
-            <div className={`bg-bgCard border rounded-lg p-5 col-span-full shadow-sm relative overflow-hidden transition-all duration-300 ${computed.rfTier === 1 ? 'animate-pulseBorder border-bearish ring-1 ring-bearish/30' : computed.rfTier > 1 ? 'border-warning' : 'border-borderSubtle hover:border-textSecondary/50'}`}>
-              <div className="absolute top-0 right-0 p-3 opacity-10">
-                <svg className="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L1 21h22M12 6l7.53 13H4.47M11 10v4h2v-4m-2 6v2h2v-2"></path></svg>
+            <div className={`bg-bgCard border rounded-xl p-6 col-span-full shadow-sm relative overflow-hidden transition-all duration-300 ${computed.rfTier === 1 ? 'animate-pulseBorder border-bearish ring-1 ring-bearish/30' : computed.rfTier > 1 ? 'border-warning' : 'border-borderSubtle hover:border-textSecondary/50'}`}>
+              <div className="absolute top-0 right-0 p-3 opacity-5 pointer-events-none text-red-500">
+                <svg className="w-32 h-32" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L1 21h22M12 6l7.53 13H4.47M11 10v4h2v-4m-2 6v2h2v-2"></path></svg>
               </div>
-              <BlockHeader icon="⚠️" title="SYS.RISK_FILTER" pts="NEWS_MONITOR" borderStyle={computed.rfTier === 1 ? 'border-bearish/30' : ''} />
+              <BlockHeader icon="🔴" title="Red Folder / Risk Filter" pts="News Monitor" borderStyle={computed.rfTier === 1 ? 'border-bearish/30' : ''} />
               
-              <CheckItem label={<span className="font-bold">ENGAGE RED FOLDER SCAN</span>} checked={state.hasRedFolder} onChange={(v) => updateField('hasRedFolder', v)} info={infos.hasRedFolder} onInfoClick={openInfo} />
+              <CheckItem label={<span className="font-semibold text-textPrimary">Is there a Red Folder event within the next 4 hours?</span>} checked={state.hasRedFolder} onChange={(v) => updateField('hasRedFolder', v)} info={infos.hasRedFolder} onInfoClick={openInfo} />
               
               {state.hasRedFolder && (
-                <div className="mt-3 bg-bgMain p-4 rounded-md border border-borderSubtle">
-                  {computed.rfTier === 1 && <div className="text-[13px] tracking-widest font-extrabold font-['JetBrains_Mono'] px-3 py-2.5 rounded border border-bearish/50 mb-4 text-center bg-bearish text-white shadow-[0_0_15px_rgba(239,68,68,0.5)]">AVOID TRADING — T1 IMMINENT</div>}
-                  {computed.rfTier === 2 && <div className="text-[12px] tracking-widest font-extrabold font-['JetBrains_Mono'] px-3 py-2.5 rounded border border-warning/50 mb-4 text-center bg-warning text-black shadow-[0_0_15px_rgba(245,158,11,0.5)]">HIGH CAUTION — T2 NEWS</div>}
+                <div className="mt-4 bg-bgMain p-5 rounded-lg border border-borderSubtle shadow-inner">
+                  {computed.rfTier === 1 && <div className="text-[13px] tracking-wide font-bold font-['Inter'] px-4 py-3 rounded-lg border border-bearish/50 mb-5 text-center bg-bearish text-white shadow-[0_0_20px_rgba(239,68,68,0.4)]">AVOID TRADING — TIER 1 NEWS IMMINENT</div>}
+                  {computed.rfTier === 2 && <div className="text-[13px] tracking-wide font-bold font-['Inter'] px-4 py-3 rounded-lg border border-warning/50 mb-5 text-center bg-warning text-black shadow-[0_0_20px_rgba(245,158,11,0.4)]">HIGH CAUTION — TIER 2 NEWS</div>}
                   
-                  <div className="flex flex-wrap gap-2 mb-4">
+                  <div className="flex flex-wrap gap-2.5 mb-5">
                     {rfEvents.map(e => (
-                      <label key={e.val} className={`text-[11px] font-['JetBrains_Mono'] font-bold flex items-center gap-1.5 cursor-pointer px-2.5 py-1.5 rounded transition-all border
-                        ${state.rfFlags.includes(e.val) ? (e.tier === 1 ? 'bg-bearish/20 text-bearish border-bearish' : 'bg-warning/20 text-warning border-warning') : 'bg-inputBg text-textSecondary border-borderSubtle hover:border-textSecondary/50 hover:bg-bgCard'}`}>
+                      <label key={e.val} className={`text-[12px] font-['Inter'] font-medium flex items-center gap-2 cursor-pointer px-3 py-1.5 rounded-lg transition-all border
+                        ${state.rfFlags.includes(e.val) ? (e.tier === 1 ? 'bg-bearish/20 text-bearish border-bearish' : 'bg-warning/20 text-warning border-warning') : 'bg-bgCard text-textSecondary border-borderSubtle hover:border-textSecondary/50 hover:bg-inputBg hover:text-textPrimary'}`}>
                         <input type="checkbox" checked={state.rfFlags.includes(e.val)} onChange={() => toggleRfFlag(e.val)} className="hidden" /> 
-                        {e.val.toUpperCase()}
+                        {e.val}
                       </label>
                     ))}
                   </div>
-                  <input type="text" placeholder="SYS.INPUT_OTHER_TICKER" value={state.rfOther} onChange={(e) => updateField('rfOther', e.target.value)} className="w-full bg-inputBg border border-borderSubtle text-textPrimary px-3 py-2 rounded text-[12px] outline-none focus:border-accent mb-3 font-['JetBrains_Mono'] placeholder:text-textSecondary/50" />
+                  <input type="text" placeholder="Other event ticker... (e.g. BOC Rate)" value={state.rfOther} onChange={(e) => updateField('rfOther', e.target.value)} className="w-full bg-bgCard border border-borderSubtle text-textPrimary px-4 py-2.5 rounded-lg text-[13px] outline-none focus:border-accent mb-4 placeholder:text-textSecondary/50 font-medium" />
                   
-                  <div className="bg-bgCard border border-borderSubtle/50 rounded-md">
-                    <CheckItem label={<span className="text-bearish font-bold flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-bearish animate-pulse"></div>T-MINUS 30m WARNING</span>} checked={state.event30Min} onChange={v => updateField('event30Min', v)} info={infos.event30Min} onInfoClick={openInfo} negative pts={10} />
+                  <div className="bg-bgCard border border-borderSubtle/50 rounded-lg p-1.5 shadow-sm">
+                    <CheckItem label={<span className="text-bearish font-bold flex items-center gap-2.5"><div className="w-2.5 h-2.5 rounded-full bg-bearish animate-pulse shadow-[0_0_5px_rgba(239,68,68,1)]"></div>Event is within 30 minutes!</span>} checked={state.event30Min} onChange={v => updateField('event30Min', v)} info={infos.event30Min} onInfoClick={openInfo} negative pts={10} />
                   </div>
                 </div>
               )}
             </div>
 
             {/* BLOCK A */}
-            <div className="bg-bgCard border border-borderSubtle rounded-lg p-5 shadow-sm hover:border-textSecondary/30 transition-colors">
-              <BlockHeader icon="A" title="1H MACRO BIAS" pts="30_MAX" />
-              <CheckItem label="FVG Identified (1H)" checked={state.a1} onChange={v=>updateField('a1',v)} info={infos.a1} onInfoClick={openInfo} pts={15}>
-                <div className="mt-2.5 flex items-center bg-inputBg rounded-sm border border-borderSubtle/50 px-2 group-focus-within:border-accent/50 transition-colors">
-                  <select value={state.a1_dir} onChange={(e)=>updateField('a1_dir', e.target.value)} onClick={(e)=>e.stopPropagation()} className="w-full bg-transparent text-textPrimary py-1.5 text-[11px] font-['JetBrains_Mono'] font-bold outline-none uppercase appearance-none cursor-pointer">
-                    <option value="" className="text-textSecondary">-- SELECT_DIR --</option>
-                    <option value="Bullish">BULLISH_FVG</option><option value="Bearish">BEARISH_FVG</option>
-                    <option value="InverseBull">INV_FVG_BULLISH</option><option value="InverseBear">INV_FVG_BEARISH</option>
+            <div className="bg-bgCard border border-borderSubtle rounded-xl p-6 shadow-sm hover:border-textSecondary/30 transition-colors">
+              <BlockHeader icon="📈" title="Block A: 1H Macro" pts="30 Pts" />
+              <CheckItem label="FVG clearly identified on 1H" checked={state.a1} onChange={v=>updateField('a1',v)} info={infos.a1} onInfoClick={openInfo} pts={15}>
+                <div className="mt-3 flex items-center bg-inputBg rounded-lg border border-borderSubtle/50 px-3 py-1 group-focus-within:border-accent/50 transition-colors">
+                  <select value={state.a1_dir} onChange={(e)=>updateField('a1_dir', e.target.value)} onClick={(e)=>e.stopPropagation()} className="w-full bg-transparent text-textPrimary py-1.5 text-[12px] font-medium outline-none cursor-pointer">
+                    <option value="" className="text-textSecondary">-- Direction --</option>
+                    <option value="Bullish">Bullish FVG</option><option value="Bearish">Bearish FVG</option>
+                    <option value="InverseBull">Inverse FVG → Bullish</option><option value="InverseBear">Inverse FVG → Bearish</option>
                   </select>
                 </div>
               </CheckItem>
-              <CheckItem label="Retrace to 1H Zone" checked={state.a2} onChange={v=>updateField('a2',v)} info={infos.a2} onInfoClick={openInfo} pts={10} />
-              <CheckItem label="First React Candle" checked={state.a3} onChange={v=>updateField('a3',v)} info={infos.a3} onInfoClick={openInfo} pts={5} />
+              <CheckItem label="Price retraces INTO 1H FVG" checked={state.a2} onChange={v=>updateField('a2',v)} info={infos.a2} onInfoClick={openInfo} pts={10} />
+              <CheckItem label="First reaction candle mapped" checked={state.a3} onChange={v=>updateField('a3',v)} info={infos.a3} onInfoClick={openInfo} pts={5} />
             </div>
 
             {/* BLOCK B */}
-            <div className="bg-bgCard border border-borderSubtle rounded-lg p-5 shadow-sm hover:border-textSecondary/30 transition-colors">
-              <BlockHeader icon="B" title="5M MICRO STRUCT" pts="25_MAX" />
-              <CheckItem label="5M Inside 1H Zone" checked={state.b1} onChange={v=>updateField('b1',v)} info={infos.b1} onInfoClick={openInfo} pts={15} />
-              <CheckItem label="Stacked Confluence" checked={state.b2} onChange={v=>updateField('b2',v)} info={infos.b2} onInfoClick={openInfo} pts={10} />
+            <div className="bg-bgCard border border-borderSubtle rounded-xl p-6 shadow-sm hover:border-textSecondary/30 transition-colors">
+              <BlockHeader icon="📉" title="Block B: 5M Structure" pts="25 Pts" />
+              <CheckItem label="5M FVG INSIDE 1H zone" checked={state.b1} onChange={v=>updateField('b1',v)} info={infos.b1} onInfoClick={openInfo} pts={15} />
+              <CheckItem label="Stacked FVG Confluence" checked={state.b2} onChange={v=>updateField('b2',v)} info={infos.b2} onInfoClick={openInfo} pts={10} />
               
-              <div className="mt-3 p-3 bg-bgMain rounded border border-borderSubtle">
-                <label className="block text-[10px] font-bold text-textSecondary uppercase tracking-widest mb-2">DELIVERY.ENGINE</label>
-                <select value={state.b_delivery} onChange={(e)=>updateField('b_delivery', e.target.value)} className="w-full bg-inputBg border border-borderSubtle text-textPrimary px-3 py-2 rounded text-[11px] font-['JetBrains_Mono'] font-bold outline-none focus:border-accent">
-                  <option value="balanced">BALANCED_STATE (0)</option>
-                  <option value="onesided">ONE_SIDED_STATE (+3)</option>
-                  <option value="cisd">CISD_DETECTED (0)</option>
+              <div className="mt-4 p-4 bg-inputBg rounded-lg border border-borderSubtle/50">
+                <label className="block text-[11px] font-bold text-textSecondary uppercase mb-2">Delivery State Engine</label>
+                <select value={state.b_delivery} onChange={(e)=>updateField('b_delivery', e.target.value)} className="w-full bg-bgCard border border-borderSubtle text-textPrimary px-3 py-2.5 rounded-md text-[13px] font-medium outline-none focus:border-accent">
+                  <option value="balanced">Balanced (50/50) — 0 pts</option>
+                  <option value="onesided">One-sided (3+) — +3 pts</option>
+                  <option value="cisd">CISD detected</option>
                 </select>
               </div>
             </div>
 
             {/* BLOCK C */}
-            <div className="bg-bgCard border border-borderSubtle rounded-lg p-5 shadow-sm hover:border-textSecondary/30 transition-colors">
-              <BlockHeader icon="C" title="LIQ_POOLS" pts="20_MAX" />
+            <div className="bg-bgCard border border-borderSubtle rounded-xl p-6 shadow-sm hover:border-textSecondary/30 transition-colors">
+              <BlockHeader icon="💧" title="Block C: Liquidity Pools" pts="20 Pts" />
               <CheckItem label="Liquidity Sweep Confirmed" checked={state.c1} onChange={v=>updateField('c1',v)} info={infos.c1} onInfoClick={openInfo} pts={12}>
-                <div className="mt-2.5 flex items-center bg-inputBg rounded-sm border border-borderSubtle/50 px-2">
-                  <select value={state.c1_dir} onChange={(e)=>updateField('c1_dir', e.target.value)} onClick={(e)=>e.stopPropagation()} className="w-full bg-transparent text-textPrimary py-1.5 text-[11px] font-['JetBrains_Mono'] font-bold outline-none uppercase appearance-none cursor-pointer">
-                    <option value="" className="text-textSecondary">-- SWEEP_LVL --</option>
-                    <option value="BSL">BSL_PURGE [BEAR]</option>
-                    <option value="SSL">SSL_PURGE [BULL]</option>
+                <div className="mt-3 flex items-center bg-inputBg rounded-lg border border-borderSubtle/50 px-3 py-1 group-focus-within:border-accent/50 transition-colors">
+                  <select value={state.c1_dir} onChange={(e)=>updateField('c1_dir', e.target.value)} onClick={(e)=>e.stopPropagation()} className="w-full bg-transparent text-textPrimary py-1.5 text-[12px] font-medium outline-none cursor-pointer">
+                    <option value="" className="text-textSecondary">-- Sweep Level --</option>
+                    <option value="BSL">BSL Taken Above</option>
+                    <option value="SSL">SSL Taken Below</option>
                   </select>
                 </div>
               </CheckItem>
-              <CheckItem label="Draw TGT Assigned" checked={state.c2} onChange={v=>updateField('c2',v)} info={infos.c2} onInfoClick={openInfo} pts={8}>
-                <div className="mt-2.5 flex items-center bg-inputBg rounded-sm border border-borderSubtle/50 px-2">
-                  <select value={state.c2_pool} onChange={(e)=>updateField('c2_pool', e.target.value)} onClick={(e)=>e.stopPropagation()} className="w-full bg-transparent text-textPrimary py-1.5 text-[11px] font-['JetBrains_Mono'] font-bold outline-none uppercase appearance-none cursor-pointer">
-                    <option value="" className="text-textSecondary">-- TARGET_POOL --</option>
-                    <option value="BSL">BSL_ABOVE</option><option value="SSL">SSL_BELOW</option>
-                    <option value="PDH">PRV_DAY_HIGH</option><option value="PDL">PRV_DAY_LOW</option>
+              <CheckItem label="Draw Target Assigned" checked={state.c2} onChange={v=>updateField('c2',v)} info={infos.c2} onInfoClick={openInfo} pts={8}>
+                <div className="mt-3 flex items-center bg-inputBg rounded-lg border border-borderSubtle/50 px-3 py-1 group-focus-within:border-accent/50 transition-colors">
+                  <select value={state.c2_pool} onChange={(e)=>updateField('c2_pool', e.target.value)} onClick={(e)=>e.stopPropagation()} className="w-full bg-transparent text-textPrimary py-1.5 text-[12px] font-medium outline-none cursor-pointer">
+                    <option value="" className="text-textSecondary">-- Pool --</option>
+                    <option value="BSL">BSL Above</option><option value="SSL">SSL Below</option>
+                    <option value="PDH">Previous Day High</option><option value="PDL">Previous Day Low</option>
                   </select>
                 </div>
               </CheckItem>
             </div>
 
             {/* BLOCK D */}
-            <div className="bg-bgCard border border-borderSubtle rounded-lg p-5 shadow-sm hover:border-textSecondary/30 transition-colors">
-              <BlockHeader icon="D" title="EXEC.TRIGGERS" pts="25(+)" />
-              <div className="mb-3 bg-bgMain p-3 rounded border border-borderSubtle">
-                <div className="flex justify-between items-center mb-2.5">
-                  <span className="text-[10px] font-bold text-textSecondary uppercase tracking-wide">TRIGGER_MLTP</span>
-                  {computed.triggerBonus > 0 && <span className="font-['JetBrains_Mono'] text-[10px] bg-accent/20 px-1.5 py-0.5 rounded text-accent tracking-widest border border-accent/20 drop-shadow-[0_0_5px_var(--accent)]">+{computed.triggerBonus}</span>}
+            <div className="bg-bgCard border border-borderSubtle rounded-xl p-6 shadow-sm hover:border-textSecondary/30 transition-colors">
+              <BlockHeader icon="⚡" title="Block D: 1M Triggers" pts="25+ Pts" />
+              <div className="mb-4 bg-inputBg p-4 rounded-lg border border-borderSubtle/50 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-1 h-full bg-accent"></div>
+                <div className="flex justify-between items-center mb-3">
+                  <span className="text-[11px] font-bold text-textSecondary uppercase">Entry Multipliers</span>
+                  {computed.triggerBonus > 0 && <span className="font-bold text-[11px] bg-accent/10 px-2 py-1 rounded-md text-accent border border-accent/20">+{computed.triggerBonus} Points</span>}
                 </div>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-2.5">
                   {['InvFVG', 'CISD', 'MSS', 'Sweep'].map(t => (
-                    <label key={t} className={`text-[11px] font-['JetBrains_Mono'] px-2 py-1.5 rounded cursor-pointer transition-colors border text-center ${state.triggerFlags.includes(t) ? 'bg-accent text-bgCard font-bold border-accent shadow-[0_0_8px_var(--accent)]' : 'bg-inputBg text-textSecondary hover:text-textPrimary border-borderSubtle hover:border-textSecondary/50'}`}>
-                      <input type="checkbox" checked={state.triggerFlags.includes(t)} onChange={() => toggleTriggerFlag(t)} className="hidden" /> {t.toUpperCase()}
+                    <label key={t} className={`text-[12px] font-medium px-3 py-2 rounded-lg cursor-pointer transition-colors border text-center ${state.triggerFlags.includes(t) ? 'bg-accent text-white font-bold border-accent shadow-[0_4px_10px_rgba(99,102,241,0.2)]' : 'bg-bgCard text-textSecondary hover:text-textPrimary border-borderSubtle hover:border-textSecondary/50'}`}>
+                      <input type="checkbox" checked={state.triggerFlags.includes(t)} onChange={() => toggleTriggerFlag(t)} className="hidden" /> {t}
                     </label>
                   ))}
                 </div>
               </div>
-              <CheckItem label="Displacement > 60%" checked={state.d1} onChange={v=>updateField('d1',v)} info={infos.d1} onInfoClick={openInfo} pts={10} />
-              <CheckItem label="2nd Valid Close" checked={state.d2} onChange={v=>updateField('d2',v)} info={infos.d2} onInfoClick={openInfo} pts={8} />
-              <CheckItem label="Struct SL Defined" checked={state.d3} onChange={v=>updateField('d3',v)} info={infos.d3} onInfoClick={openInfo} pts={7} />
+              <CheckItem label="Displacement Candle > 60%" checked={state.d1} onChange={v=>updateField('d1',v)} info={infos.d1} onInfoClick={openInfo} pts={10} />
+              <CheckItem label="2nd Confirmation Close" checked={state.d2} onChange={v=>updateField('d2',v)} info={infos.d2} onInfoClick={openInfo} pts={8} />
+              <CheckItem label="Structural SL Defined" checked={state.d3} onChange={v=>updateField('d3',v)} info={infos.d3} onInfoClick={openInfo} pts={7} />
             </div>
 
             {/* BLOCK E */}
-            <div className="bg-bgCard border border-borderSubtle rounded-lg p-5 col-span-full shadow-sm hover:border-bearish/30 transition-colors relative overflow-hidden">
-              <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-warning to-bearish opacity-60"></div>
-              <BlockHeader icon="E" title="PENALTIES.ERR" />
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <CheckItem label="1H FVG > 70%" checked={state.e1} onChange={v=>updateField('e1',v)} info={infos.e1} onInfoClick={openInfo} negative pts={10} />
-                <CheckItem label="1H Lat Range" checked={state.e2} onChange={v=>updateField('e2',v)} info={infos.e2} onInfoClick={openInfo} negative pts={10} />
-                <CheckItem label="Opp FVG Clash" checked={state.e3} onChange={v=>updateField('e3',v)} info={infos.e3} onInfoClick={openInfo} negative pts={8} />
+            <div className="bg-bgCard border border-borderSubtle rounded-xl p-6 col-span-full shadow-sm hover:border-bearish/30 transition-colors relative overflow-hidden">
+              <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-warning to-bearish opacity-80"></div>
+              <BlockHeader icon="⚠️" title="Block E: Risk Penalties" />
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <CheckItem label="1H FVG > 70% filled" checked={state.e1} onChange={v=>updateField('e1',v)} info={infos.e1} onInfoClick={openInfo} negative pts={10} />
+                <CheckItem label="1H Lateral Range" checked={state.e2} onChange={v=>updateField('e2',v)} info={infos.e2} onInfoClick={openInfo} negative pts={10} />
+                <CheckItem label="Opposing FVG Clash" checked={state.e3} onChange={v=>updateField('e3',v)} info={infos.e3} onInfoClick={openInfo} negative pts={8} />
               </div>
             </div>
             
           </div>
         </div>
 
-        {/* TERMINAL UI METRICS PANEL */}
-        <aside className="sticky xl:top-[88px]">
-          <div className="bg-[#030712] dark:bg-bgCard border border-borderSubtle/60 rounded-xl overflow-hidden shadow-2xl relative">
-            <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
-              <svg className="w-48 h-48 rotate-12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L1 21h22M12 6l7.53 13H4.47M11 10v4h2v-4m-2 6v2h2v-2"></path></svg>
-            </div>
-            <div className="bg-bgMain border-b border-borderSubtle px-5 py-3 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-bearish"></span>
-              <span className="w-2 h-2 rounded-full bg-warning"></span>
-              <span className="w-2 h-2 rounded-full bg-bullish"></span>
-              <span className="ml-2 font-['JetBrains_Mono'] text-[10px] tracking-widest text-textSecondary uppercase">OUT.EVAL</span>
+        {/* RESULTS PANEL */}
+        <aside className="sticky xl:top-[88px] w-full">
+          <div className="bg-bgCard border border-borderSubtle rounded-2xl overflow-hidden shadow-xl">
+            <div className="bg-inputBg border-b border-borderSubtle px-6 py-4 flex items-center justify-center relative">
+              <h2 className="font-bold text-[12px] tracking-[2px] text-textSecondary uppercase">Quantitative Output</h2>
             </div>
             
-            <div className="p-6 font-['JetBrains_Mono'] flex flex-col items-center relative">
+            <div className="p-8 flex flex-col items-center relative">
               <Gauge score={computed.totalPoints} gradeColor={computed.gradeColorStr} />
               
-              <div className="absolute top-[125px] flex flex-col items-center">
-                <div className="text-[52px] font-extrabold tracking-tighter leading-none" style={{ color: computed.gradeColorStr, filter: `drop-shadow(0px 0px 12px ${computed.gradeColorStr}40)` }}>{computed.totalPoints}</div>
-                <div className="text-[10px] text-textSecondary font-bold mt-1 tracking-widest">PTS</div>
+              <div className="absolute top-[140px] flex flex-col items-center">
+                <div className="text-[56px] font-extrabold tracking-tight leading-none" style={{ color: computed.gradeColorStr, filter: `drop-shadow(0px 4px 12px ${computed.gradeColorStr}30)` }}>{computed.totalPoints}</div>
+                <div className="text-[12px] text-textSecondary font-bold mt-1 tracking-widest uppercase">Score</div>
               </div>
 
               <div className="w-full mt-10">
-                <div className="bg-[#020617] dark:bg-inputBg border border-borderSubtle/50 rounded-lg p-3">
-                  <div className="flex justify-between items-center py-2 border-b border-borderSubtle/30 text-[11px]">
-                    <span className="text-textSecondary/80 tracking-widest">EVAL_GRADE</span>
-                    <span className="font-extrabold text-[14px]" style={{ color: computed.gradeColorStr, textShadow: `0 0 8px ${computed.gradeColorStr}50`}}>{computed.grade}</span>
+                <div className="bg-inputBg border border-borderSubtle rounded-xl p-4">
+                  <div className="flex justify-between items-center py-3 border-b border-borderSubtle/50 text-[13px]">
+                    <span className="text-textSecondary font-medium">Evaluation Grade</span>
+                    <span className="font-extrabold text-[15px] px-2 py-0.5 rounded bg-bgCard border border-borderSubtle" style={{ color: computed.gradeColorStr, boxShadow: `0 2px 8px ${computed.gradeColorStr}20`}}>{computed.grade}</span>
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-borderSubtle/30 text-[11px]">
-                    <span className="text-textSecondary/80 tracking-widest">VERDICT</span>
-                    <span className="font-bold tracking-widest text-[11px]" style={{ color: computed.gradeColorStr }}>{computed.verdict}</span>
+                  <div className="flex justify-between items-center py-3 border-b border-borderSubtle/50 text-[13px]">
+                    <span className="text-textSecondary font-medium">Verdict</span>
+                    <span className="font-bold text-[13px]" style={{ color: computed.gradeColorStr }}>{computed.verdict}</span>
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-borderSubtle/30 text-[11px]">
-                    <span className="text-textSecondary/80 tracking-widest">ALLOC_SIZE</span>
-                    <span className="font-bold text-textPrimary tracking-widest">{computed.size}</span>
+                  <div className="flex justify-between items-center py-3 border-b border-borderSubtle/50 text-[13px]">
+                    <span className="text-textSecondary font-medium">Position Size</span>
+                    <span className="font-bold text-textPrimary text-[14px] px-2 py-0.5 rounded bg-bgCard border border-borderSubtle">{computed.size}</span>
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-borderSubtle/30 text-[11px]">
-                    <span className="text-textSecondary/80 tracking-widest">BIAS_DIR</span>
-                    <span className={`font-bold tracking-widest ${computed.dirColor}`}>{computed.directionText}</span>
+                  <div className="flex justify-between items-center py-3 border-b border-borderSubtle/50 text-[13px]">
+                    <span className="text-textSecondary font-medium">Direction Bias</span>
+                    <span className={`font-bold tracking-wide ${computed.dirColor}`}>{computed.directionText}</span>
                   </div>
-                  <div className="flex flex-col gap-1.5 py-2 pt-3 text-[11px]">
-                    <span className="text-textSecondary/80 tracking-widest">ERR_FLAGS</span>
-                    <div className="text-left leading-tight mt-1">
-                      {computed.penaltiesDesc.length ? <span className="text-bearish font-bold">{computed.penaltiesDesc.join(' | ')}</span> : <span className="text-bullish font-bold">CLEAR.0_FOUND</span>}
+                  <div className="flex flex-col gap-2 py-3 pt-4 text-[13px]">
+                    <span className="text-textSecondary font-medium">Active Penalties</span>
+                    <div className="text-left mt-1 p-3 bg-bgCard rounded-lg border border-borderSubtle/50">
+                      {computed.penaltiesDesc.length ? <span className="text-bearish font-medium leading-relaxed block">{computed.penaltiesDesc.join(', ')}</span> : <span className="text-bullish font-medium block">None Active. Clear to proceed.</span>}
                     </div>
                   </div>
                 </div>
               </div>
 
-              <textarea placeholder="> INSERT_LOG_NOTES_" value={state.notes} onChange={(e) => updateField('notes', e.target.value)} className="w-full mt-5 min-h-[90px] text-[11px] font-['JetBrains_Mono'] bg-[#020617] dark:bg-inputBg border border-borderSubtle/50 text-textPrimary p-3 rounded-lg outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/30 transition-all font-medium leading-relaxed resize-y placeholder:text-textSecondary/30" />
+              <textarea placeholder="Enter execution notes here..." value={state.notes} onChange={(e) => updateField('notes', e.target.value)} className="w-full mt-6 min-h-[100px] text-[13px] bg-inputBg border border-borderSubtle text-textPrimary p-4 rounded-xl outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all font-medium leading-relaxed resize-y placeholder:text-textSecondary" />
 
-              <div className="flex gap-2 w-full mt-4 print:hidden">
-                <button onClick={exportClipboard} className="flex-1 bg-[#020617] dark:bg-bgMain border border-borderSubtle/50 text-textSecondary hover:text-textPrimary font-bold text-[10px] py-2.5 rounded hover:border-textSecondary/50 transition-all tracking-widest uppercase">CPY_LOG</button>
-                <button onClick={() => window.print()} className="flex-1 bg-[#020617] dark:bg-bgMain border border-borderSubtle/50 text-textSecondary hover:text-textPrimary font-bold text-[10px] py-2.5 rounded hover:border-textSecondary/50 transition-all tracking-widest uppercase">PRT_PDF</button>
+              <div className="flex gap-3 w-full mt-5 print:hidden">
+                <button onClick={exportClipboard} className="flex-1 bg-inputBg border border-borderSubtle text-textPrimary hover:bg-bgCard font-bold text-[12px] py-3.5 rounded-xl hover:border-textSecondary transition-all tracking-wide shadow-sm active:scale-[0.98]">Copy to Clipboard</button>
+                <button onClick={() => window.print()} className="flex-1 bg-inputBg border border-borderSubtle text-textPrimary hover:bg-bgCard font-bold text-[12px] py-3.5 rounded-xl hover:border-textSecondary transition-all tracking-wide shadow-sm active:scale-[0.98]">Save as PDF</button>
               </div>
             </div>
           </div>
