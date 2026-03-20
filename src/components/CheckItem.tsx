@@ -18,15 +18,15 @@ interface CheckItemProps {
 
 export function CheckItem({ label, checked, onChange, pts, negative, info, onInfoClick, children }: CheckItemProps) {
   const glowStyle = checked 
-    ? (negative ? 'bg-bearish/10 border-bearish/40 shadow-[0_0_20px_rgba(255,46,76,0.15)] ring-1 ring-bearish/50' : 'bg-accent/10 border-accent/40 shadow-[0_0_20px_rgba(0,225,255,0.15)] ring-1 ring-accent/50')
-    : 'border-borderSubtle/40 hover:bg-itemHover hover:border-textSecondary/30 bg-bgMain/20 backdrop-blur-sm';
+    ? (negative ? 'bg-bearish/8 border-bearish/35 shadow-[0_0_16px_rgba(225,29,72,0.10)] ring-1 ring-bearish/25' : 'bg-accent/8 border-accent/35 shadow-[0_0_16px_rgba(99,102,241,0.12)] ring-1 ring-accent/25')
+    : 'border-transparent hover:border-borderSubtle hover:bg-bgMain/30 bg-transparent';
 
   return (
     <label className={`group flex items-start gap-4 p-3.5 rounded-xl border cursor-pointer mb-2 transition-all duration-300 ease-out select-none ${glowStyle} active:scale-[0.98]`}>
       
       {/* Neo-checkbox Design */}
-      <div className={`relative flex items-center justify-center mt-0.5 shrink-0 w-5 h-5 rounded-[4px] border bg-inputBg shadow-inner transition-all duration-300
-        ${checked ? (negative ? 'border-bearish/50' : 'border-accent/50') : 'border-borderSubtle group-hover:border-textSecondary/60'}
+      <div className={`relative flex items-center justify-center mt-0.5 shrink-0 w-5 h-5 rounded-[4px] border bg-transparent transition-all duration-300
+        ${checked ? (negative ? 'border-bearish/50' : 'border-accent/50') : 'border-borderSubtle/60 group-hover:border-textSecondary/50'}
       `}>
         <input type="checkbox" className="absolute opacity-0 w-full h-full cursor-pointer z-10" checked={checked} onChange={(e) => onChange(e.target.checked)} />
         {/* Glowing Matrix Core */}
