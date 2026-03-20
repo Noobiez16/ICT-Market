@@ -4,10 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ICT Market Read Checklist Pro | Institutional Terminal</title>
+    <title>ICT Market Read Checklist Pro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&family=Roboto+Mono:wght@500;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             color-scheme: light dark;
@@ -16,10 +18,14 @@
             --border-subtle: #e2e8f0;
             --text-primary: #0f172a;
             --text-secondary: #64748b;
-            --bullish: #059669;    /* emerald-600 */
-            --bearish: #dc2626;    /* red-600 */
-            --warning: #d97706;    /* amber-600 */
-            --accent: #4f46e5;     /* indigo-600 */
+            --bullish: #059669;
+            /* emerald-600 */
+            --bearish: #dc2626;
+            /* red-600 */
+            --warning: #d97706;
+            /* amber-600 */
+            --accent: #4f46e5;
+            /* indigo-600 */
             --input-bg: #f1f5f9;
             --item-hover: #f1f5f9;
         }
@@ -27,13 +33,18 @@
         [data-theme="dark"] {
             --bg-main: #0b1120;
             --bg-card: #1a2236;
-            --border-subtle: rgba(255, 255, 255, 0.08); /* Exact requirement */
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            /* Exact requirement */
             --text-primary: #f1f5f9;
             --text-secondary: #94a3b8;
-            --bullish: #10b981;    /* emerald */
-            --bearish: #ef4444;    /* red */
-            --warning: #f59e0b;    /* amber */
-            --accent: #6366f1;     /* indigo */
+            --bullish: #10b981;
+            /* emerald */
+            --bearish: #ef4444;
+            /* red */
+            --warning: #f59e0b;
+            /* amber */
+            --accent: #6366f1;
+            /* indigo */
             --input-bg: rgba(0, 0, 0, 0.25);
             --item-hover: rgba(255, 255, 255, 0.03);
         }
@@ -57,7 +68,12 @@
         }
 
         /* ── Core Monospace Elements ── */
-        .mono-text, select, input[type="text"], input[type="datetime-local"], textarea, .pts-badge {
+        .mono-text,
+        select,
+        input[type="text"],
+        input[type="datetime-local"],
+        textarea,
+        .pts-badge {
             font-family: 'JetBrains Mono', 'Roboto Mono', monospace !important;
         }
 
@@ -125,7 +141,8 @@
         /* ── Main Grid Layout ── */
         .main-layout {
             display: grid;
-            grid-template-columns: 1fr 340px; /* Checklist vs Sidebar */
+            grid-template-columns: 1fr 340px;
+            /* Checklist vs Sidebar */
             gap: 24px;
             align-items: start;
         }
@@ -163,9 +180,20 @@
 
         /* Red Folder Tier 1 Pulse */
         @keyframes pulse-border {
-            0% { border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.1); }
-            50% { border-color: rgba(239, 68, 68, 1); box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.2); }
-            100% { border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.1); }
+            0% {
+                border-color: rgba(239, 68, 68, 0.4);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.1);
+            }
+
+            50% {
+                border-color: rgba(239, 68, 68, 1);
+                box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.2);
+            }
+
+            100% {
+                border-color: rgba(239, 68, 68, 0.4);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.1);
+            }
         }
 
         .tile-alert {
@@ -215,7 +243,8 @@
             display: flex;
             gap: 16px;
         }
-        .field-row > div {
+
+        .field-row>div {
             flex: 1;
         }
 
@@ -243,7 +272,9 @@
             outline: none;
         }
 
-        input:focus, select:focus, textarea:focus {
+        input:focus,
+        select:focus,
+        textarea:focus {
             border-color: var(--accent);
             box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
         }
@@ -271,7 +302,8 @@
         }
 
         .check-item.active {
-            background-color: rgba(99, 102, 241, 0.08); /* accent subtle */
+            background-color: rgba(99, 102, 241, 0.08);
+            /* accent subtle */
             border-color: rgba(99, 102, 241, 0.3);
         }
 
@@ -319,11 +351,18 @@
             white-space: nowrap;
         }
 
-        .pts-pos { color: var(--bullish); }
-        .pts-neg { color: var(--bearish); }
+        .pts-pos {
+            color: var(--bullish);
+        }
+
+        .pts-neg {
+            color: var(--bearish);
+        }
 
         /* Conditional Elements */
-        .hidden { display: none !important; }
+        .hidden {
+            display: none !important;
+        }
 
         /* Banner Text for Red Folder */
         #rfBannerText {
@@ -335,9 +374,21 @@
             margin-bottom: 16px;
             text-align: center;
         }
-        .banner-t1 { background: rgba(239,68,68,0.1); color: var(--bearish); }
-        .banner-t2 { background: rgba(245,158,11,0.1); color: var(--warning); }
-        .banner-t3 { background: rgba(245,158,11,0.05); color: var(--warning); }
+
+        .banner-t1 {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--bearish);
+        }
+
+        .banner-t2 {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .banner-t3 {
+            background: rgba(245, 158, 11, 0.05);
+            color: var(--warning);
+        }
 
         .event-grid {
             display: grid;
@@ -360,7 +411,10 @@
             font-family: 'Inter', sans-serif;
             transition: color 0.2s;
         }
-        .event-grid label:hover { color: var(--text-primary); }
+
+        .event-grid label:hover {
+            color: var(--text-primary);
+        }
 
         /* ── Results Sidebar (Institutional Panel) ── */
         .sidebar {
@@ -376,7 +430,8 @@
             border: 1px solid var(--border-subtle);
             border-radius: 12px;
             padding: 24px;
-            font-family: 'JetBrains Mono', monospace; /* Monospace enforced */
+            font-family: 'JetBrains Mono', monospace;
+            /* Monospace enforced */
         }
 
         .rp-header {
@@ -413,7 +468,8 @@
 
         .gauge-fg {
             fill: none;
-            stroke: var(--text-secondary); /* Dynamic */
+            stroke: var(--text-secondary);
+            /* Dynamic */
             stroke-width: 8;
             stroke-linecap: round;
             stroke-dasharray: 377;
@@ -464,12 +520,12 @@
             border-bottom: 1px dashed var(--border-subtle);
             font-size: 12px;
         }
-        
+
         .meta-lbl {
             color: var(--text-secondary);
             font-weight: 500;
         }
-        
+
         .meta-val {
             font-weight: 700;
             color: var(--text-primary);
@@ -507,22 +563,40 @@
         }
 
         @media print {
-            .header-actions, .export-actions { display: none !important; }
-            body { background: white !important; color: black !important; }
-            .tile, .results-panel {
+
+            .header-actions,
+            .export-actions {
+                display: none !important;
+            }
+
+            body {
+                background: white !important;
+                color: black !important;
+            }
+
+            .tile,
+            .results-panel {
                 background: white !important;
                 border: 1px solid #ccc !important;
                 page-break-inside: avoid;
             }
-            .main-layout { display: block !important; }
-            .sidebar { margin-top: 32px; position: static; }
+
+            .main-layout {
+                display: block !important;
+            }
+
+            .sidebar {
+                margin-top: 32px;
+                position: static;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <div class="app-container">
-        
+
         <!-- Header -->
         <div class="header">
             <div class="header-title">
@@ -535,17 +609,17 @@
         </div>
 
         <div class="main-layout">
-            
+
             <!-- Bento Box Grid Checklist -->
             <div class="bento-grid">
-                
+
                 <!-- Session Context -->
                 <div class="tile tile-full">
                     <div class="tile-header">
                         <span class="tile-icon">⏱️</span>
                         <div class="tile-title">Session & Instrument Context</div>
                     </div>
-                    
+
                     <div class="field-row">
                         <div class="field-group">
                             <label class="field-label">Instrument</label>
@@ -567,12 +641,14 @@
                             </select>
                         </div>
                     </div>
-                    
+
                     <div class="field-row" style="margin-top: 8px;">
-                        <div style="background: var(--input-bg); padding: 8px 12px; border-radius: 6px; font-size: 12px; color: var(--accent); font-weight: 500;" id="sessionContextText">
+                        <div style="background: var(--input-bg); padding: 8px 12px; border-radius: 6px; font-size: 12px; color: var(--accent); font-weight: 500;"
+                            id="sessionContextText">
                             NY AM — Highest probability session for ICT setups
                         </div>
-                        <div style="background: var(--input-bg); padding: 8px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;" id="kzIndicator" class="mono-text">
+                        <div style="background: var(--input-bg); padding: 8px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;"
+                            id="kzIndicator" class="mono-text">
                             Determining...
                         </div>
                     </div>
@@ -598,26 +674,28 @@
 
                     <div id="redFolderModule" class="hidden">
                         <div class="event-grid">
-                            <label><input type="checkbox" class="rf-cb tier1" value="FOMC Rate Decision"> FOMC Rate</label>
-                            <label><input type="checkbox" class="rf-cb tier1" value="FOMC Meeting Minutes"> FOMC Mins</label>
-                            <label><input type="checkbox" class="rf-cb tier1" value="Federal Reserve Press Conf"> Fed Press</label>
+                            <label><input type="checkbox" class="rf-cb tier1" value="FOMC Rate Decision"> FOMC Rate Decision</label>
+                            <label><input type="checkbox" class="rf-cb tier1" value="FOMC Meeting Minutes"> FOMC Minutes</label>
+                            <label><input type="checkbox" class="rf-cb tier1" value="Federal Reserve Press Conf"> Fed Press Conf</label>
                             <label><input type="checkbox" class="rf-cb tier1" value="CPI"> CPI</label>
                             <label><input type="checkbox" class="rf-cb tier1" value="NFP"> NFP</label>
                             <label><input type="checkbox" class="rf-cb tier2" value="GDP"> GDP</label>
                             <label><input type="checkbox" class="rf-cb tier2" value="PCE"> PCE</label>
                             <label><input type="checkbox" class="rf-cb tier2" value="PPI"> PPI</label>
-                            <label><input type="checkbox" class="rf-cb tier3" value="ISM"> ISM</label>
-                            <label><input type="checkbox" class="rf-cb tier3" value="Retail Sales"> Retail</label>
-                            <label><input type="checkbox" class="rf-cb tier3" value="Jobless Claims"> Claims</label>
-                            <label><input type="checkbox" class="rf-cb tier2" value="Central Bank Speech"> Fed Spck</label>
+                            <label><input type="checkbox" class="rf-cb tier3" value="ISM"> ISM Mfg/Services</label>
+                            <label><input type="checkbox" class="rf-cb tier3" value="Retail Sales"> Retail Sales</label>
+                            <label><input type="checkbox" class="rf-cb tier3" value="Jobless Claims"> Jobless Claims</label>
+                            <label><input type="checkbox" class="rf-cb tier2" value="Central Bank Speech"> Central Bank Speech</label>
                         </div>
-                        <input type="text" id="rfOther" placeholder="Other event ticker..." data-save="true" style="margin-bottom: 12px;">
-                        
-                        <label class="check-item" style="background: rgba(239, 68, 68, 0.05); border: 1px dashed rgba(239, 68, 68, 0.3);">
+                        <input type="text" id="rfOther" placeholder="Other event ticker..." data-save="true"
+                            style="margin-bottom: 12px;">
+
+                        <label class="check-item"
+                            style="background: rgba(239, 68, 68, 0.05); border: 1px dashed rgba(239, 68, 68, 0.3);">
                             <input type="checkbox" id="event30Min" class="custom-cb-input" data-save="true">
                             <div class="ci-content">
                                 <span class="ci-text" style="color: var(--bearish);">Event is within 30 minutes!</span>
-                                <span class="ci-sub">Applies additional penalty</span>
+                                <span class="ci-sub">Applies additional -10 pts penalty</span>
                             </div>
                             <span class="pts-badge pts-neg">-10</span>
                         </label>
@@ -638,10 +716,10 @@
                             <span class="ci-text">FVG clearly identified on 1H</span>
                             <select id="a1_dir" data-save="true" style="margin-top: 8px;">
                                 <option value="">-- Direction --</option>
-                                <option value="Bullish">Bullish FVG</option>
-                                <option value="Bearish">Bearish FVG</option>
-                                <option value="InverseBull">Inverse FVG → Bullish</option>
-                                <option value="InverseBear">Inverse FVG → Bearish</option>
+                                <option value="Bullish">Bullish FVG (Price expected to rally)</option>
+                                <option value="Bearish">Bearish FVG (Price expected to drop)</option>
+                                <option value="InverseBull">Inverse FVG → Now Bullish</option>
+                                <option value="InverseBear">Inverse FVG → Now Bearish</option>
                             </select>
                         </div>
                         <span class="pts-badge pts-pos">+15</span>
@@ -683,9 +761,9 @@
                     <div style="margin-top: 12px;">
                         <label class="field-label">Delivery State Engine</label>
                         <select id="b_delivery" data-save="true">
-                            <option value="balanced">Balanced (0 pts)</option>
-                            <option value="onesided">One-sided Trend (+3 pts)</option>
-                            <option value="cisd">CISD Detected</option>
+                            <option value="balanced">Balanced (50/50 candles) — 0 pts</option>
+                            <option value="onesided">One-sided (3+ consecutive) — +3 bonus pts</option>
+                            <option value="cisd">CISD detected — Mandatory 1M check</option>
                         </select>
                     </div>
                 </div>
@@ -704,8 +782,8 @@
                             <span class="ci-text">Liquidity Sweep Confirmed</span>
                             <select id="c1_dir" data-save="true" style="margin-top: 8px;">
                                 <option value="">-- Sweep Level --</option>
-                                <option value="BSL">BSL Taken Above (-)</option>
-                                <option value="SSL">SSL Taken Below (+)</option>
+                                <option value="BSL">BSL Taken Above (Bearish Signal)</option>
+                                <option value="SSL">SSL Taken Below (Bullish Signal)</option>
                             </select>
                         </div>
                         <span class="pts-badge pts-pos">+12</span>
@@ -717,10 +795,15 @@
                             <span class="ci-text">Draw Target Assigned</span>
                             <select id="c2_pool" data-save="true" style="margin-top: 8px;">
                                 <option value="">-- Pool --</option>
-                                <option value="BSL">BSL / EQH</option>
-                                <option value="SSL">SSL / EQL</option>
-                                <option value="PDH">PDH / PWH</option>
-                                <option value="PDL">PDL / PWL</option>
+                                <option value="BSL">BSL Above (Bullish Target)</option>
+                                <option value="SSL">SSL Below (Bearish Target)</option>
+                                <option value="EQH">Equal Highs Above</option>
+                                <option value="EQL">Equal Lows Below</option>
+                                <option value="PDH">Previous Day High</option>
+                                <option value="PDL">Previous Day Low</option>
+                                <option value="PWH">Previous Week High</option>
+                                <option value="PWL">Previous Week Low</option>
+                                <option value="Midnight">Midnight Open level</option>
                             </select>
                         </div>
                         <span class="pts-badge pts-pos">+8</span>
@@ -735,15 +818,25 @@
                         <div class="tile-badge">25 + M</div>
                     </div>
 
-                    <div style="margin-bottom: 12px; background: var(--input-bg); padding: 10px; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                    <div
+                        style="margin-bottom: 12px; background: var(--input-bg); padding: 10px; border-radius: 8px; border: 1px solid var(--border-subtle);">
                         <label class="field-label" style="margin-bottom: 8px;">Entry Multipliers</label>
                         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                            <label style="font-size: 11px; display:flex; gap: 4px; align-items:center; cursor:pointer;"><input type="checkbox" class="trigger-cb" value="InvFVG"> IFVG</label>
-                            <label style="font-size: 11px; display:flex; gap: 4px; align-items:center; cursor:pointer;"><input type="checkbox" class="trigger-cb" value="CISD"> CISD</label>
-                            <label style="font-size: 11px; display:flex; gap: 4px; align-items:center; cursor:pointer;"><input type="checkbox" class="trigger-cb" value="MSS"> MSS</label>
-                            <label style="font-size: 11px; display:flex; gap: 4px; align-items:center; cursor:pointer;"><input type="checkbox" class="trigger-cb" value="Sweep"> SWEEP</label>
+                            <label
+                                style="font-size: 11px; display:flex; gap: 4px; align-items:center; cursor:pointer;"><input
+                                    type="checkbox" class="trigger-cb" value="InvFVG"> IFVG</label>
+                            <label
+                                style="font-size: 11px; display:flex; gap: 4px; align-items:center; cursor:pointer;"><input
+                                    type="checkbox" class="trigger-cb" value="CISD"> CISD</label>
+                            <label
+                                style="font-size: 11px; display:flex; gap: 4px; align-items:center; cursor:pointer;"><input
+                                    type="checkbox" class="trigger-cb" value="MSS"> MSS</label>
+                            <label
+                                style="font-size: 11px; display:flex; gap: 4px; align-items:center; cursor:pointer;"><input
+                                    type="checkbox" class="trigger-cb" value="Sweep"> SWEEP</label>
                         </div>
-                        <div id="triggerBonusDisplay" class="mono-text" style="font-size: 10px; color: var(--accent); font-weight: 700; margin-top: 6px;"></div>
+                        <div id="triggerBonusDisplay" class="mono-text"
+                            style="font-size: 10px; color: var(--accent); font-weight: 700; margin-top: 6px;"></div>
                     </div>
 
                     <label class="check-item">
@@ -841,7 +934,7 @@
     <script>
         const EST_OFFSET = -5;
         let isDarkMode = localStorage.getItem('theme') !== 'light';
-        
+
         if (!isDarkMode) document.documentElement.setAttribute('data-theme', 'light');
 
         const els = {
@@ -993,7 +1086,7 @@
                         if (state.triggerFlags.includes(idx)) cb.checked = true;
                     });
                 }
-            } catch(e) {}
+            } catch (e) { }
         }
 
         function updateApp() {
@@ -1045,7 +1138,7 @@
                 });
 
                 els.rfBannerText.classList.remove('hidden');
-                
+
                 if (rfTier === 1) {
                     totalPoints -= 25; activePenaltiesDesc.push("Tier 1 News (-25)");
                     els.redFolderTile.className = "tile tile-full tile-alert"; // Pulsing border for Bento
@@ -1167,11 +1260,11 @@
             }
 
             // SVG Logic update length based on proportion 0->110
-            const maxScoreRatio = 110; 
+            const maxScoreRatio = 110;
             const dashArray = 377; // 2 * PI * 60
             const pctFill = Math.min(totalPoints / maxScoreRatio, 1);
             const off = dashArray - (pctFill * dashArray);
-            
+
             els.scoreRing.style.strokeDashoffset = off;
             els.scoreRing.style.stroke = gradeColor;
 
@@ -1220,4 +1313,5 @@
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
+
 </html>
