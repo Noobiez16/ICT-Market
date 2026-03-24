@@ -8,58 +8,74 @@
   :root {
     color-scheme: light;
     /* ── Backgrounds ── */
-    --bg-main:   #f5f5f6;
-    --bg-card:   #ffffff;
-    --input-bg:  #fafafa;
-    --item-hover:#f2f2f3;
+    --bg-main: #f5f5f6;
+    --bg-card: #ffffff;
+    --input-bg: #fafafa;
+    --item-hover: #f2f2f3;
 
     /* ── Borders ── */
     --border-subtle: #e4e4e7;
 
     /* ── Text ── */
-    --text-primary:   #18181b;
+    --text-primary: #18181b;
     --text-secondary: #71717a;
 
     /* ── Semantic (desaturated, elegant) ── */
-    --bullish: #059669;   /* Emerald-600 — cool, professional green  */
-    --bearish: #e11d48;   /* Rose-600    — terracotta red, non-casino */
-    --warning: #d97706;   /* Amber-600   — warm amber, subdued        */
-    --accent:  #6366f1;   /* Indigo-500  — premium brand colour       */
+    --bullish: #059669;
+    /* Emerald-600 — cool, professional green  */
+    --bearish: #e11d48;
+    /* Rose-600    — terracotta red, non-casino */
+    --warning: #d97706;
+    /* Amber-600   — warm amber, subdued        */
+    --accent: #6366f1;
+    /* Indigo-500  — premium brand colour       */
 
     /* ── Glow helpers ── */
-    --bullish-glow: rgba(5,  150, 105, 0.18);
-    --bearish-glow: rgba(225, 29,  72,  0.18);
-    --accent-glow:  rgba(99, 102, 241, 0.20);
+    --bullish-glow: rgba(5, 150, 105, 0.18);
+    --bearish-glow: rgba(225, 29, 72, 0.18);
+    --accent-glow: rgba(99, 102, 241, 0.20);
   }
 
   .dark {
     color-scheme: dark;
     /* ── Backgrounds ── */
-    --bg-main:   #09090b;          /* zinc-950 */
-    --bg-card:   rgba(24,24,27,0.80);   /* zinc-900 translucent */
-    --input-bg:  rgba(15,15,18,0.90);   /* deeper sink */
-    --item-hover:rgba(39,39,42,0.70);   /* zinc-800 */
+    --bg-main: #09090b;
+    /* zinc-950 */
+    --bg-card: rgba(24, 24, 27, 0.80);
+    /* zinc-900 translucent */
+    --input-bg: rgba(15, 15, 18, 0.90);
+    /* deeper sink */
+    --item-hover: rgba(39, 39, 42, 0.70);
+    /* zinc-800 */
 
     /* ── Borders ── */
-    --border-subtle: rgba(255,255,255,0.07);
+    --border-subtle: rgba(255, 255, 255, 0.07);
 
     /* ── Text ── */
-    --text-primary:   #fafafa;      /* zinc-50  */
-    --text-secondary: #a1a1aa;      /* zinc-400 */
+    --text-primary: #fafafa;
+    /* zinc-50  */
+    --text-secondary: #a1a1aa;
+    /* zinc-400 */
 
     /* ── Semantic ── */
-    --bullish: #34d399;   /* Emerald-400 — no neon, just clean teal   */
-    --bearish: #fb7185;   /* Rose-400    — elegant cool-rose           */
-    --warning: #fbbf24;   /* Amber-400   — gold-amber                  */
-    --accent:  #818cf8;   /* Indigo-400  — softer, premium indigo      */
+    --bullish: #34d399;
+    /* Emerald-400 — no neon, just clean teal   */
+    --bearish: #fb7185;
+    /* Rose-400    — elegant cool-rose           */
+    --warning: #fbbf24;
+    /* Amber-400   — gold-amber                  */
+    --accent: #818cf8;
+    /* Indigo-400  — softer, premium indigo      */
 
     /* ── Glow helpers ── */
-    --bullish-glow: rgba(52,  211, 153, 0.15);
+    --bullish-glow: rgba(52, 211, 153, 0.15);
     --bearish-glow: rgba(251, 113, 133, 0.15);
-    --accent-glow:  rgba(129, 140, 248, 0.15);
+    --accent-glow: rgba(129, 140, 248, 0.15);
   }
 
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     box-sizing: border-box;
   }
 
@@ -81,14 +97,14 @@
     z-index: -2;
     pointer-events: none;
     background:
-      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(99,102,241,0.06) 0%, transparent 60%);
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(99, 102, 241, 0.06) 0%, transparent 60%);
   }
 
   /* ── Dark-mode extra depth ── */
   .dark body::before {
     background:
-      radial-gradient(ellipse 70% 40% at 50% -5%, rgba(129,140,248,0.08) 0%, transparent 55%),
-      radial-gradient(ellipse 50% 30% at 80% 80%,  rgba(52,211,153,0.04) 0%, transparent 50%);
+      radial-gradient(ellipse 70% 40% at 50% -5%, rgba(129, 140, 248, 0.08) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 30% at 80% 80%, rgba(52, 211, 153, 0.04) 0%, transparent 50%);
   }
 
   /* ── Sub-pixel grid only in dark mode ── */
@@ -99,8 +115,8 @@
     z-index: -1;
     pointer-events: none;
     background-image:
-      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
     background-size: 48px 48px;
     mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
     -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
@@ -119,27 +135,57 @@
   }
 
   /* Glow utilities */
-  .glow-accent   { box-shadow: 0 0 24px var(--accent-glow); }
-  .glow-bullish  { box-shadow: 0 0 20px var(--bullish-glow); }
-  .glow-bearish  { box-shadow: 0 0 20px var(--bearish-glow); }
-  .text-glow-accent  { text-shadow: 0 0 18px var(--accent-glow); }
-  .text-glow-score   { text-shadow: 0 0 28px currentColor; }
+  .glow-accent {
+    box-shadow: 0 0 24px var(--accent-glow);
+  }
+
+  .glow-bullish {
+    box-shadow: 0 0 20px var(--bullish-glow);
+  }
+
+  .glow-bearish {
+    box-shadow: 0 0 20px var(--bearish-glow);
+  }
+
+  .text-glow-accent {
+    text-shadow: 0 0 18px var(--accent-glow);
+  }
+
+  .text-glow-score {
+    text-shadow: 0 0 28px currentColor;
+  }
 }
 
 /* ── Custom Scrollbar ── */
-::-webkit-scrollbar        { width: 6px; height: 6px; }
-::-webkit-scrollbar-track  { background: transparent; }
-::-webkit-scrollbar-thumb  { background: var(--border-subtle); border-radius: 9999px; }
-::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
 
 /* ═══════════════════════════════════════════
    PRINT / PDF MEDIA OPTIMISATION
    ═══════════════════════════════════════════ */
 @media print {
-  @page { margin: 1cm; }
+  @page {
+    margin: 1cm;
+  }
 
   /* Enforce Light Theme for PDF Export to prevent black void */
-  :root, .dark {
+  :root,
+  .dark {
     --bg-main: #ffffff !important;
     --bg-card: #ffffff !important;
     --text-primary: #000000 !important;
@@ -156,13 +202,18 @@
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    color-adjust: exact !important;
   }
 
-  body::before, body::after { display: none !important; }
+  body::before,
+  body::after {
+    display: none !important;
+  }
 
   /* Gentle layout reset without destroying inner flex structures */
-  html, body, #__next, .min-h-screen {
+  html,
+  body,
+  #__next,
+  .min-h-screen {
     display: block !important;
     min-height: auto !important;
     height: auto !important;
@@ -182,13 +233,14 @@
   }
 
   /* Top-level grid columns reset to stacked blocks */
-  .grid { 
-    display: block !important; 
+  .grid {
+    display: block !important;
   }
 
-  main > div, main > aside { 
-    display: block !important; 
-    width: 100% !important; 
+  main>div,
+  main>aside {
+    display: block !important;
+    width: 100% !important;
     margin-bottom: 2rem !important;
     page-break-inside: auto !important;
     break-inside: auto !important;
@@ -198,7 +250,8 @@
     display: block !important;
     width: 100% !important;
     margin-bottom: 24px !important;
-    border: 1px solid #e5e5e5 !important; /* Force a clear border on paper */
+    border: 1px solid #e5e5e5 !important;
+    /* Force a clear border on paper */
     box-shadow: none !important;
     backdrop-filter: none !important;
   }
@@ -209,7 +262,10 @@
     break-inside: avoid !important;
   }
 
-  .gap-6, .gap-8 { gap: 0 !important; }
+  .gap-6,
+  .gap-8 {
+    gap: 0 !important;
+  }
 
   textarea {
     overflow: hidden !important;
