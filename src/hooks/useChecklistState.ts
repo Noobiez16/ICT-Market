@@ -27,6 +27,13 @@ export interface ChecklistState {
   // Checkboxes block E
   e1: boolean; e2: boolean; e3: boolean;
 
+  // Pine Script Model Block
+  pine_sweep: boolean;
+  pine_obGap: boolean;
+  pine_gapRespected: boolean;
+  pine_mss: boolean;
+  pine_revisit: boolean;
+
   // Multipliers (Arrays of indices or ids)
   rfFlags: string[];
   triggerFlags: string[];
@@ -55,6 +62,12 @@ export const defaultState: ChecklistState = {
   d1: false, d2: false, d3: false,
 
   e1: false, e2: false, e3: false,
+
+  pine_sweep: false,
+  pine_obGap: false,
+  pine_gapRespected: false,
+  pine_mss: false,
+  pine_revisit: false,
 
   rfFlags: [],
   triggerFlags: [],

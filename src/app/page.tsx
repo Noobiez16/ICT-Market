@@ -24,6 +24,11 @@ const infos = {
   e1: { title: "Overfilled FVG", desc: "Si la vela entró en el FVG de 1 Hora y llenó más del 70% u 80%, el impulso pierde mucha fiabilidad y hay riesgo de continuación al otro lado." },
   e2: { title: "Chop/Range", desc: "Operar en el medio de un rango macro que está en consolidación pura. Los FVGs no se respetan en entornos laterales, busca extremos." },
   e3: { title: "Opposing Clash", desc: "El precio ha dejado inbalances muy notorios en tu contra antes de llegar a tu entrada, que ahora podrían servir como barrera inmediata e impedir tu \"target\"." },
+  pine_sweep: { title: "1. Liquidity Sweep", desc: "El precio debe realizar una toma de liquidez clara (Sweep) antes de la formación del setup." },
+  pine_obGap: { title: "2. OB & Gap Formation", desc: "Formación de un Order Block (OB) e inmediatamente un Fair Value Gap (FVG) contiguo que valida el impulso." },
+  pine_gapRespected: { title: "3. Gap Respected (Invalidation Zone)", desc: "El FVG formado es la zona de invalidación. NUNCA debe ser tocado antes de que ocurra el MSS. Si se toca, el setup se invalida." },
+  pine_mss: { title: "4. Market Structure Shift", desc: "Se produce un Market Structure Shift (MSS) válido, confirmando la reversión." },
+  pine_revisit: { title: "5. OB Revisit", desc: "El precio regresa al Order Block (OB) original donde ejecutamos la entrada." },
 };
 
 const rfEvents = [
@@ -164,6 +169,17 @@ export default function Home() {
     if (state.e2) { totalPoints -= 10; penaltiesDesc.push("1H Lateral Range (-10)"); }
     if (state.e3) { totalPoints -= 8; penaltiesDesc.push("Opposing FVG Clash (-8)"); }
     if (setupOutsideKz) { totalPoints -= 5; penaltiesDesc.push("Outside Kill Zone (-5)"); }
+
+    let pineBonus = 0;
+    if (state.pine_sweep && state.pine_obGap && state.pine_gapRespected && state.pine_mss && state.pine_revisit) {
+      pineBonus = 20;
+      totalPoints += pineBonus;
+    }
+    
+    if (state.pine_obGap && !state.pine_gapRespected) {
+      totalPoints -= 15;
+      penaltiesDesc.push("Pine Script Model Invalidated (Gap Touched)");
+    }
 
     let bullSignals = 0, bearSignals = 0;
     if (state.a1) {
@@ -691,6 +707,18 @@ export default function Home() {
           <CheckItem label="Displacement Candle > 60%" checked={state.d1} onChange={v => updateField('d1', v)} info={infos.d1} onInfoClick={openInfo} pts={10} />
           <CheckItem label="2nd Confirmation Close" checked={state.d2} onChange={v => updateField('d2', v)} info={infos.d2} onInfoClick={openInfo} pts={8} />
           <CheckItem label="Structural SL Defined" checked={state.d3} onChange={v => updateField('d3', v)} info={infos.d3} onInfoClick={openInfo} pts={7} />
+        </div>
+
+        {/* ── Block: OB Sweep & Revisit Model ── */}
+        <div className="xl:col-span-3 bg-bgCard border border-borderSubtle rounded-2xl p-6 hover:border-textSecondary/20 transition-all duration-300 print:break-inside-avoid">
+          <BlockHeader icon="🎯" title="OB Sweep Model" pts="Bonus" />
+          <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
+            <CheckItem label="1. Liquidity Sweep" checked={state.pine_sweep} onChange={v => updateField('pine_sweep', v)} info={infos.pine_sweep} onInfoClick={openInfo} />
+            <CheckItem label="2. OB & Gap" checked={state.pine_obGap} onChange={v => updateField('pine_obGap', v)} info={infos.pine_obGap} onInfoClick={openInfo} />
+            <CheckItem label="3. Gap Respected" checked={state.pine_gapRespected} onChange={v => updateField('pine_gapRespected', v)} info={infos.pine_gapRespected} onInfoClick={openInfo} />
+            <CheckItem label="4. MSS Validated" checked={state.pine_mss} onChange={v => updateField('pine_mss', v)} info={infos.pine_mss} onInfoClick={openInfo} />
+            <CheckItem label="5. Revisit to OB" checked={state.pine_revisit} onChange={v => updateField('pine_revisit', v)} info={infos.pine_revisit} onInfoClick={openInfo} />
+          </div>
         </div>
 
         {/* ── Block E: spans all 3 cols, row 4 ── */}
